@@ -1,0 +1,82 @@
+<ion-content [fullscreen]="true">
+  <ion-header>
+    <ion-toolbar>
+      <ion-searchbar animated="true" value="" class="searchbar-custom"></ion-searchbar>
+      <ion-button expand="block" (click)="setOpen(true)" shape="round" color="primary"><ion-icon name="filter-outline"></ion-icon></ion-button>
+    </ion-toolbar>
+  </ion-header>
+  <a href="">
+    <ion-card>
+      <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+      <ion-card-header>
+        <ion-card-title>Card Title</ion-card-title>
+        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+      </ion-card-header>
+    
+      <ion-card-content>
+        Here's a small text description for the card content. Nothing more, nothing less.
+      </ion-card-content>
+    </ion-card>
+  </a>
+
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Filtres</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)"><ion-icon name="close-outline"></ion-icon></ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div class="card destination">
+          <ion-title>Destination</ion-title>
+          <ion-searchbar animated="true" value="" class="searchbar-custom"></ion-searchbar>
+        </div>
+        <div class="card">
+          <ion-title>Durée</ion-title>
+          <ion-datetime presentation="date" [multiple]="true" [value]="[]"></ion-datetime>
+        </div>
+        <div class="card">
+          <ion-title>Voyageurs?</ion-title>
+          <div class="participant-selector">
+            <div class="participant">
+              <div class="details">
+                <span class="title">Adultes</span>
+                <span class="subtitle">13 ans et plus</span>
+              </div>
+              <div class="counter">
+                <ion-button (click)="decrement('adults')" color="light" shape="round"><ion-icon name="remove-outline"></ion-icon></ion-button>
+                <span>{{adults}}</span>
+                <ion-button (click)="increment('adults')" color="light" shape="round"><ion-icon name="add-outline"></ion-icon></ion-button>
+              </div>
+            </div>
+            <div class="participant">
+              <div class="details">
+                <span class="title">Enfants</span>
+                <span class="subtitle">De 2 à 12 ans</span>
+              </div>
+              <div class="counter">
+                <ion-button (click)="decrement('children')" color="light" shape="round"><ion-icon name="remove-outline"></ion-icon></ion-button>
+                <span>{{children}}</span>
+                <ion-button (click)="increment('children')" color="light" shape="round"><ion-icon name="add-outline"></ion-icon></ion-button>
+              </div>
+            </div>
+            <div class="participant">
+              <div class="details">
+                <span class="title">Bébés</span>
+                <span class="subtitle">- de 2 ans</span>
+              </div>
+              <div class="counter">
+                <ion-button (click)="decrement('babies')" color="light" shape="round"><ion-icon name="remove-outline"></ion-icon></ion-button>
+                <span>{{babies}}</span>
+                <ion-button (click)="increment('babies')" color="light" shape="round"><ion-icon name="add-outline"></ion-icon></ion-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

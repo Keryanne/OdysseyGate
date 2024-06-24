@@ -1,7 +1,0 @@
-{
-  "name": "SkyOdysseyFront",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular-standalone"
-}
