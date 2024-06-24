@@ -2,18 +2,25 @@ ion-searchbar.searchbar-custom {
     --color: #3A3957;
     --icon-color: #EB6A48;
     --placeholder-color: #3A3957;
-  
+    --padding-bottom: 0;
     --border-radius: 10px;
   }
 
-  .card {
+  ion-item {
+    --display: flex;
+    --flex-direction: column;
+    --border-radius: 25px;
+    --background: #fff;
+    --color: #3A3957;
+    --padding: 20px;
+    --gap: 10px;
+  }
+
+  .toolbar {
     display: flex;
-    flex-direction: column;
-    border-radius: 25px;
-    background: #fff;
-    color: #3A3957;
-    padding: 20px;
-    gap: 10px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
   }
 
   .card .a {
@@ -56,12 +63,22 @@ ion-searchbar.searchbar-custom {
   .participant ion-button {
     --border-radius: 50%;
     --background: transparent;
-    --color: #e74c3c;
-    --padding-start: 0;
-    --padding-end: 0;
+    --padding-start: 15;
+    --padding-end: 1;
   }
   
   span {
     margin: 0 10px;
     font-size: 1.2em;
+  }
+
+  .footer-button {
+    border-radius: 10px;
+    gap: 10px;
+  }
+
+  .modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }

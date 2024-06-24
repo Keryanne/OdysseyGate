@@ -1,8 +1,10 @@
 <ion-content [fullscreen]="true">
   <ion-header>
     <ion-toolbar>
-      <ion-searchbar animated="true" value="" class="searchbar-custom"></ion-searchbar>
-      <ion-button expand="block" (click)="setOpen(true)" shape="round" color="primary"><ion-icon name="filter-outline"></ion-icon></ion-button>
+      <div class="toolbar">
+        <ion-searchbar animated="true" value="" class="searchbar-custom"></ion-searchbar>
+        <ion-button (click)="setOpen(true)" shape="round" color="primary"><ion-icon slot="icon-only" name="filter-outline" color="light"></ion-icon></ion-button>
+      </div>
     </ion-toolbar>
   </ion-header>
   <a href="">
@@ -23,7 +25,7 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Filtres</ion-title>
+          <h1>Filtres</h1>
           <ion-buttons slot="end">
             <ion-button (click)="setOpen(false)"><ion-icon name="close-outline"></ion-icon></ion-button>
           </ion-buttons>
@@ -31,15 +33,15 @@
       </ion-header>
       <ion-content class="ion-padding">
         <div class="card destination">
-          <ion-title>Destination</ion-title>
+          <h4>Destination</h4>
           <ion-searchbar animated="true" value="" class="searchbar-custom"></ion-searchbar>
         </div>
         <div class="card">
-          <ion-title>Durée</ion-title>
+          <h4>Durée</h4>
           <ion-datetime presentation="date" [multiple]="true" [value]="[]"></ion-datetime>
         </div>
         <div class="card">
-          <ion-title>Voyageurs?</ion-title>
+          <h4>Voyageurs</h4>
           <div class="participant-selector">
             <div class="participant">
               <div class="details">
@@ -47,9 +49,9 @@
                 <span class="subtitle">13 ans et plus</span>
               </div>
               <div class="counter">
-                <ion-button (click)="decrement('adults')" color="light" shape="round"><ion-icon name="remove-outline"></ion-icon></ion-button>
+                <ion-button (click)="decrement('adults')" color="primary" shape="round" fill="outline"><ion-icon slot="icon-only" name="remove-outline"></ion-icon></ion-button>
                 <span>{{adults}}</span>
-                <ion-button (click)="increment('adults')" color="light" shape="round"><ion-icon name="add-outline"></ion-icon></ion-button>
+                <ion-button (click)="increment('adults')" color="primary" shape="round" fill="outline"><ion-icon slot="icon-only" name="add-outline"></ion-icon></ion-button>
               </div>
             </div>
             <div class="participant">
@@ -58,9 +60,9 @@
                 <span class="subtitle">De 2 à 12 ans</span>
               </div>
               <div class="counter">
-                <ion-button (click)="decrement('children')" color="light" shape="round"><ion-icon name="remove-outline"></ion-icon></ion-button>
+                <ion-button (click)="decrement('children')" color="primary" shape="round" fill="outline"><ion-icon slot="icon-only" name="remove-outline"></ion-icon></ion-button>
                 <span>{{children}}</span>
-                <ion-button (click)="increment('children')" color="light" shape="round"><ion-icon name="add-outline"></ion-icon></ion-button>
+                <ion-button (click)="increment('children')" color="primary" shape="round" fill="outline"><ion-icon slot="icon-only" name="add-outline"></ion-icon></ion-button>
               </div>
             </div>
             <div class="participant">
@@ -69,14 +71,18 @@
                 <span class="subtitle">- de 2 ans</span>
               </div>
               <div class="counter">
-                <ion-button (click)="decrement('babies')" color="light" shape="round"><ion-icon name="remove-outline"></ion-icon></ion-button>
+                <ion-button (click)="decrement('babies')" color="primary" shape="round" fill="outline"><ion-icon slot="icon-only" name="remove-outline"></ion-icon></ion-button>
                 <span>{{babies}}</span>
-                <ion-button (click)="increment('babies')" color="light" shape="round"><ion-icon name="add-outline"></ion-icon></ion-button>
+                <ion-button (click)="increment('babies')" color="primary" shape="round" fill="outline"><ion-icon slot="icon-only" name="add-outline"></ion-icon></ion-button>
               </div>
             </div>
           </div>
         </div>
       </ion-content>
+      <div class="modal-footer">
+        <ion-button class="footer-button" color="primary" fill="outline">Tout effacer</ion-button>
+        <ion-button class="footer-button" color="primary"><ion-icon name="search-outline"></ion-icon>Rechercher</ion-button>
+      </div>
     </ng-template>
   </ion-modal>
 </ion-content>
