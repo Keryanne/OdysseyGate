@@ -82,3 +82,27 @@ ion-searchbar.searchbar-custom {
     justify-content: space-between;
     align-items: center;
   }
+
+  .block {
+    width: 100%;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 15px;
+    justify-content: space-evenly;
+    gap: 15px;
+  }
+
+  .card-date {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .buttons-modal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }

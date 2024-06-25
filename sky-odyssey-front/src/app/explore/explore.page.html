@@ -17,11 +17,11 @@
       <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
       <ion-card-header>
         <ion-card-title>{{ property.title }}</ion-card-title>
-        <ion-card-subtitle>Subtitle</ion-card-subtitle>
+        <ion-card-subtitle>{{ property.type }} - {{ property.location }}</ion-card-subtitle>
       </ion-card-header>
     
       <ion-card-content>
-        {{ property.description }}
+        {{ property.price }}
       </ion-card-content>
     </ion-card>
 
@@ -42,7 +42,35 @@
         </div>
         <div class="card">
           <h4>Durée</h4>
-          <ion-datetime presentation="date" [multiple]="true" [value]="[]"></ion-datetime>
+          <div class="card-date">
+            <ion-button id="open-modal-date-start" fill="outline">Select Start Date</ion-button>
+            <ion-button id="open-modal-date-end" fill="outline">Select End Date</ion-button>
+          </div>
+          <!-- Modal update date -->
+          <ion-modal trigger="open-modal-date-start" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
+            <ng-template>
+              <div class="block">
+                <ion-datetime presentation="date" [value]="[]"></ion-datetime>
+                <div class="buttons-modal">
+                    <ion-button color="primary" fill="outline">Annuler</ion-button>
+                    <ion-button color="primary">Enregistrer</ion-button>
+                </div>
+              </div>
+            </ng-template>
+          </ion-modal>
+
+          <!-- Modal update date -->
+          <ion-modal trigger="open-modal-date-end" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
+            <ng-template>
+              <div class="block">
+                <ion-datetime presentation="date" [value]="[]"></ion-datetime>
+                <div class="buttons-modal">
+                    <ion-button color="primary" fill="outline">Annuler</ion-button>
+                    <ion-button color="primary">Enregistrer</ion-button>
+                </div>
+              </div>
+            </ng-template>
+          </ion-modal>
         </div>
         <div class="card">
           <h4>Voyageurs</h4>
