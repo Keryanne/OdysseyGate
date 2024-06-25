@@ -14,7 +14,6 @@
 .row {
     display: flex;
     flex-direction: row;
-    // justify-content: space-between;
     gap: 15px;
     color: #3A3957;
     padding: 15px;
@@ -25,4 +24,25 @@
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
+}
+
+.fly {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 15px;
+}
+
+.fly-title {
+    gap: 5px;
+}
+
+.fly-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.fly-details {
+    color: #3A3957;
 }
