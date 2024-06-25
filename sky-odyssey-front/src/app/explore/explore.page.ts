@@ -1,15 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-explore',
   templateUrl: 'explore.page.html',
   styleUrls: ['explore.page.scss']
 })
-export class ExplorePage {
+export class ExplorePage implements OnInit {
   isModalOpen = false;
   adults: number = 2;
   children: number = 0;
   babies: number = 0;
+
+  properties = [
+    { id: 1, title: 'Property 1', description: 'Description 1' },
+    { id: 2, title: 'Property 2', description: 'Description 2' },
+    // Ajoute plus de propriétés ici
+  ];
+
+  ngOnInit() {}
+
+  openDetails(id: number) {
+    this.router.navigate(['/tabs/explore-details', id]);
+  }
 
   setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
@@ -35,6 +48,6 @@ export class ExplorePage {
     }
   }
 
-  constructor() {}
+  constructor(private router: Router) {}
 
 }

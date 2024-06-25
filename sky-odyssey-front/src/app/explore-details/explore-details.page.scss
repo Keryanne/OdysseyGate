@@ -1,0 +1,28 @@
+.content-card {
+    gap: 10px;
+    color: #3A3957;
+}
+
+.host {
+    display: flex;
+    padding: 15px;
+    border-radius: 12px;
+    background-color: #FCE4D8;
+    color: #3A3957;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    // justify-content: space-between;
+    gap: 15px;
+    color: #3A3957;
+    padding: 15px;
+}
+
+.prices {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}

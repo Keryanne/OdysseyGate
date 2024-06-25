@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-button href="tabs/explore" color="primary"><ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon></ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+    <ion-card-header>
+      <ion-card-title>{{ property.title }}</ion-card-title>
+      <ion-card-subtitle>{{ property.type }} - {{ property.location }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content class="content-card">
+      <div class="informations">
+        {{ property.travelers }} voyageurs - {{ property.bedroom }} chambres - {{ property.beds }} lits - {{ property.bathroom }} salle de bain
+      </div>
+      <div class="host">
+        <h2>Hôte : {{ property.host }} </h2>
+      </div>
+      <div class="description">
+        {{ property.description }}
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <div class="row">
+      <div class="prices">
+        <div>
+          <h3>{{ property.price }}</h3>
+          <p>*avec vol</p>
+        </div>
+        <div>
+          <h3>{{ property.price }}</h3>
+          <p>*sans vol</p>
+        </div>
+      </div>
+      <ion-button color="primary">Réserver</ion-button>
+    </div>
+  </ion-card>
+</ion-content>
+
