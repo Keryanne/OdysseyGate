@@ -20,6 +20,10 @@ const routes: Routes = [
         loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
       },
       {
+        path: 'reservation',
+        loadChildren: () => import('../reservation/reservation.module').then(m => m.ReservationPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/explore',
         pathMatch: 'full'
