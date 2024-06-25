@@ -16,9 +16,13 @@ const routes: Routes = [
         loadChildren: () => import('../explore-details/explore-details.module').then(m => m.ExploreDetailsPageModule)
       },
       {
-        path: 'tab3',
-        loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+        path: 'profile',
+        loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
       },
+      // {
+      //   path: 'my-travel',
+      //   loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
+      // },
       {
         path: 'reservation',
         loadChildren: () => import('../reservation/reservation.module').then(m => m.ReservationPageModule)
