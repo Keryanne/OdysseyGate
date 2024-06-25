@@ -1,13 +1,19 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="start">
-        <ion-button href="tabs/explore" color="primary"><ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon></ion-button>
-    </ion-buttons>
-    
+    <ion-title>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-button href="tabs/explore" color="primary"><ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon></ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
   <ion-card>
     <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
     <ion-card-header>
