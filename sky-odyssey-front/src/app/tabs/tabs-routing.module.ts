@@ -19,10 +19,10 @@ const routes: Routes = [
         path: 'profile',
         loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
       },
-      // {
-      //   path: 'my-travel',
-      //   loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
-      // },
+      {
+        path: 'login',
+        loadChildren: () => import('../login/login.module').then(m => m.LoginPageModule)
+      },
       {
         path: 'reservation',
         loadChildren: () => import('../reservation/reservation.module').then(m => m.ReservationPageModule)

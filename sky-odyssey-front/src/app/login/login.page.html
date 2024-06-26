@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Se connecter</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Se connecter</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div class="form">
+    <form (ngSubmit)="login()">>
+      <ion-item>
+        <ion-input label="Email" type="email" label-placement="floating" fill="outline" placeholder="email@exemple.com" color="primary" [(ngModel)]="email"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input label="Mot de passe" type="password" label-placement="floating" fill="outline" [(ngModel)]="password"></ion-input>
+      </ion-item>
+      <ion-button expand="full" type="submit">Login</ion-button>
+    </form>
+    <ion-button expand="full" routerLink="/register">Register</ion-button>
+  </div>
+</ion-content>

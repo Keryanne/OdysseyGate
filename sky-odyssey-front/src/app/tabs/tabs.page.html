@@ -11,7 +11,11 @@
       <ion-label>Mes voyages</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="profile" href="/tabs/profile">
+    <ion-tab-button tab="profile" href="/tabs/profile" *ngIf="isConnected">
+      <ion-icon aria-hidden="true" name="person-outline"></ion-icon>
+      <ion-label>Profil</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="profile" href="/tabs/login">
       <ion-icon aria-hidden="true" name="person-outline"></ion-icon>
       <ion-label>Profil</ion-label>
     </ion-tab-button>
