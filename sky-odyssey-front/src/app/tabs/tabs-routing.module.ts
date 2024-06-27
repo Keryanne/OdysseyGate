@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { AuthGuard } from '../guard/auth.guard';
 
 const routes: Routes = [
   {
@@ -17,12 +18,13 @@ const routes: Routes = [
       },
       {
         path: 'profile',
+        canActivate: [AuthGuard],
         loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
       },
-      {
-        path: 'login',
-        loadChildren: () => import('../login/login.module').then(m => m.LoginPageModule)
-      },
+      // {
+      //   path: 'login',
+      //   loadChildren: () => import('../login/login.module').then(m => m.LoginPageModule)
+      // },
       {
         path: 'reservation',
         loadChildren: () => import('../reservation/reservation.module').then(m => m.ReservationPageModule)

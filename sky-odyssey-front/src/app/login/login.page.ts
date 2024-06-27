@@ -26,12 +26,12 @@ export class LoginPage implements OnInit {
       async (response) => {
         // Sauvegarder le token ou gérer la session ici
         localStorage.setItem('token', response.token);
-        this.router.navigate(['/tabs/home']);
+        this.router.navigate(['/tabs/explore']);
       },
       async (error) => {
         const alert = await this.alertController.create({
-          header: 'Login Failed',
-          message: 'Invalid email or password',
+          header: 'Connection échoué',
+          message: 'Email ou mot de passe invalide',
           buttons: ['OK']
         });
         await alert.present();
