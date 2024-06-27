@@ -5,7 +5,7 @@ import { AuthGuard } from '../guard/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: '',
     component: TabsPage,
     children: [
       {
@@ -21,13 +21,21 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
       },
-      // {
-      //   path: 'login',
-      //   loadChildren: () => import('../login/login.module').then(m => m.LoginPageModule)
-      // },
       {
         path: 'reservation',
         loadChildren: () => import('../reservation/reservation.module').then(m => m.ReservationPageModule)
+      },
+      {
+        path: 'reservations',
+        loadChildren: () => import('../reservations/reservations.module').then(m => m.ReservationsPageModule)
+      },
+      {
+        path: 'login',
+        loadChildren: () => import('../login/login.module').then( m => m.LoginPageModule)
+      },
+      {
+        path: 'signup',
+        loadChildren: () => import('../signup/signup.module').then( m => m.SignupPageModule)
       },
       {
         path: '',
@@ -36,11 +44,6 @@ const routes: Routes = [
       }
     ]
   },
-  {
-    path: '',
-    redirectTo: '/tabs/explore',
-    pathMatch: 'full'
-  }
 ];
 
 @NgModule({
