@@ -13,13 +13,17 @@
   <div class="form">
     <form (ngSubmit)="register">
       <ion-item>
-        <ion-input label="Email" type="email" label-placement="floating" fill="outline" placeholder="email@exemple.com" color="primary" [(ngModel)]="email"></ion-input>
+        <ion-input label="Email" type="email" label-placement="floating" fill="outline" placeholder="email@exemple.com" [(ngModel)]="email" required></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-input label="Mot de passe" type="password" label-placement="floating" fill="outline" [(ngModel)]="password"></ion-input>
+        <ion-input label="Mot de passe" type="password" label-placement="floating" fill="outline" [(ngModel)]="password" required></ion-input>
       </ion-item>
-      <ion-button expand="full" type="submit">Se connecter</ion-button>
+      <ion-item>
+        <ion-label position="floating">Confirm Password</ion-label>
+        <ion-input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required></ion-input>
+      </ion-item>
+      <ion-button expand="full" type="submit">S'inscrire</ion-button>
     </form>
     <p>Vous avez déjà un compte ? <ion-button fill="clear" routerLink="/login">Se connecter</ion-button></p>
   </div>
