@@ -9,8 +9,8 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
+      <ion-button slot="primary" (click)="logout()" fill="clear" color="primary"><ion-icon slot="icon-only" name="log-out-outline"></ion-icon></ion-button>
       <ion-title size="large">Mon profil</ion-title>
-      <ion-button (click)="logout()">Logout</ion-button>
     </ion-toolbar>
   </ion-header>
 

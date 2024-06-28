@@ -1,65 +1,87 @@
 <ion-header [translucent]="true">
     <ion-toolbar>
-      <ion-buttons slot="start">
-          <ion-button href="tabs/explore" color="primary"><ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon></ion-button>
-      </ion-buttons>
-      <ion-title>Confirmer et payer</ion-title>
+        <ion-buttons slot="start">
+            <ion-button href="tabs/explore" color="primary">
+                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Confirmer et payer</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <ion-card>
-        <ion-card-header>
-            <ion-card-title>Votre voyage</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-            <div class="informations dates">
-                <div class="left">
-                    <h3>Dates</h3>
-                    <p>5-10 juil.</p>
+<ion-content [fullscreen]="true">
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>Votre voyage</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <div class="informations dates">
+                    <div class="left">
+                        <h3>Dates</h3>
+                        <p>{{ startDate | date: 'shortDate' }} - {{ endDate | date: 'shortDate' }}</p>
+                    </div>
+                    <ion-button id="open-modal-date" (click)="openDateModal()" fill="clear">Modifier</ion-button>
                 </div>
-                <ion-button id="open-modal-date" fill="clear">Modifier</ion-button>
-            </div>
-            <div class="informations travelers">
-                <div class="left">
-                    <h3>Voyageurs</h3>
-                    <p>1 voyageur</p>
+                <div class="informations travelers">
+                    <div class="left">
+                        <h3>Voyageurs</h3>
+                        <p>{{adults}} adulte{{adults > 1 ? 's' : ''}}, {{children}} enfant{{children > 1 ? 's' : ''}}, {{babies}} bébé{{babies > 1 ? 's' : ''}}</p>
+                    </div>
+                    <ion-button id="open-modal-travelers" (click)="openTravelersModal()"fill="clear">Modifier</ion-button>
                 </div>
-                <ion-button id="open-modal-travelers" fill="clear">Modifier</ion-button>
+            </ion-card-content>
+        </ion-card>
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>Détails du prix</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <div class="informations prices">
+                    <p>000 € x {{ numberOfNights }} nuit{{numberOfNights > 1 ? 's' : ''}}</p>
+                    <p>000 €</p>
+                </div>
+            </ion-card-content>
+            <div class="footer-card">
+                <h3>Total(EUR)</h3>
+                <h3>0000,00€</h3>
             </div>
-        </ion-card-content>
-    </ion-card>
-    <ion-card>
-        <ion-card-header>
-            <ion-card-title>Détails du prix</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-            <div class="informations prices">
-                <p>000 € x X nuits</p>
-                <p>000 €</p>
-            </div>
-        </ion-card-content>
-        <div class="footer-card">
-            <h3>Total(EUR)</h3>
-            <h3>0000,00€</h3>
+        </ion-card>
+    <ng-container *ngIf="isLoggedIn; else notLoggedIn">
+        <div class="content">
+            <ion-button expand="block">Confirmer et payer</ion-button>
         </div>
-    </ion-card>
-    <div class="content">
-        <ion-button expand="block">Confirmer et payer</ion-button>
-    </div>
+    </ng-container>
+    <ng-template #notLoggedIn>
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>Connectez-vous ou inscrivez-vous pour continuer</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-button expand="block" color="primary" (click)="navigateToLogin()">Se connecter</ion-button>
+                <ion-button expand="block" color="primary" fill="outline" (click)="navigateToSignup()">S'inscrire</ion-button>
+            </ion-card-content>
+        </ion-card>
+    </ng-template>
     <!-- Modal update date -->
     <ion-modal trigger="open-modal-date" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
         <ng-template>
           <div class="block">
-            <ion-datetime presentation="date" [multiple]="true" [value]="[]"></ion-datetime>
+            <div class="date">
+                <ion-label>Date de début</ion-label>
+                <ion-datetime display-format="DD MMM YYYY" presentation="date" [preferWheel]="true" (ionChange)="updateTempStartDate($event)" [(ngModel)]="tempStartDate"></ion-datetime>
+              </div>
+              <div class="date">
+                <ion-label>Date de fin</ion-label>
+                <ion-datetime display-format="DD MMM YYYY" presentation="date" [preferWheel]="true" (ionChange)="updateTempEndDate($event)" [(ngModel)]="tempEndDate"></ion-datetime>
+              </div>
             <div class="buttons-modal">
-                <ion-button color="primary" fill="outline">Annuler</ion-button>
-                <ion-button color="primary">Enregistrer</ion-button>
+                <ion-button color="primary" fill="outline" (click)="cancelDates()">Annuler</ion-button>
+                <ion-button color="primary" (click)="saveDates()">Enregistrer</ion-button>
             </div>
           </div>
         </ng-template>
-      </ion-modal>
-<!-- Modal update travelers -->
+    </ion-modal>
+    <!-- Modal update travelers -->
     <ion-modal trigger="open-modal-travelers" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
         <ng-template>
             <div class="block">
@@ -70,9 +92,13 @@
                         <span class="subtitle">13 ans et plus</span>
                     </div>
                     <div class="counter">
-                        <ion-button (click)="decrement('adults')" color="primary" shape="round" fill="outline"><ion-icon slot="icon-only" name="remove-outline"></ion-icon></ion-button>
-                        <span>{{adults}}</span>
-                        <ion-button (click)="increment('adults')" color="primary" shape="round" fill="outline"><ion-icon slot="icon-only" name="add-outline"></ion-icon></ion-button>
+                        <ion-button (click)="decrementTemp('adults')" color="primary" shape="round" fill="outline">
+                            <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
+                        </ion-button>
+                        <span>{{tempAdults}}</span>
+                        <ion-button (click)="incrementTemp('adults')" color="primary" shape="round" fill="outline">
+                            <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+                        </ion-button>
                     </div>
                     </div>
                     <div class="participant">
@@ -81,9 +107,13 @@
                         <span class="subtitle">De 2 à 12 ans</span>
                     </div>
                     <div class="counter">
-                        <ion-button (click)="decrement('children')" color="primary" shape="round" fill="outline"><ion-icon slot="icon-only" name="remove-outline"></ion-icon></ion-button>
-                        <span>{{children}}</span>
-                        <ion-button (click)="increment('children')" color="primary" shape="round" fill="outline"><ion-icon slot="icon-only" name="add-outline"></ion-icon></ion-button>
+                        <ion-button (click)="decrementTemp('children')" color="primary" shape="round" fill="outline">
+                            <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
+                        </ion-button>
+                        <span>{{tempChildren}}</span>
+                        <ion-button (click)="incrementTemp('children')" color="primary" shape="round" fill="outline">
+                            <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+                        </ion-button>
                     </div>
                     </div>
                     <div class="participant">
@@ -92,17 +122,21 @@
                         <span class="subtitle">- de 2 ans</span>
                     </div>
                     <div class="counter">
-                        <ion-button (click)="decrement('babies')" color="primary" shape="round" fill="outline"><ion-icon slot="icon-only" name="remove-outline"></ion-icon></ion-button>
-                        <span>{{babies}}</span>
-                        <ion-button (click)="increment('babies')" color="primary" shape="round" fill="outline"><ion-icon slot="icon-only" name="add-outline"></ion-icon></ion-button>
+                        <ion-button (click)="decrementTemp('babies')" color="primary" shape="round" fill="outline">
+                            <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
+                        </ion-button>
+                        <span>{{tempBabies}}</span>
+                        <ion-button (click)="incrementTemp('babies')" color="primary" shape="round" fill="outline">
+                            <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+                        </ion-button>
                     </div>
                     </div>
                 </div>
                 <div class="buttons-modal">
-                    <ion-button color="primary" fill="outline">Annuler</ion-button>
-                    <ion-button color="primary">Enregistrer</ion-button>
+                    <ion-button color="primary" fill="outline" (click)="cancelTravelers()">Annuler</ion-button>
+                    <ion-button color="primary" (click)="saveTravelers()">Enregistrer</ion-button>
                 </div>
             </div>
         </ng-template>
-      </ion-modal>
+    </ion-modal>
 </ion-content>
