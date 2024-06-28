@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, AlertController  } from '@ionic/angular';
+import { StripeService } from '../services/stripe.service';
+import { PaymentComponent } from '../payment/payment.component';
 
 @Component({
   selector: 'app-reservation',
@@ -26,7 +28,12 @@ export class ReservationPage implements OnInit {
   tempChildren: number = 0;
   tempBabies: number = 0;
 
-  constructor(private authService: AuthService, private router: Router, private modalController: ModalController) {}
+  constructor(private authService: AuthService,
+    private router: Router,
+    private modalController: ModalController,
+    private stripeService: StripeService,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
@@ -119,6 +126,55 @@ export class ReservationPage implements OnInit {
   cancelDates() {
     this.modalController.dismiss();
   }
+
+  async confirmAndPay() {
+    const amount = 5000; // Amount in cents (50.00 USD or EUR)
+
+    const modal = await this.modalController.create({
+      component: PaymentComponent,
+      componentProps: { amount }
+    });
+
+    modal.onDidDismiss().then(async (data) => {
+      if (data.data && data.data.success) {
+        await this.saveReservation();
+        const alert = await this.alertController.create({
+          header: 'Success',
+          message: 'Payment successful and reservation saved!',
+          buttons: ['OK']
+        });
+        await alert.present();
+      } else {
+        const alert = await this.alertController.create({
+          header: 'Payment Failed',
+          message: 'Please try again.',
+          buttons: ['OK']
+        });
+        await alert.present();
+      }
+    });
+
+    await modal.present();
+  }
+
+  async saveReservation() {
+    // Simuler l'enregistrement de la réservation dans le backend
+    return fetch('https://your-backend-url.com/save-reservation', { // Remplacez par l'URL de votre backend
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        startDate: this.startDate,
+        endDate: this.endDate,
+        adults: this.adults,
+        children: this.children,
+        babies: this.babies,
+        paymentMethodId: 'simulated-payment-method-id'
+      })
+    });
+  }
+
 
   navigateToLogin() {
     this.router.navigate(['/tabs/login']);

@@ -48,7 +48,7 @@
         </ion-card>
     <ng-container *ngIf="isLoggedIn; else notLoggedIn">
         <div class="content">
-            <ion-button expand="block">Confirmer et payer</ion-button>
+            <ion-button expand="block"  (click)="confirmAndPay()">Confirmer et payer</ion-button>
         </div>
     </ng-container>
     <ng-template #notLoggedIn>
