@@ -7,7 +7,7 @@ import { delay } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://your-api-url.com/api';
+  private apiUrl = 'http://localhost:5093/api';
 
   constructor(private http: HttpClient) {}
 
@@ -15,8 +15,8 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/login`, { email, password });
   }
 
-  register(email: string, password: string, confirmPassword: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, { email, password, confirmPassword });
+  register(username: string, email: string, password: string, confirmPassword: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, { username, email, password, confirmPassword });
   }
 
   getReservations(): Observable<any[]> {

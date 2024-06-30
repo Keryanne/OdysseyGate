@@ -14,14 +14,14 @@
     </ion-toolbar>
   </ion-header>
     <ion-card *ngFor="let property of properties" (click)="openDetails(property.id)">
-      <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+      <img alt="Image de la location" src="property.imagePath" />
       <ion-card-header>
-        <ion-card-title>{{ property.title }}</ion-card-title>
-        <ion-card-subtitle>{{ property.type }} - {{ property.location }}</ion-card-subtitle>
+        <ion-card-title>{{ property.name }}</ion-card-title>
+        <ion-card-subtitle>{{ property.city }}</ion-card-subtitle>
       </ion-card-header>
     
       <ion-card-content>
-        {{ property.price }}
+        {{ property.price }} €
       </ion-card-content>
     </ion-card>
 

@@ -18,7 +18,7 @@ export class StripeService {
     }
 
     // Simulate creating a PaymentIntent on your backend
-    return fetch('https://your-backend-url.com/create-payment-intent', { // Replace with your backend URL
+    return fetch('http://localhost:5093/api/payments/{reservationId}/pay', { // Replace with your backend URL
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

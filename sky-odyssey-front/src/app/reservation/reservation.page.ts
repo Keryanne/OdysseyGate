@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ModalController, AlertController  } from '@ionic/angular';
-import { StripeService } from '../services/stripe.service';
+// import { StripeService } from '../services/stripe.service';
 import { PaymentComponent } from '../payment/payment.component';
+import { ReservationService } from '../services/reservation.service';
+import { FlightService } from '../services/flight.service';
+import { LocationService } from '../services/location.service';
 
 @Component({
   selector: 'app-reservation',
@@ -28,15 +31,62 @@ export class ReservationPage implements OnInit {
   tempChildren: number = 0;
   tempBabies: number = 0;
 
+  property: any;
+
+  locationId: number = 0; // Ajouter un ID de location
+  userId: number = 0; // Ajouter un ID utilisateur
+
+  flights: any[] = [];
+  selectedFlights: any[] = [];
+  tempSelectedFlights: any[] = [];
+  totalPriceWithFlight: number = 0;
+
   constructor(private authService: AuthService,
     private router: Router,
     private modalController: ModalController,
-    private stripeService: StripeService,
-    private alertController: AlertController
+    // private stripeService: StripeService,
+    private alertController: AlertController,
+    private reservationService: ReservationService,
+    private flightService: FlightService,
+    private locationService: LocationService,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
+    this.userId = 1; // Assurez-vous d'obtenir l'ID utilisateur actuel
+    const propertyId = this.route.snapshot.paramMap.get('propertyId');
+    console.log('ID ', propertyId);
+    if (propertyId) {
+      this.locationId = +propertyId;
+      this.getPropertyDetails();
+    }
+    this.flightService.getAvailableFlights();
+  }
+
+  getPropertyDetails() {
+    this.locationService.getLocationById(this.locationId).subscribe(
+      (data) => {
+        this.property = data;
+        if (this.property.city) {
+          this.getFlights(this.property.city);
+        }
+      },
+      (error) => {
+        console.error('Error fetching property details', error);
+      }
+    );
+  }
+
+  getFlights(city: string) {
+    this.flightService.getFlightsByCity(city).subscribe(
+      (data) => {
+        this.flights = data;
+      },
+      (error) => {
+        console.error('Error fetching flights', error);
+      }
+    );
   }
 
   increment(type: string) {
@@ -128,7 +178,8 @@ export class ReservationPage implements OnInit {
   }
 
   async confirmAndPay() {
-    const amount = 5000; // Amount in cents (50.00 USD or EUR)
+    const totalPrice = this.calculateTotalPrice();
+    const amount = totalPrice * 100; // Convert to cents
 
     const modal = await this.modalController.create({
       component: PaymentComponent,
@@ -137,7 +188,7 @@ export class ReservationPage implements OnInit {
 
     modal.onDidDismiss().then(async (data) => {
       if (data.data && data.data.success) {
-        await this.saveReservation();
+        await this.saveReservation(totalPrice);
         const alert = await this.alertController.create({
           header: 'Success',
           message: 'Payment successful and reservation saved!',
@@ -157,22 +208,49 @@ export class ReservationPage implements OnInit {
     await modal.present();
   }
 
-  async saveReservation() {
-    // Simuler l'enregistrement de la réservation dans le backend
-    return fetch('https://your-backend-url.com/save-reservation', { // Remplacez par l'URL de votre backend
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
+  openFlightsModal() {
+    this.tempSelectedFlights = [...this.selectedFlights];
+  }
+
+  saveFlights() {
+    this.selectedFlights = this.tempSelectedFlights;
+    this.modalController.dismiss();
+  }
+
+  cancelFlights() {
+    this.modalController.dismiss();
+  }
+
+  calculateFlightPrice(): number {
+    return this.selectedFlights.reduce((total, flight) => total + flight.price, 0);
+  }
+
+  calculateTotalPrice(): number {
+    const flightPrice = this.selectedFlights.reduce((total, flight) => total + flight.price, 0);
+    this.totalPriceWithFlight = (this.property.price * this.numberOfNights) + flightPrice;
+    return this.totalPriceWithFlight
+  }
+
+   async saveReservation(totalPrice: number) {
+    const reservation = {
+      startDate: this.startDate,
+      endDate: this.endDate,
+      numberOfGuests: this.adults + this.children + this.babies,
+      totalPrice: totalPrice,
+      userId: this.userId,
+      locationId: this.locationId,
+      flights: this.selectedFlights.map(flight => flight.id), // Ajouter les IDs des vols
+      hotels: [] // Ajouter les IDs des hôtels si nécessaire
+    };
+
+    this.reservationService.createReservation(reservation).subscribe(
+      (response) => {
+        console.log('Reservation created successfully', response);
       },
-      body: JSON.stringify({
-        startDate: this.startDate,
-        endDate: this.endDate,
-        adults: this.adults,
-        children: this.children,
-        babies: this.babies,
-        paymentMethodId: 'simulated-payment-method-id'
-      })
-    });
+      (error) => {
+        console.error('Error creating reservation', error);
+      }
+    );
   }
 
 

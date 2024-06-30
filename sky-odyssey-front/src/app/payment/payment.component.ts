@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StripeService } from '../services/stripe.service';
+// import { StripeService } from '../services/stripe.service';
 import { ModalController, AlertController } from '@ionic/angular';
 
 @Component({
@@ -13,7 +13,7 @@ export class PaymentComponent implements OnInit {
   paymentMethodId: string | null = null;
 
   constructor(
-    private stripeService: StripeService,
+    // private stripeService: StripeService,
     private modalController: ModalController,
     private alertController: AlertController
   ) {}
@@ -22,16 +22,16 @@ export class PaymentComponent implements OnInit {
 
   async pay() {
     try {
-      const paymentIntent = await this.stripeService.createPaymentIntent(this.amount);
-      const clientSecret = paymentIntent.client_secret;
+      // const paymentIntent = await this.stripeService.createPaymentIntent(this.amount);
+      // const clientSecret = paymentIntent.client_secret;
 
       // Simuler la collecte des détails de la carte à partir d'un élément de carte
-      this.paymentMethodId = 'your-test-payment-method-id'; // Remplacez par l'ID de méthode de paiement réel
+      // this.paymentMethodId = 'your-test-payment-method-id'; // Remplacez par l'ID de méthode de paiement réel
 
-      const result = await this.stripeService.confirmCardPayment(clientSecret, this.paymentMethodId);
-      if (result.error) {
-        throw new Error(result.error.message);
-      }
+      // const result = await this.stripeService.confirmCardPayment(clientSecret, this.paymentMethodId);
+      // if (result.error) {
+      //   throw new Error(result.error.message);
+      // }
 
       const alert = await this.alertController.create({
         header: 'Success',

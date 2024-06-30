@@ -17,58 +17,58 @@
   <ion-card>
     <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
     <ion-card-header>
-      <ion-card-title>{{ property.title }}</ion-card-title>
-      <ion-card-subtitle>{{ property.type }} - {{ property.location }}</ion-card-subtitle>
+      <ion-card-title>{{ property.name }}</ion-card-title>
+      <ion-card-subtitle>{{ property.city }}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content class="content-card">
       <div class="informations">
-        {{ property.travelers }} voyageurs - {{ property.bedroom }} chambres - {{ property.beds }} lits - {{ property.bathroom }} salle de bain
+        {{ property.maxGuests }} voyageurs 
+        <!-- - {{ property.bedroom }} chambres - {{ property.beds }} lits - {{ property.bathroom }} salle de bain -->
       </div>
-      <div class="host">
+      <!-- <div class="host">
         <h2>Hôte : {{ property.host }} </h2>
-      </div>
+      </div> -->
       <div class="description">
         {{ property.description }}
       </div>
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
+  <!-- <ion-card *ngIf="flights.length > 0">
     <ion-card-header>
-      <ion-card-title>Liste des vols à destination de 'pays'</ion-card-title>
+      <ion-card-title>Liste des vols à destination de {{ property.city }}</ion-card-title>
     </ion-card-header>
-      <div class="fly">
+      <div *ngFor="let flight of flights" class="fly">
         <div class="fly-title">
-          <h3>Compagnie aérienne</h3>
-          <h4>Départ de VILLE</h4>
+          <h3>{{ flight.airline }}</h3>
+          <h4>Départ de {{ flight.departureAirport }}</h4>
         </div>
         <div class="fly-row">
           <div class="fly-details">
-            <p>Heures</p>
-            <p>MPL - CDG</p>
+            <p>Heure de départ : {{ flight.departureTime }} </p>
+            <p>heure d'arrivée : {{ flight.arrivalTime }}</p>
           </div>
           <div class="fly-details">
-            <p>Direct</p>
-            <p>Durée</p>
+            <p>Durée : {{ flight.duration }} </p>
           </div>
         </div>
-        <h3>Prix</h3>
+        <h3>{{ flight.price | currency }} €</h3>
     </div>
-  </ion-card>
+  </ion-card> -->
 
   <ion-card>
     <div class="row">
       <div class="prices">
-        <div>
-          <h3>{{ property.price }}</h3>
+        <!-- <div>
+          <h3>{{ totalPrice | currency}} /nuits</h3>
           <p>*avec vol</p>
-        </div>
+        </div> -->
         <div>
-          <h3>{{ property.price }}</h3>
+          <h3>{{ property.price | currency }} /nuits</h3>
           <p>*sans vol</p>
         </div>
       </div>
-      <ion-button color="primary" href="tabs/reservation">Réserver</ion-button>
+      <ion-button color="primary" (click)="openReservation(property.id)">Réserver</ion-button>
     </div>
   </ion-card>
 </ion-content>

@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-        <ion-card>
+        <ion-card *ngIf="property">
             <ion-card-header>
                 <ion-card-title>Votre voyage</ion-card-title>
             </ion-card-header>
@@ -29,21 +29,29 @@
                     </div>
                     <ion-button id="open-modal-travelers" (click)="openTravelersModal()"fill="clear">Modifier</ion-button>
                 </div>
+                <div class="informations flights">
+                    <div class="left">
+                        <h3>Vols</h3>
+                        <p *ngIf="selectedFlights.length === 0">Aucun vol sélectionné</p>
+                        <p *ngFor="let flight of selectedFlights">{{ flight.airline }} - {{ flight.departureTime }} à {{ flight.arrivalTime }}</p>
+                    </div>
+                    <ion-button id="open-modal-flights" (click)="openFlightsModal()" fill="clear">Modifier</ion-button>
+                </div>
             </ion-card-content>
         </ion-card>
-        <ion-card>
+        <ion-card *ngIf="property">
             <ion-card-header>
                 <ion-card-title>Détails du prix</ion-card-title>
             </ion-card-header>
             <ion-card-content>
                 <div class="informations prices">
-                    <p>000 € x {{ numberOfNights }} nuit{{numberOfNights > 1 ? 's' : ''}}</p>
-                    <p>000 €</p>
+                    <p>{{ property.price | currency }} € x {{ numberOfNights }} nuits {{numberOfNights > 1 ? 's' : ''}}</p>
+                    <p>Vols = {{ calculateFlightPrice() | currency }} €</p>
                 </div>
             </ion-card-content>
             <div class="footer-card">
                 <h3>Total(EUR)</h3>
-                <h3>0000,00€</h3>
+                <h3>{{ calculateTotalPrice() | currency }} €</h3>
             </div>
         </ion-card>
     <ng-container *ngIf="isLoggedIn; else notLoggedIn">
@@ -135,6 +143,30 @@
                 <div class="buttons-modal">
                     <ion-button color="primary" fill="outline" (click)="cancelTravelers()">Annuler</ion-button>
                     <ion-button color="primary" (click)="saveTravelers()">Enregistrer</ion-button>
+                </div>
+            </div>
+        </ng-template>
+    </ion-modal>
+
+     <!-- Modal update flights -->
+     <ion-modal trigger="open-modal-flights" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
+        <ng-template>
+            <div class="block">
+                <div class="flight-selector">
+                    <ion-list>
+                        <ion-item *ngFor="let flight of flights">
+                            <ion-label>
+                                <h3>{{ flight.airline }}</h3>
+                                <p>{{ flight.departureTime }} - {{ flight.arrivalTime }}</p>
+                                <p>{{ flight.price | currency }} €</p>
+                            </ion-label>
+                            <ion-checkbox slot="start" [(ngModel)]="flight.selected"></ion-checkbox>
+                        </ion-item>
+                    </ion-list>
+                </div>
+                <div class="buttons-modal">
+                    <ion-button color="primary" fill="outline" (click)="cancelFlights()">Annuler</ion-button>
+                    <ion-button color="primary" (click)="saveFlights()">Enregistrer</ion-button>
                 </div>
             </div>
         </ng-template>

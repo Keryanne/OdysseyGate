@@ -9,6 +9,7 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./signup.page.scss'],
 })
 export class SignupPage {
+  username: string = "";
   email: string = "";
   password: string = "";
   confirmPassword: string = "";
@@ -20,6 +21,7 @@ export class SignupPage {
   ) {}
 
   async register() {
+    console.log('Password', this.password, 'Confirm Password', this.confirmPassword)
     if (this.password !== this.confirmPassword) {
       const alert = await this.alertController.create({
         header: 'L\'inscription a échoué',
@@ -30,16 +32,20 @@ export class SignupPage {
       return;
     }
 
-    this.authService.register(this.email, this.password, this.confirmPassword).subscribe(
+    this.authService.register(this.username, this.email, this.password, this.confirmPassword).subscribe(
       async (response) => {
-        // Sauvegarder le token ou gérer la session ici
-        localStorage.setItem('token', response.token);
-        this.router.navigate(['/tabs/explore']);
+        const alert = await this.alertController.create({
+          header: 'Success',
+          message: 'Registration successful!',
+          buttons: ['OK']
+        });
+        await alert.present();
+        this.router.navigate(['/login']);
       },
       async (error) => {
         const alert = await this.alertController.create({
           header: 'L\'inscription a échoué',
-          message: 'Réessayer plus tard',
+          message: error.error.message || 'An error occurred during registration. Please try again.',
           buttons: ['OK']
         });
         await alert.present();
