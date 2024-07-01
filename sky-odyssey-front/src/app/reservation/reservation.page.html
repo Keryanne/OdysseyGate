@@ -33,7 +33,10 @@
                     <div class="left">
                         <h3>Vols</h3>
                         <p *ngIf="selectedFlights.length === 0">Aucun vol sélectionné</p>
-                        <p *ngFor="let flight of selectedFlights">{{ flight.airline }} - {{ flight.departureTime }} à {{ flight.arrivalTime }}</p>
+                        <div *ngFor="let flight of selectedFlights">
+                            <p>Départ de {{ flight.departureAirport }} - {{ flight.airline }}</p>
+                            <p> {{ flight.departureTime | date:'short' }} à {{ flight.arrivalTime | date:'short' }}</p>
+                        </div>
                     </div>
                     <ion-button id="open-modal-flights" (click)="openFlightsModal()" fill="clear">Modifier</ion-button>
                 </div>
@@ -45,13 +48,13 @@
             </ion-card-header>
             <ion-card-content>
                 <div class="informations prices">
-                    <p>{{ property.price | currency }} € x {{ numberOfNights }} nuits {{numberOfNights > 1 ? 's' : ''}}</p>
-                    <p>Vols = {{ calculateFlightPrice() | currency }} €</p>
+                    <p>{{ property.price  }} € x {{ numberOfNights }} nuits {{numberOfNights > 1 ? 's' : ''}}</p>
+                    <p>Vols = {{ calculateFlightPrice() }} €</p>
                 </div>
             </ion-card-content>
             <div class="footer-card">
                 <h3>Total(EUR)</h3>
-                <h3>{{ calculateTotalPrice() | currency }} €</h3>
+                <h3>{{ calculateTotalPrice()  | number:'1.2-2' }} €</h3>
             </div>
         </ion-card>
     <ng-container *ngIf="isLoggedIn; else notLoggedIn">
@@ -153,18 +156,18 @@
         <ng-template>
             <div class="block">
                 <div class="flight-selector">
-                    <ion-list>
+                    <ion-list class="scrollable-list">
                         <ion-item *ngFor="let flight of flights">
                             <ion-label>
-                                <h3>{{ flight.airline }}</h3>
-                                <p>{{ flight.departureTime }} - {{ flight.arrivalTime }}</p>
-                                <p>{{ flight.price | currency }} €</p>
+                                <h3>{{ flight.airline }} - {{ flight.departureAirport}}</h3>
+                                <p>{{ flight.departureTime | date:'short' }} - {{ flight.arrivalTime | date:'short' }}</p>
+                                <p>{{ flight.price }} € </p>
                             </ion-label>
                             <ion-checkbox slot="start" [(ngModel)]="flight.selected"></ion-checkbox>
                         </ion-item>
                     </ion-list>
                 </div>
-                <div class="buttons-modal">
+                <div class="buttons-modal fixed-buttons">
                     <ion-button color="primary" fill="outline" (click)="cancelFlights()">Annuler</ion-button>
                     <ion-button color="primary" (click)="saveFlights()">Enregistrer</ion-button>
                 </div>

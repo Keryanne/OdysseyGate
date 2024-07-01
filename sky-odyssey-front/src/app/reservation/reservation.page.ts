@@ -82,6 +82,7 @@ export class ReservationPage implements OnInit {
     this.flightService.getFlightsByCity(city).subscribe(
       (data) => {
         this.flights = data;
+        this.flights.forEach(flight => flight.selected = false);
       },
       (error) => {
         console.error('Error fetching flights', error);
@@ -209,11 +210,13 @@ export class ReservationPage implements OnInit {
   }
 
   openFlightsModal() {
-    this.tempSelectedFlights = [...this.selectedFlights];
+    // this.tempSelectedFlights = this.selectedFlights;
   }
 
   saveFlights() {
-    this.selectedFlights = this.tempSelectedFlights;
+    // this.selectedFlights = this.tempSelectedFlights;
+    this.selectedFlights = this.flights.filter(flight => flight.selected);
+    console.log('Vol sélectionné :', this.selectedFlights);
     this.modalController.dismiss();
   }
 

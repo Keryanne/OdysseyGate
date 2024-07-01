@@ -24,7 +24,8 @@ export class ExploreDetailsPage implements OnInit {
         (data) => {
           this.property = data;
           if (this.property.city) {
-            this.getFlights(this.property.city);
+            this.getFlightsByCity(this.property.city);
+            console.log('ville location :', this.property.city)
           }
         },
         (error) => {
@@ -42,7 +43,7 @@ export class ExploreDetailsPage implements OnInit {
     this.router.navigate(['/tabs/reservation', propertyId]);
   }
 
-  getFlights(city: string) {
+  getFlightsByCity(city: string) {
     this.flightService.getFlightsByCity(city).subscribe(
       (data: { departureTime: string; arrivalTime: string; price: number; }[]) => {
         this.flights = data.map((flight: { departureTime: string; arrivalTime: string; price: number; }) => ({
@@ -50,6 +51,7 @@ export class ExploreDetailsPage implements OnInit {
           duration: this.calculateFlightDuration(flight.departureTime, flight.arrivalTime),
           totalPrice: this.calculateTotalPrice(flight.price)
         }));
+      console.log('Vol pour la ville', this.flights)
       },
       (error: any) => {
         console.error('Error fetching flights', error);
@@ -58,8 +60,8 @@ export class ExploreDetailsPage implements OnInit {
   }
 
   calculateFlightDuration(departureTime: string, arrivalTime: string): string {
-    const departure = new Date(`1970-01-01T${departureTime}`);
-    const arrival = new Date(`1970-01-01T${arrivalTime}`);
+    const departure = new Date(departureTime);
+    const arrival = new Date(arrivalTime);
     const durationInMs = arrival.getTime() - departure.getTime();
     const durationInMinutes = durationInMs / (1000 * 60);
 

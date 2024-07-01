@@ -15,6 +15,6 @@ export class FlightService {
   }
 
   getAvailableFlights(): Observable<any> {
-    return this.http.get(`${this.flightApiUrl}/flights`); // Modifier l'URL si nécessaire
+    return this.http.get(`${this.flightApiUrl}`); 
   }
 }

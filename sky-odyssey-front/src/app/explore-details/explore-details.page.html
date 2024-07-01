@@ -34,7 +34,7 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- <ion-card *ngIf="flights.length > 0">
+  <ion-card *ngIf="flights.length > 0">
     <ion-card-header>
       <ion-card-title>Liste des vols à destination de {{ property.city }}</ion-card-title>
     </ion-card-header>
@@ -45,16 +45,16 @@
         </div>
         <div class="fly-row">
           <div class="fly-details">
-            <p>Heure de départ : {{ flight.departureTime }} </p>
-            <p>heure d'arrivée : {{ flight.arrivalTime }}</p>
+            <p>Heure de départ : {{ flight.departureTime | date:'short' }} </p>
+            <p>heure d'arrivée : {{ flight.arrivalTime | date:'short'}}</p>
           </div>
           <div class="fly-details">
             <p>Durée : {{ flight.duration }} </p>
           </div>
         </div>
-        <h3>{{ flight.price | currency }} €</h3>
+        <h3>{{ flight.price }} €</h3>
     </div>
-  </ion-card> -->
+  </ion-card>
 
   <ion-card>
     <div class="row">
@@ -64,7 +64,7 @@
           <p>*avec vol</p>
         </div> -->
         <div>
-          <h3>{{ property.price | currency }} /nuits</h3>
+          <h3>{{ property.price }} €/nuits</h3>
           <p>*sans vol</p>
         </div>
       </div>
