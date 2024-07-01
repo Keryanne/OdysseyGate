@@ -13,11 +13,11 @@
   <div class="form">
     <form (ngSubmit)="login()">
       <ion-item>
-        <ion-input label="Email" type="email" label-placement="floating" fill="outline" placeholder="email@exemple.com" color="primary" [(ngModel)]="email"></ion-input>
+        <ion-input label="Email" type="email" label-placement="floating" fill="outline" placeholder="email@exemple.com" color="primary" [(ngModel)]="email" name="email" required></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-input label="Mot de passe" type="password" label-placement="floating" fill="outline" [(ngModel)]="password"></ion-input>
+        <ion-input label="Mot de passe" type="password" label-placement="floating" fill="outline" [(ngModel)]="password" name="password" required></ion-input>
       </ion-item>
       <ion-button expand="full" type="submit">Se connecter</ion-button>
     </form>

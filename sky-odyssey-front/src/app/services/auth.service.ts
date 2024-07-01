@@ -12,11 +12,11 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { email, password });
+    return this.http.post(`${this.apiUrl}/users/login`, { email, password });
   }
 
-  register(username: string, email: string, password: string, confirmPassword: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, { username, email, password, confirmPassword });
+  register(username: string, email: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/users/register`, { username, email, password });
   }
 
   getReservations(): Observable<any[]> {
@@ -34,8 +34,8 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    // return !!localStorage.getItem('token');
-    return true
+    return !!localStorage.getItem('token');
+    // return true
   }
 
   logout() {

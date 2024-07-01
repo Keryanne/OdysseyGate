@@ -12,7 +12,6 @@ export class SignupPage {
   username: string = "";
   email: string = "";
   password: string = "";
-  confirmPassword: string = "";
 
   constructor(
     private authService: AuthService,
@@ -21,18 +20,7 @@ export class SignupPage {
   ) {}
 
   async register() {
-    console.log('Password', this.password, 'Confirm Password', this.confirmPassword)
-    if (this.password !== this.confirmPassword) {
-      const alert = await this.alertController.create({
-        header: 'L\'inscription a échoué',
-        message: 'Les mots de passe ne correspondent pas',
-        buttons: ['OK']
-      });
-      await alert.present();
-      return;
-    }
-
-    this.authService.register(this.username, this.email, this.password, this.confirmPassword).subscribe(
+    this.authService.register(this.username, this.email, this.password).subscribe(
       async (response) => {
         const alert = await this.alertController.create({
           header: 'Success',
@@ -40,9 +28,10 @@ export class SignupPage {
           buttons: ['OK']
         });
         await alert.present();
-        this.router.navigate(['/login']);
+        this.router.navigate(['/tabs/login']);
       },
       async (error) => {
+        
         const alert = await this.alertController.create({
           header: 'L\'inscription a échoué',
           message: error.error.message || 'An error occurred during registration. Please try again.',
