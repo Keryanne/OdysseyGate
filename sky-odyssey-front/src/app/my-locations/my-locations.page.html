@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Mes Locations</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item *ngFor="let location of locations">
+      <ion-label>
+        <h2>{{ location.name }}</h2>
+        <p>{{ location.description }}</p>
+        <p>{{ location.city }}</p>
+        <p>{{ location.price }} €</p>
+      </ion-label>
+      <ion-button fill="clear" (click)="editLocation(location.id)">Modifier</ion-button>
+      <ion-button fill="clear" color="danger" (click)="deleteLocation(location.id)">Supprimer</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

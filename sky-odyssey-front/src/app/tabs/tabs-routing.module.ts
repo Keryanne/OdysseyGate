@@ -38,6 +38,14 @@ const routes: Routes = [
         loadChildren: () => import('../signup/signup.module').then( m => m.SignupPageModule)
       },
       {
+        path: 'add-location',
+        loadChildren: () => import('../add-location/add-location.module').then( m => m.AddLocationPageModule)
+      },
+      {
+        path: 'my-locations',
+        loadChildren: () => import('../my-locations/my-locations.module').then( m => m.MyLocationsPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/explore',
         pathMatch: 'full'

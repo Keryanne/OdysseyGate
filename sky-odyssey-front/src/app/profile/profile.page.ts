@@ -21,4 +21,12 @@ export class ProfilePage implements OnInit {
     this.authService.logout();
     this.router.navigate(['/tabs/login']);
   }
+
+  navigateToAddLocation() {
+    this.router.navigate(['/tabs/add-location']);
+  }
+
+  navigateToMyLocations() {
+    this.router.navigate(['/tabs/my-locations']);
+  }
 }

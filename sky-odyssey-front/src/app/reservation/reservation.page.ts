@@ -60,6 +60,7 @@ export class ReservationPage implements OnInit {
         this.authService.getUserById(tokenUserId).subscribe(
           (user) => {
             this.userId = user.id;
+            console.log('User ID:', this.userId); // Debugging line
           },
           (error) => {
             console.error('Error fetching user ID', error);
@@ -254,8 +255,8 @@ export class ReservationPage implements OnInit {
       status: "Pending",
       // userId: this.userId,
       userId: 13,
-      locationId: this.locationId,
-      flights: this.selectedFlights.map(flight => flight.id), // Ajouter les IDs des vols
+      // locationId: this.locationId,
+      // flights: this.selectedFlights.map(flight => flight.id), // Ajouter les IDs des vols
     };
     console.log(reservation);
 

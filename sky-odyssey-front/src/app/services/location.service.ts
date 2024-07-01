@@ -18,21 +18,16 @@ export class LocationService {
     return this.http.get(`${this.apiUrl}/${id}`);
   }
 
-  createLocation(location: any): Observable<any> {
-    const formData = new FormData();
-    formData.append('name', location.name);
-    formData.append('description', location.description);
-    formData.append('availableFrom', location.availableFrom);
-    formData.append('availableTo', location.availableTo);
-    formData.append('maxGuests', location.maxGuests);
-    formData.append('includesTransport', location.includesTransport);
-    formData.append('price', location.price);
-    formData.append('city', location.city);
-    if (location.image) {
-      formData.append('image', location.image);
-    }
+  addLocation(location: FormData): Observable<any> {
+    return this.http.post(this.apiUrl, location);
+  }
 
-    return this.http.post(this.apiUrl, formData);
+  deleteLocation(locationId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${locationId}`);
+  }
+
+  updateLocation(locationId: number, location: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${locationId}`, location);
   }
 
   searchLocations(params: any): Observable<any> {
