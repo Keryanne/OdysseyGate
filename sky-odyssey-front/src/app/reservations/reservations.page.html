@@ -22,7 +22,7 @@
           <div class="reservation">
             <div class="reservation-left">
               <h2>{{ reservation.title }}</h2>
-              <p>{{ reservation.date | date }}</p>
+              <p>{{ reservation.date | date:'short' }}</p>
             </div>
             <div class="reservation-right">
               <h3>{{ reservation.price }} €</h3>

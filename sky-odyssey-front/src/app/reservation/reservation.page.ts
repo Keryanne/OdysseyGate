@@ -33,8 +33,8 @@ export class ReservationPage implements OnInit {
 
   property: any;
 
-  locationId: number = 0; // Ajouter un ID de location
-  userId: number = 0; // Ajouter un ID utilisateur
+  userId: number | null = null; // Initialisez userId
+  locationId: number | null = null;
 
   flights: any[] = [];
   selectedFlights: any[] = [];
@@ -54,32 +54,43 @@ export class ReservationPage implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
-    this.userId = 1; // Assurez-vous d'obtenir l'ID utilisateur actuel
-    const propertyId = this.route.snapshot.paramMap.get('propertyId');
-    console.log('ID ', propertyId);
-    if (propertyId) {
-      this.locationId = +propertyId;
-      this.getPropertyDetails();
-    }
-    this.flightService.getAvailableFlights();
-  }
-
-  getPropertyDetails() {
-    this.locationService.getLocationById(this.locationId).subscribe(
-      (data) => {
-        this.property = data;
-        if (this.property.city) {
-          this.getFlights(this.property.city);
-        }
-      },
-      (error) => {
-        console.error('Error fetching property details', error);
+    if (this.isLoggedIn) {
+      const tokenUserId = this.authService.getUserIdFromToken();
+      if (tokenUserId) {
+        this.authService.getUserById(tokenUserId).subscribe(
+          (user) => {
+            this.userId = user.id;
+          },
+          (error) => {
+            console.error('Error fetching user ID', error);
+          }
+        );
       }
-    );
+    }
+
+    const idParam = this.route.snapshot.paramMap.get('propertyId');
+    if (idParam !== null) {
+     this.locationId = +idParam;
+      this.locationService.getLocationById(this.locationId ).subscribe(
+        (data) => {
+          this.property = data;
+          if (this.property.id) {
+            this.getFlights(this.property.id);
+          }
+        },
+        (error) => {
+          console.error('Error fetching location', error);
+          // Gérer le cas où l'ID est invalide ou la location n'est pas trouvée
+        }
+      );
+    } else {
+      console.error('ID de propriété non valide');
+      // Vous pouvez rediriger l'utilisateur ou afficher un message d'erreur
+    }
   }
 
-  getFlights(city: string) {
-    this.flightService.getFlightsByCity(city).subscribe(
+  getFlights(propertyId: number) {
+    this.flightService.getFlightsByCity(propertyId).subscribe(
       (data) => {
         this.flights = data;
         this.flights.forEach(flight => flight.selected = false);
@@ -240,11 +251,13 @@ export class ReservationPage implements OnInit {
       endDate: this.endDate,
       numberOfGuests: this.adults + this.children + this.babies,
       totalPrice: totalPrice,
-      userId: this.userId,
+      status: "Pending",
+      // userId: this.userId,
+      userId: 13,
       locationId: this.locationId,
       flights: this.selectedFlights.map(flight => flight.id), // Ajouter les IDs des vols
-      hotels: [] // Ajouter les IDs des hôtels si nécessaire
     };
+    console.log(reservation);
 
     this.reservationService.createReservation(reservation).subscribe(
       (response) => {

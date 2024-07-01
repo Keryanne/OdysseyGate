@@ -10,8 +10,8 @@ export class FlightService {
 
   constructor(private http: HttpClient) {}
 
-  getFlightsByCity(city: string): Observable<any> {
-    return this.http.get(`${this.flightApiUrl}?city=${city}`);
+  getFlightsByCity(propertyId: number): Observable<any> {
+    return this.http.get(`${this.flightApiUrl}/by-location/${propertyId}`);
   }
 
   getAvailableFlights(): Observable<any> {

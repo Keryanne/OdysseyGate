@@ -46,10 +46,10 @@
         <div class="fly-row">
           <div class="fly-details">
             <p>Heure de départ : {{ flight.departureTime | date:'short' }} </p>
-            <p>heure d'arrivée : {{ flight.arrivalTime | date:'short'}}</p>
+            <p>Heure d'arrivée : {{ flight.arrivalTime | date:'short'}}</p>
           </div>
           <div class="fly-details">
-            <p>Durée : {{ flight.duration }} </p>
+            <p>{{ flight.duration }} </p>
           </div>
         </div>
         <h3>{{ flight.price }} €</h3>
