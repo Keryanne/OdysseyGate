@@ -11,26 +11,25 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/users/login`, { email, password });
+  login(username: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/users/authenticate`, { username, password });
   }
 
   register(username: string, email: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/users/register`, { username, email, password });
   }
 
-  getReservations(): Observable<any[]> {
-    if (this.isLoggedIn()) {
-      console.log('User is logged in, returning reservations.'); // Debugging line
-      // Simuler des réservations pour l'utilisateur connecté
-      return of([
-        { id: 1, title: 'Reservation 1', date: '2024-06-20T10:00:00', price: "360" },
-        { id: 2, title: 'Reservation 2', date: '2024-07-15T10:00:00', price: "250" }
-      ]).pipe(delay(1000));
-    } else {
-      console.log('User is not logged in, returning empty array.'); // Debugging line
-      return of([]).pipe(delay(1000));
+  getUserById(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/users/${id}`);
+  }
+
+  getUserIdFromToken(): number | null {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.userId;
     }
+    return null;
   }
 
   isLoggedIn(): boolean {

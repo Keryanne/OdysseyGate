@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
@@ -8,8 +8,8 @@ import { AlertController } from '@ionic/angular';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
-  email: string = "";
+export class LoginPage {
+  username: string = "";
   password: string = "";
 
   constructor(
@@ -18,11 +18,8 @@ export class LoginPage implements OnInit {
     private alertController: AlertController
   ) { }
 
-  ngOnInit() {
-  }
-
   async login() {
-    this.authService.login(this.email, this.password).subscribe(
+    this.authService.login(this.username, this.password).subscribe(
       async (response) => {
         // Sauvegarder le token ou gérer la session ici
         localStorage.setItem('token', response.token);
