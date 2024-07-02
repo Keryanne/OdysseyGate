@@ -23,7 +23,13 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur 
    npm install
 
 3. **Configurer les environnements :**
-
-4. **Démarrer le serveur en local**
+-> src/environments/environment.ts
+   ```bash
+   export const environment = {
+     production: false,
+     apiUrl: 'http://localhost:5093/api'
+   };
+   
+5. **Démarrer le serveur en local**
      ```bash
      ionic serve
