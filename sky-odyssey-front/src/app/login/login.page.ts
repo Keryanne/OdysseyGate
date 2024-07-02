@@ -23,6 +23,7 @@ export class LoginPage {
       async (response) => {
         // Sauvegarder le token ou gérer la session ici
         localStorage.setItem('token', response.token);
+        console.log('User logged in successfully', response);
         this.router.navigate(['/tabs/explore']);
       },
       async (error) => {

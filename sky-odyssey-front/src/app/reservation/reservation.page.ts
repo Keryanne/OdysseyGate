@@ -56,17 +56,19 @@ export class ReservationPage implements OnInit {
     this.isLoggedIn = this.authService.isLoggedIn();
     if (this.isLoggedIn) {
       const tokenUserId = this.authService.getUserIdFromToken();
-      if (tokenUserId) {
-        this.authService.getUserById(tokenUserId).subscribe(
-          (user) => {
-            this.userId = user.id;
-            console.log('User ID:', this.userId); // Debugging line
-          },
-          (error) => {
-            console.error('Error fetching user ID', error);
-          }
-        );
-      }
+      console.log('Token',tokenUserId);
+      this.userId = tokenUserId;
+      // if (tokenUserId) {
+      //   this.authService.getUserById(tokenUserId).subscribe(
+      //     (user) => {
+      //       this.userId = user.id;
+      //       console.log('User ID:', this.userId); // Debugging line
+      //     },
+      //     (error) => {
+      //       console.error('Error fetching user ID', error);
+      //     }
+      //   );
+      // }
     }
 
     const idParam = this.route.snapshot.paramMap.get('propertyId');
@@ -252,8 +254,8 @@ export class ReservationPage implements OnInit {
       endDate: this.endDate,
       numberOfGuests: this.adults + this.children + this.babies,
       totalPrice: totalPrice,
-      // userId: this.userId,
-      userId: 13,
+      userId: this.userId,
+      // userId: 13,
       locationIds: [this.locationId],
       flightIds: this.selectedFlights.map(flight => flight.id), // Ajouter les IDs des vols
     };

@@ -27,8 +27,13 @@ export class AuthService {
   getUserIdFromToken(): number | null {
     const token = localStorage.getItem('token');
     if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.userId;
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.id || null;
+      } catch (error) {
+        console.error('Error decoding token', error);
+        return null;
+      }
     }
     return null;
   }
