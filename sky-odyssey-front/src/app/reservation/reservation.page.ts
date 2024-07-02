@@ -252,11 +252,10 @@ export class ReservationPage implements OnInit {
       endDate: this.endDate,
       numberOfGuests: this.adults + this.children + this.babies,
       totalPrice: totalPrice,
-      status: "Pending",
       // userId: this.userId,
       userId: 13,
-      // locationId: this.locationId,
-      // flights: this.selectedFlights.map(flight => flight.id), // Ajouter les IDs des vols
+      locationIds: [this.locationId],
+      flightIds: this.selectedFlights.map(flight => flight.id), // Ajouter les IDs des vols
     };
     console.log(reservation);
 
