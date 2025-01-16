@@ -1,10 +1,10 @@
-ion-searchbar.searchbar-custom {
-    --color: #3A3957;
-    --icon-color: #EB6A48;
-    --placeholder-color: #3A3957;
-    --padding-bottom: 0;
-    --border-radius: 10px;
-  }
+// ion-searchbar.searchbar-custom {
+//     --color: #3A3957;
+//     --icon-color: #EB6A48;
+//     --placeholder-color: #3A3957;
+//     --padding-bottom: 0;
+//     --border-radius: 10px;
+//   }
 
   ion-item {
     --display: flex;
@@ -38,35 +38,35 @@ ion-searchbar.searchbar-custom {
     align-items: center;
     margin-bottom: 10px;
   }
-  
+
   .details {
     flex-grow: 1;
   }
-  
+
   .title {
     display: block;
     font-size: 1em;
     color: #333;
   }
-  
+
   .subtitle {
     display: block;
     font-size: 0.8em;
     color: #999;
   }
-  
+
   .counter {
     display: flex;
     align-items: center;
   }
-  
+
   .participant ion-button {
     --border-radius: 50%;
     --background: transparent;
     --padding-start: 15;
     --padding-end: 1;
   }
-  
+
   span {
     margin: 0 10px;
     font-size: 1.2em;
