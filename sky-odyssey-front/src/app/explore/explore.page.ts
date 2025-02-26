@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { LocationService } from '../services/location.service';
 
 @Component({
   selector: 'app-explore',
@@ -17,14 +16,7 @@ export class ExplorePage implements OnInit {
   properties: any[] = [];
 
   ngOnInit() {
-    this.locationService.getAllLocations().subscribe(
-      (data) => {
-        this.properties = data;
-      },
-      (error) => {
-        console.error('Error fetching locations', error);
-      }
-    );
+
   }
 
   openDetails(id: number) {
@@ -55,6 +47,6 @@ export class ExplorePage implements OnInit {
     }
   }
 
-  constructor(private router: Router, private modalController: ModalController, private locationService: LocationService) {}
+  constructor(private router: Router, private modalController: ModalController) {}
 
 }

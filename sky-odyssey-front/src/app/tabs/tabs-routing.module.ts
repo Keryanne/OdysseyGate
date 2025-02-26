@@ -13,21 +13,9 @@ const routes: Routes = [
         loadChildren: () => import('../explore/explore.module').then(m => m.ExplorePageModule)
       },
       {
-        path: 'explore-details/:id',
-        loadChildren: () => import('../explore-details/explore-details.module').then(m => m.ExploreDetailsPageModule)
-      },
-      {
         path: 'profile',
         canActivate: [AuthGuard],
         loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
-      },
-      {
-        path: 'reservation/:propertyId',
-        loadChildren: () => import('../reservation/reservation.module').then(m => m.ReservationPageModule)
-      },
-      {
-        path: 'reservations',
-        loadChildren: () => import('../reservations/reservations.module').then(m => m.ReservationsPageModule)
       },
       {
         path: 'login',
@@ -40,10 +28,6 @@ const routes: Routes = [
       {
         path: 'add-location',
         loadChildren: () => import('../add-location/add-location.module').then( m => m.AddLocationPageModule)
-      },
-      {
-        path: 'my-locations',
-        loadChildren: () => import('../my-locations/my-locations.module').then( m => m.MyLocationsPageModule)
       },
       {
         path: '',

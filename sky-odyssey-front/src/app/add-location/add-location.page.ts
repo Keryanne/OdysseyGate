@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { LocationService } from '../services/location.service';
 
 @Component({
   selector: 'app-add-location',
@@ -11,7 +10,7 @@ export class AddLocationPage {
   location: any = {};
   selectedFile: File | null = null;
 
-  constructor(private locationService: LocationService, private router: Router) {}
+  constructor(private router: Router) {}
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
@@ -31,15 +30,5 @@ export class AddLocationPage {
     if (this.selectedFile) {
       formData.append('image', this.selectedFile, this.selectedFile.name);
     }
-
-    this.locationService.addLocation(formData).subscribe(
-      () => {
-        console.log('Location added successfully');
-        this.router.navigate(['/tabs/profile']);
-      },
-      (error) => {
-        console.error('Error adding location', error);
-      }
-    );
   }
 }
