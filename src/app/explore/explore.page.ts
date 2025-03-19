@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { PixabayService } from '../services/pixabay.service';
 
@@ -7,7 +7,7 @@ import { PixabayService } from '../services/pixabay.service';
   templateUrl: 'explore.page.html',
   styleUrls: ['explore.page.scss']
 })
-export class ExplorePage implements OnInit {
+export class ExplorePage{
   countries: any[] = [
     { id: 1, name: 'France', code: 'FR' },
     { id: 2, name: 'Germany', code: 'DE' },
