@@ -91,19 +91,7 @@
   color: var(--ion-text-color);
 }
 
-.card-content {
-  padding: 10px;
-}
-
-h3 {
-  margin: 0;
-  padding: 10px;
-  font-size: 1.5em;
-  font-weight: 700;
-  color: var(--ion-text-color-white);
-}
-
-.searchbar-custom, .custom-input {
+.searchbar-custom {
   --color: var(--ion-text-color);
   --icon-color: var(--ion-text-color);
   --placeholder-color: var(--ion-color-primary-500);
