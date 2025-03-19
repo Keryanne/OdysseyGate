@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   templateUrl: 'explore.page.html',
   styleUrls: ['explore.page.scss']
 })
-export class ExplorePage implements OnInit {
+export class ExplorePage{
   countries: any[] = [
     { id: 1, name: 'France' },
     { id: 2, name: 'Germany' },
@@ -18,11 +18,7 @@ export class ExplorePage implements OnInit {
     { id: 8, name: 'India' },
     { id: 9, name: 'Mexico' },
     { id: 10, name: 'United Kingdom' }
-  ];  
-
-  ngOnInit() {
-
-  }
+  ];
 
   openDetails(id: number) {
     this.router.navigate(['/tabs/explore-details', id]);
