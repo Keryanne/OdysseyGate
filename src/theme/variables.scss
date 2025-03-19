@@ -57,13 +57,25 @@
   border-color: var(--ion-color-primary-200);
 }
 
+.card-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 15px;
+  justify-content: center;
+  gap: 10px;
+}
+
 .card {
   display: flex;
   flex-direction: column;
-  padding: 15px;
-  border-radius: 12px;
+  border-radius: 15px;
   background-color: var(--ion-color-primary-100);
   color: var(--ion-text-color);
+}
+
+.card-content {
+  padding: 10px;
 }
 
 .searchbar-custom {
