@@ -28,7 +28,7 @@ jobs:
         run: npm run lint
 
       - name: Lancer les tests
-        run: npm run test -- --watch=false --browsers=ChromeHeadless
+        run: npm run test -- --ci
 
       - name: Compiler l’application
         run: npm run build --prod
