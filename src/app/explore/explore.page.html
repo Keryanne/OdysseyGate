@@ -3,10 +3,11 @@
       <div class="toolbar">
         <ion-searchbar animated="true" value="" class="searchbar-custom"></ion-searchbar>
       </div>
-    <ion-card *ngFor="let country of countries">
-      <img alt="Image de la location" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-      <ion-card-header>
-        <ion-card-title>{{ country.name }}</ion-card-title>
-      </ion-card-header>
-    </ion-card>
+      <div class="card-list">
+        <div class="card" *ngFor="let country of countries"  [ngStyle]="{'background-image': 'url(' + images[country.name] + ')'}" (click)="openCities(country)">
+          <div class="card-content">
+            <h3>{{ country.name }}</h3>
+          </div>
+        </div>
+      </div>
 </ion-content>
