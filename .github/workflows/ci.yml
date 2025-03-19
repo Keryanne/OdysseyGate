@@ -22,7 +22,7 @@ jobs:
           node-version: 20
 
       - name: Installer les dépendances
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Vérifier le linting
         run: npm run lint
