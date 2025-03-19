@@ -1,0 +1,12 @@
+<ion-content [fullscreen]="true">
+  <div class="toolbar">
+    <ion-searchbar animated="true" value="" class="searchbar-custom"></ion-searchbar>
+  </div>
+  <div class="card-list">
+    <div class="card" *ngFor="let city of cities"  [ngStyle]="{'background-image': 'url(' + images[city] + ')'}">
+      <div class="card-content">
+        <h3>{{ city }}</h3>
+      </div>
+    </div>
+  </div>
+</ion-content>

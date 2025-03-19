@@ -30,6 +30,10 @@ const routes: Routes = [
         loadChildren: () => import('../add-location/add-location.module').then( m => m.AddLocationPageModule)
       },
       {
+        path: 'cities/:code',
+        loadChildren: () => import('../pages/cities/cities.module').then( m => m.CitiesPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/explore',
         pathMatch: 'full'
