@@ -13,7 +13,14 @@ import { registerLocaleData } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
+  imports: [
+    BrowserModule, 
+    IonicModule.forRoot({
+    mode: 'ios'
+  }),
+  AppRoutingModule, 
+  HttpClientModule
+],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: LOCALE_ID, useValue: 'fr-FR' }

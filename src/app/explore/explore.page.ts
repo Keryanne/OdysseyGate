@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-explore',
@@ -8,12 +7,18 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['explore.page.scss']
 })
 export class ExplorePage implements OnInit {
-  isModalOpen = false;
-  adults: number = 2;
-  children: number = 0;
-  babies: number = 0;
-
-  properties: any[] = [];
+  countries: any[] = [
+    { id: 1, name: 'France' },
+    { id: 2, name: 'Germany' },
+    { id: 3, name: 'United States' },
+    { id: 4, name: 'Canada' },
+    { id: 5, name: 'Japan' },
+    { id: 6, name: 'Australia' },
+    { id: 7, name: 'Brazil' },
+    { id: 8, name: 'India' },
+    { id: 9, name: 'Mexico' },
+    { id: 10, name: 'United Kingdom' }
+  ];  
 
   ngOnInit() {
 
@@ -23,30 +28,6 @@ export class ExplorePage implements OnInit {
     this.router.navigate(['/tabs/explore-details', id]);
   }
 
-  setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
-  }
-
-  increment(type: string) {
-    if (type === 'adults') {
-      this.adults++;
-    } else if (type === 'children') {
-      this.children++;
-    } else if (type === 'babies') {
-      this.babies++;
-    }
-  }
-
-  decrement(type: string) {
-    if (type === 'adults' && this.adults > 0) {
-      this.adults--;
-    } else if (type === 'children' && this.children > 0) {
-      this.children--;
-    } else if (type === 'babies' && this.babies > 0) {
-      this.babies--;
-    }
-  }
-
-  constructor(private router: Router, private modalController: ModalController) {}
+  constructor(private router: Router) {}
 
 }
