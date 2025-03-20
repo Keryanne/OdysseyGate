@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { PixabayService } from '../services/pixabay.service';
 
 @Component({
   selector: 'app-explore',
@@ -8,45 +8,67 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['explore.page.scss']
 })
 export class ExplorePage implements OnInit {
-  isModalOpen = false;
-  adults: number = 2;
-  children: number = 0;
-  babies: number = 0;
+  countries: any[] = [
+    { id: 1, name: 'France', code: 'FR' },
+    { id: 2, name: 'Germany', code: 'DE' },
+    { id: 3, name: 'United States', code: 'US' },
+    { id: 4, name: 'Canada', code: 'CA' },
+    { id: 5, name: 'Japan', code: 'JP' },
+    { id: 6, name: 'Australia', code: 'AU' },
+    { id: 7, name: 'Brazil', code: 'BR' },
+    { id: 8, name: 'India', code: 'IN' },
+    { id: 9, name: 'Mexico', code: 'MX' },
+    { id: 10, name: 'United Kingdom', code: 'GB' }
+  ];
 
-  properties: any[] = [];
+  cities: any = {
+    'FR': ['Paris', 'Marseille', 'Lyon', 'Toulouse', 'Nice'],
+    'DE': ['Berlin', 'Hambourg', 'Munich', 'Cologne', 'Francfort'],
+    'US': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Miami'],
+    'CA': ['Toronto', 'Vancouver', 'Montréal', 'Calgary', 'Ottawa'],
+    'JP': ['Tokyo', 'Kyoto', 'Osaka', 'Hiroshima', 'Nagoya'],
+    'AU': ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adélaïde'],
+    'BR': ['Rio de Janeiro', 'São Paulo', 'Brasilia', 'Salvador', 'Fortaleza'],
+    'IN': ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai'],
+    'MX': ['Mexico City', 'Guadalajara', 'Monterrey', 'Cancún', 'Puebla'],
+    'GB': ['Londres', 'Manchester', 'Birmingham', 'Liverpool', 'Édimbourg']
+  };
+
+  images: { [key: string]: string } = {};
+  isModalOpen: boolean = false;
+  departureCity: string = 'Chargement...';
+  destinationCity: string = '';
+
+  openCities(country: any) {
+    this.router.navigate(['/tabs/cities', country.code]);
+  }
+
+  constructor(private router: Router, private pixabayService: PixabayService) {}
 
   ngOnInit() {
-
+    this.loadImages();
   }
 
-  openDetails(id: number) {
-    this.router.navigate(['/tabs/explore-details', id]);
+  loadImages() {
+    this.countries.forEach(country => {
+      this.pixabayService.getImages(country.name).subscribe(response => {
+        if (response.hits.length > 0) {
+          this.images[country.name] = response.hits[0].webformatURL; // Prend la première image trouvée
+        } else {
+          this.images[country.name] = 'assets/no-image.png'; // Image par défaut
+        }
+      });
+    });
   }
 
-  setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
+  openSearchModal(event?: { departure: string, destination: string }) {
+    console.log('Départ:', event?.departure, 'Destination:', event?.destination);
+    this.departureCity = event?.departure || '';
+    this.destinationCity = event?.destination || '';
+    this.isModalOpen = true;
   }
 
-  increment(type: string) {
-    if (type === 'adults') {
-      this.adults++;
-    } else if (type === 'children') {
-      this.children++;
-    } else if (type === 'babies') {
-      this.babies++;
-    }
+  closeModal() {
+    this.isModalOpen = false; // Ferme la modale
   }
-
-  decrement(type: string) {
-    if (type === 'adults' && this.adults > 0) {
-      this.adults--;
-    } else if (type === 'children' && this.children > 0) {
-      this.children--;
-    } else if (type === 'babies' && this.babies > 0) {
-      this.babies--;
-    }
-  }
-
-  constructor(private router: Router, private modalController: ModalController) {}
-
 }

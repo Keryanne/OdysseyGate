@@ -1,0 +1,25 @@
+<ion-content [fullscreen]="true">
+  <div class="toolbar">
+    <ion-back-button defaultHref="/tabs/explore" text=""></ion-back-button>
+    <h1>Explorer les villes</h1>
+    <app-search-button
+    [destinationCity]="destinationCity"
+    (openSearch)="openSearchModal($event)">
+  </app-search-button>
+
+  </div>
+  <div class="card-list">
+    <div class="card" *ngFor="let city of cities, let i = index"  [ngStyle]="{'background-image': 'url(' + images[city] + ')'}" (click)="openSearchModal({ departure: departureCity, destination: city })" [style.animationDelay]="i * 0.1 + 's'">
+      <div class="card-content">
+        <h3>{{ city }}</h3>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<app-search-modal
+  *ngIf="isModalOpen"
+  [departureCity]="departureCity"
+  [destinationCity]="destinationCity"
+  (close)="closeModal()">
+</app-search-modal>

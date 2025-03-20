@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 import { AuthGuard } from '../guard/auth.guard';
+import { AnimationController } from '@ionic/angular';
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
       {
         path: 'add-location',
         loadChildren: () => import('../add-location/add-location.module').then( m => m.AddLocationPageModule)
+      },
+      {
+        path: 'cities/:code',
+        loadChildren: () => import('../pages/cities/cities.module').then( m => m.CitiesPageModule)
       },
       {
         path: '',
