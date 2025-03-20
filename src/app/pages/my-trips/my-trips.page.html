@@ -1,0 +1,22 @@
+<ion-content [fullscreen]="true">
+  <div class="toolbar">
+    <h1>Mes voyages</h1>
+    <ion-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-button>
+  </div>
+
+  <div class="card-list">
+    <div class="card" *ngFor="let trip of trips">
+      <div class="card-img" [ngStyle]="{'background-image': 'url(' + images[trip.city] + ')'}"></div>
+      <div class="card-content">
+        <h3>{{ trip.city }}</h3>
+        <div class="card-sub-content">
+          <p>{{ trip.startDate | date:'dd/MM/yyyy' }}</p>
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+          <p>{{ trip.endDate | date:'dd/MM/yyyy' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
