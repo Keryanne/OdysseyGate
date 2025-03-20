@@ -10,7 +10,8 @@ const routes: Routes = [
   {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  },  {
+  },
+  {
     path: 'cities',
     loadChildren: () => import('./pages/cities/cities.module').then( m => m.CitiesPageModule)
   },

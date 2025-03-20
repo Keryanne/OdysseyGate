@@ -1,8 +1,12 @@
 
 <ion-content [fullscreen]="true">
-      <div class="toolbar">
-        <ion-searchbar animated="true" value="" class="searchbar-custom"></ion-searchbar>
-      </div>
+  <div class="toolbar">
+    <h1>Explorer les pays</h1>
+    <app-search-button
+    [destinationCity]="destinationCity"
+    (openSearch)="openSearchModal($event)">
+  </app-search-button>
+  </div>
       <div class="card-list">
         <div class="card" *ngFor="let country of countries"  [ngStyle]="{'background-image': 'url(' + images[country.name] + ')'}" (click)="openCities(country)">
           <div class="card-content">
@@ -11,3 +15,10 @@
         </div>
       </div>
 </ion-content>
+
+<app-search-modal
+  *ngIf="isModalOpen"
+  [departureCity]="departureCity"
+  [destinationCity]="destinationCity"
+  (close)="closeModal()">
+</app-search-modal>

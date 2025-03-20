@@ -7,10 +7,15 @@ import { PixabayService } from 'src/app/services/pixabay.service';
   templateUrl: './cities.page.html',
   styleUrls: ['./cities.page.scss'],
 })
+
 export class CitiesPage implements OnInit {
   countryCode: string = '';
   cities: string[] = [];
   images: { [key: string]: string } = {};
+  currentLocation = 'Chargement...';
+  departureCity: string = 'Chargement...';
+  destinationCity: string = '';
+  isModalOpen: boolean = false; // Gère l'affichage de la "modale"
 
   countryCities: any = {
     'FR': ['Paris', 'Marseille', 'Lyon', 'Toulouse', 'Nice'],
@@ -25,7 +30,7 @@ export class CitiesPage implements OnInit {
     'GB': ['Londres', 'Manchester', 'Birmingham', 'Liverpool', 'Édimbourg']
   };
 
-  constructor(private route: ActivatedRoute, private pixabayService: PixabayService) {}
+  constructor(private route: ActivatedRoute, private pixabayService: PixabayService,) {}
 
   ngOnInit() {
     this.countryCode = this.route.snapshot.paramMap.get('code')!;
@@ -47,5 +52,16 @@ export class CitiesPage implements OnInit {
         }
       });
     });
+  }
+
+  openSearchModal(event?: { departure: string, destination: string }) {
+    console.log('Départ:', event?.departure, 'Destination:', event?.destination);
+    this.departureCity = event?.departure || '';
+    this.destinationCity = event?.destination || '';
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false; // Ferme la modale
   }
 }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 import { AuthGuard } from '../guard/auth.guard';
+import { AnimationController } from '@ionic/angular';
 
 const routes: Routes = [
   {
