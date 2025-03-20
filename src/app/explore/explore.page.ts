@@ -35,6 +35,9 @@ export class ExplorePage implements OnInit {
   };
 
   images: { [key: string]: string } = {};
+  isModalOpen: boolean = false;
+  departureCity: string = 'Chargement...';
+  destinationCity: string = '';
 
   openCities(country: any) {
     this.router.navigate(['/tabs/cities', country.code]);
@@ -56,5 +59,16 @@ export class ExplorePage implements OnInit {
         }
       });
     });
+  }
+
+  openSearchModal(event?: { departure: string, destination: string }) {
+    console.log('Départ:', event?.departure, 'Destination:', event?.destination);
+    this.departureCity = event?.departure || '';
+    this.destinationCity = event?.destination || '';
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false; // Ferme la modale
   }
 }

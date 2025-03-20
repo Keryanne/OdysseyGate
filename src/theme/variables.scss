@@ -18,6 +18,14 @@
   --ion-text-color-white: #fff;
 }
 
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+}
+
 .btn {
   display: flex;
   align-items: center;
@@ -78,10 +86,16 @@
   padding: 10px;
 }
 
-.searchbar-custom {
+.searchbar-custom, .custom-input {
   --color: var(--ion-text-color);
   --icon-color: var(--ion-text-color);
   --placeholder-color: var(--ion-color-primary-500);
   --padding-bottom: 0;
   --border-radius: 10px;
+}
+
+h1 {
+  color: var(--ion-text-color);
+  font-weight: 600;
+  margin-top: 0;
 }

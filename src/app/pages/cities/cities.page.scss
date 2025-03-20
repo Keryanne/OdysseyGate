@@ -11,3 +11,20 @@ h3 {
   font-weight: 700;
   color: var(--ion-text-color-white);
 }
+
+.card-list {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideIn 0.6s ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
