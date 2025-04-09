@@ -1,3 +1,4 @@
+import { MyTripDetailsPage } from './../pages/my-trip-details/my-trip-details.page';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
@@ -37,6 +38,10 @@ const routes: Routes = [
       {
         path: 'cities/:code',
         loadChildren: () => import('../pages/cities/cities.module').then( m => m.CitiesPageModule)
+      },
+      {
+        path: 'trip-details/:id',
+        loadChildren: () => import('../pages/my-trip-details/my-trip-details.module').then( m => m.MyTripDetailsPageModule)
       },
       {
         path: '',

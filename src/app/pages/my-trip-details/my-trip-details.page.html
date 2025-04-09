@@ -1,0 +1,36 @@
+<ion-content [fullscreen]="true">
+  <div class="toolbar">
+    <h1>Mon voyage en direction de {{city}}</h1>
+    <ion-button>
+      <ion-icon name="trash-bin"></ion-icon>
+    </ion-button>
+  </div>
+
+  <div class="content">
+    <div class="custom-tabs">
+      <div
+        class="tab-button"
+        *ngFor="let tab of tabs"
+        [class.active]="tab === selectedTab"
+        (click)="selectTab(tab)"
+      >
+        {{ tab.label }}
+      </div>
+    </div>
+
+    <div class="tab-slider-container">
+      <div class="tab-slider" [style.transform]="getTransform()">
+        <div class="tab-slide">
+          <p>Transport</p>
+        </div>
+        <div class="tab-slide">
+          <p>Logements</p>
+        </div>
+        <div class="tab-slide">
+          <p>Activités</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>
