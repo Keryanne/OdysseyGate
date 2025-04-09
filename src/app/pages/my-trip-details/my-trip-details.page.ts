@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { tripDetails } from './trip-details.mock';
+import { AlertController } from '@ionic/angular';
 // import { IonSegment, IonSegmentButton } from '@ionic/angular/standalone';
 
 @Component({
@@ -28,7 +29,7 @@ export class MyTripDetailsPage implements OnInit {
   selectedTab = this.tabs[0];
   selectedTabIndex = 0;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private alertController: AlertController, private router: Router) {}
 
   ngOnInit() {
     this.tripId = +this.route.snapshot.paramMap.get('id')!;
@@ -61,5 +62,31 @@ export class MyTripDetailsPage implements OnInit {
 
   getTransform() {
     return `translateX(-${this.selectedTabIndex * 100}%)`;
+  }
+
+  async presentDeleteAlert(nomVoyage: string) {
+    const alert = await this.alertController.create({
+      header: `Voulez-vous supprimer le voyage en direction de ${nomVoyage} ?`,
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          cssClass: 'alert-cancel-btn'
+        },
+        {
+          text: 'Supprimer',
+          role: 'confirm',
+          cssClass: 'alert-delete-btn',
+          handler: () => {
+            // Action de suppression ici
+            console.log('Suppression confirmée');
+            this.router.navigate(['/tabs/my-trips']);
+          }
+        }
+      ],
+      cssClass: 'custom-alert'
+    });
+
+    await alert.present();
   }
 }

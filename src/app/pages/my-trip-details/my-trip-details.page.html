@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true">
   <div class="toolbar">
     <h1>Mon voyage en direction de {{city}}</h1>
-    <ion-button>
+    <ion-button (click)="presentDeleteAlert(city)">
       <ion-icon name="trash-bin"></ion-icon>
     </ion-button>
   </div>
