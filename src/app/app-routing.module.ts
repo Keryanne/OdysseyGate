@@ -15,6 +15,11 @@ const routes: Routes = [
     path: 'cities',
     loadChildren: () => import('./pages/cities/cities.module').then( m => m.CitiesPageModule)
   },
+  {
+    path: 'my-travels',
+    loadChildren: () => import('./pages/my-trips/my-trips.module').then( m => m.MyTripsPageModule)
+  },
+
 
 
 
