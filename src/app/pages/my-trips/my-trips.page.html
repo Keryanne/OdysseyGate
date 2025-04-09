@@ -7,7 +7,7 @@
   </div>
 
   <div class="card-list">
-    <div class="card" *ngFor="let trip of trips">
+    <div class="card" *ngFor="let trip of trips" (click)="openTripDetails(trip)">
       <div class="card-img" [ngStyle]="{'background-image': 'url(' + images[trip.city] + ')'}"></div>
       <div class="card-content">
         <h3>{{ trip.city }}</h3>

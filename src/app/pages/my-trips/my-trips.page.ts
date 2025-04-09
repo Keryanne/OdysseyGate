@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { trips } from './mock-trips';
 import { PixabayService } from 'src/app/services/pixabay.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-trips',
@@ -11,7 +12,7 @@ export class MyTripsPage implements OnInit {
   trips = trips;
   images: { [key: string]: string } = {};
 
-  constructor( private pixabayService: PixabayService) { }
+  constructor( private pixabayService: PixabayService, private router: Router,) { }
 
   ngOnInit() {
     this.loadImages();
@@ -27,6 +28,10 @@ export class MyTripsPage implements OnInit {
         }
       });
     });
+  }
+
+  openTripDetails(trip: any) {
+    this.router.navigate(['/tabs/trip-details', trip.id]);
   }
 
 }
