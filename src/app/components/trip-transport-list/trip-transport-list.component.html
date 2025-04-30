@@ -18,16 +18,22 @@
             </div>
           </div>
           <div class="card-sub-content">
-            <h3>{{ transport.departure | date:'dd/MM/yyyy' }}</h3>
-            <p>{{ transport.duration }}</p>
+            <div class="card-row">
+              <h4>{{ transport.date | date:'dd/MM/yyyy' }}</h4>
+              <p>{{ transport.duration }}</p>
+            </div>
+            <div class="file">
+              <ion-icon name="document"></ion-icon>
+              <p class="text">{{ transport.file }}</p>
+            </div>
           </div>
         </div>
         <div class="card-actions">
           <ion-button fill="clear">
-            <ion-icon name="pencil"></ion-icon>
+            <ion-icon name="pencil" class="icon"></ion-icon>
           </ion-button>
           <ion-button fill="clear">
-            <ion-icon name="trash-bin"></ion-icon>
+            <ion-icon name="trash-bin" class="icon"></ion-icon>
           </ion-button>
         </div>
       </div>
