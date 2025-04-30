@@ -2,14 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tripDetails } from './trip-details.mock';
 import { AlertController } from '@ionic/angular';
-// import { IonSegment, IonSegmentButton } from '@ionic/angular/standalone';
 
 @Component({
-  // standalone: true,
   selector: 'app-my-trip-details',
   templateUrl: './my-trip-details.page.html',
   styleUrls: ['./my-trip-details.page.scss'],
-  // imports: [],
 })
 export class MyTripDetailsPage implements OnInit {
 
@@ -34,7 +31,7 @@ export class MyTripDetailsPage implements OnInit {
   ngOnInit() {
     this.tripId = +this.route.snapshot.paramMap.get('id')!;
 
-    this.trip = (tripDetails as { [key: number]: typeof tripDetails[1] })[this.tripId];
+    this.trip = tripDetails[this.tripId];
 
     if (this.trip) {
       this.transports = this.trip.transports || [];
