@@ -1,0 +1,94 @@
+<ion-header translucent class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/my-trips" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Ajouter un voyage</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding" [fullscreen]="true">
+  <!-- Étape 1 : Général -->
+   @if (step === 1) {
+    <div class="step-container" @stepAnimation>
+      <div class="step-header">
+        <div class="step-icon">
+          <ion-icon name="home" class="icon"></ion-icon>
+        </div>
+        <div class="step-title">
+          <p>Étape 1/4 </p>
+          <h2>Général</h2>
+        </div>
+      </div>
+      <form [formGroup]="form" class="form">
+        <div class="form-group">
+          <ion-label position="stacked">Nom *</ion-label>
+          <ion-input formControlName="name" fill="outline" required></ion-input>
+        </div>
+        <div class="form-group">
+          <ion-label position="stacked">Dates</ion-label>
+          <ion-input
+            readonly
+            [value]="form.get('date')?.value | date: 'dd/MM/yyyy'"
+            (click)="showDatePicker = true"
+          ></ion-input>
+        </div>
+        <!-- Modale de date -->
+        <ion-modal [isOpen]="showDatePicker" (ionModalDidDismiss)="showDatePicker = false">
+          <ng-template>
+            <ion-content class="ion-padding">
+              <ion-datetime
+                presentation="date"
+                (ionChange)="onDateSelected($event)"
+              ></ion-datetime>
+              <ion-button expand="full" (click)="showDatePicker = false">Valider</ion-button>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+        <div class="form-group">
+          <ion-label position="stacked">Nombre de voyageurs</ion-label>
+          <ion-input type="number" formControlName="people"></ion-input>
+        </div>
+      </form>
+    </div>
+   }
+
+  <!-- Étape 2 : Transports -->
+   @if (step === 2) {
+    <div class="step-container" @stepAnimation>
+      <div class="step-header">
+        <div class="step-icon">
+          <ion-icon name="airplane" class="icon"></ion-icon>
+        </div>
+        <h2>Étape 2/4 - Transport</h2>
+    </div>
+      <form [formGroup]="form">
+        <div class="form-group">
+          <ion-label position="stacked">Type</ion-label>
+          <ion-select formControlName="transportType">
+            <ion-select-option value="avion">Avion</ion-select-option>
+            <ion-select-option value="train">Train</ion-select-option>
+          </ion-select>
+        </div>
+        <div class="form-group">
+          <ion-label position="stacked">Date et heure</ion-label>
+          <ion-datetime formControlName="transportDate"></ion-datetime>
+        </div>
+        <div class="form-group">
+          <ion-label position="stacked">Durée</ion-label>
+          <ion-input formControlName="duration"></ion-input>
+        </div>
+        <div class="form-group">
+          <ion-label position="stacked">Fichier</ion-label>
+          <ion-input type="text" formControlName="file"></ion-input>
+        </div>
+      </form>
+    </div>
+   }
+
+
+  <!-- Boutons bas -->
+  <div class="step-actions">
+    <ion-button fill="outline" (click)="prevStep()" [disabled]="step === 1">Précédent</ion-button>
+    <ion-button (click)="nextStep()">Suivant</ion-button>
+  </div>
+</ion-content>

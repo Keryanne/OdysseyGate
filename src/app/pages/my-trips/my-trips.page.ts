@@ -34,4 +34,8 @@ export class MyTripsPage implements OnInit {
     this.router.navigate(['/tabs/trip-details', trip.id]);
   }
 
+  addTrip() {
+    this.router.navigate(['/tabs/add-trip']);
+  }
+
 }
