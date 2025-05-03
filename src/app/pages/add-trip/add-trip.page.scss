@@ -64,7 +64,7 @@
     flex-direction: column;
   }
 
-  ion-input {
+  ion-input, ion-text {
     --background: var(--ion-text-color-white);
     --color: var(--ion-text-color);
     --border-radius: 10px;
@@ -85,4 +85,15 @@
   ion-button {
     width: 126px;
   }
+
+  ion-button[disabled] {
+    opacity: 0.5;
+  }
+
+  .step-actions-right {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+  }
+  
 }

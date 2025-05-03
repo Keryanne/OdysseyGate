@@ -25,22 +25,42 @@
           <ion-input formControlName="name" fill="outline" required></ion-input>
         </div>
         <div class="form-group">
-          <ion-label position="stacked">Dates</ion-label>
-          <ion-input
-            readonly
-            [value]="form.get('date')?.value | date: 'dd/MM/yyyy'"
-            (click)="showDatePicker = true"
-          ></ion-input>
+          <ion-item lines="none" button (click)="showStartPicker = true">
+            <ion-label>De *</ion-label>
+            <ion-text formControlName="startDate">{{ startDate ? (startDate | date: 'EEEE, d MMM yyyy HH:mm') : 'Sélectionner' }}</ion-text>
+          </ion-item>
+        </div>
+        <div class="form-group">
+          <ion-item lines="none" button (click)="showEndPicker = true">
+            <ion-label>A *</ion-label>
+            <ion-text formControlName="endDate">{{ endDate ? (endDate | date: 'EEEE, d MMM yyyy HH:mm') : 'Sélectionner' }}</ion-text>
+          </ion-item>
         </div>
         <!-- Modale de date -->
-        <ion-modal [isOpen]="showDatePicker" (ionModalDidDismiss)="showDatePicker = false">
+        <ion-modal [isOpen]="showStartPicker" (ionModalDidDismiss)="showStartPicker = false">
           <ng-template>
             <ion-content class="ion-padding">
               <ion-datetime
-                presentation="date"
-                (ionChange)="onDateSelected($event)"
+                [presentation]="'date-time'"
+                [value]="startDate"
+                (ionChange)="onStartDateChange($event)"
+                locale="fr-FR"
               ></ion-datetime>
-              <ion-button expand="full" (click)="showDatePicker = false">Valider</ion-button>
+              <ion-button expand="full" (click)="showStartPicker = false">OK</ion-button>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+
+        <ion-modal [isOpen]="showEndPicker" (ionModalDidDismiss)="showEndPicker = false">
+          <ng-template>
+            <ion-content class="ion-padding">
+              <ion-datetime
+                [presentation]="'date-time'"
+                [value]="endDate"
+                (ionChange)="onEndDateChange($event)"
+                locale="fr-FR"
+              ></ion-datetime>
+              <ion-button expand="full" (click)="showEndPicker = false">OK</ion-button>
             </ion-content>
           </ng-template>
         </ion-modal>
@@ -59,7 +79,10 @@
         <div class="step-icon">
           <ion-icon name="airplane" class="icon"></ion-icon>
         </div>
-        <h2>Étape 2/4 - Transport</h2>
+        <div class="step-title">
+          <p>Étape 2/4  </p>
+          <h2>Transport</h2>
+        </div>
     </div>
       <form [formGroup]="form">
         <div class="form-group">
@@ -70,8 +93,10 @@
           </ion-select>
         </div>
         <div class="form-group">
-          <ion-label position="stacked">Date et heure</ion-label>
-          <ion-datetime formControlName="transportDate"></ion-datetime>
+          <ion-item lines="none" button (click)="showTransportDatePicker = true">
+            <ion-label>Date</ion-label>
+            <ion-text formControlName="transportDate">{{ transportDate ? (transportDate | date: 'EEEE, d MMM yyyy HH:mm') : 'Sélectionner' }}</ion-text>
+          </ion-item>
         </div>
         <div class="form-group">
           <ion-label position="stacked">Durée</ion-label>
@@ -79,16 +104,35 @@
         </div>
         <div class="form-group">
           <ion-label position="stacked">Fichier</ion-label>
-          <ion-input type="text" formControlName="file"></ion-input>
+          <ion-input type="file" formControlName="file"></ion-input>
         </div>
       </form>
     </div>
+    <ion-modal [isOpen]="showTransportDatePicker" (ionModalDidDismiss)="showTransportDatePicker = false">
+      <ng-template>
+        <ion-content class="ion-padding">
+          <ion-datetime
+            [presentation]="'date-time'"
+            [value]="transportDate"
+            (ionChange)="onEndDateChange($event)"
+            locale="fr-FR"
+          ></ion-datetime>
+          <ion-button expand="full" (click)="showTransportDatePicker = false">OK</ion-button>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
    }
 
 
   <!-- Boutons bas -->
   <div class="step-actions">
     <ion-button fill="outline" (click)="prevStep()" [disabled]="step === 1">Précédent</ion-button>
-    <ion-button (click)="nextStep()">Suivant</ion-button>
+    <div class="step-actions-right">
+      <ion-button (click)="nextStep()" [disabled]="!isCurrentStepValid()">Suivant</ion-button>
+      <ion-button [disabled]="!isStep1Valid()" (click)="submitForm()">
+        Valider
+      </ion-button>
+    </div>
+
   </div>
 </ion-content>
