@@ -20,7 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     IonicModule.forRoot({
     mode: 'ios',
-    navAnimation: fadeTransition,
+    navAnimation: fadeTransition
   }),
   AppRoutingModule,
   HttpClientModule,

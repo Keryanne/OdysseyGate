@@ -44,6 +44,10 @@ const routes: Routes = [
         loadChildren: () => import('../pages/my-trip-details/my-trip-details.module').then( m => m.MyTripDetailsPageModule)
       },
       {
+        path: 'add-trip',
+        loadChildren: () => import('../pages/add-trip/add-trip.module').then( m => m.AddTripPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/explore',
         pathMatch: 'full'
