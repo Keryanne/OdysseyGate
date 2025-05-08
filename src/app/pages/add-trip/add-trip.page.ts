@@ -1,4 +1,4 @@
-import { Component, Injectable, ViewChild } from '@angular/core';
+import { Component, Injectable, ViewChild, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonDatetime } from '@ionic/angular';
 import {
@@ -28,11 +28,21 @@ import {
     ])
   ]
 })
-export class AddTripPage {
+export class AddTripPage implements OnDestroy {
 
   step = 1;
 
   form: FormGroup;
+
+  durations = [
+    { label: '30 minutes', value: '00:30' },
+    { label: '1 heure', value: '01:00' },
+    { label: '1h30', value: '01:30' },
+    { label: '2 heures', value: '02:00' },
+    { label: '2h30', value: '02:30' },
+    { label: '3 heures', value: '03:00' },
+  ];
+  
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
@@ -40,10 +50,16 @@ export class AddTripPage {
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       people: ['', Validators.min(1)],
+
       transportType: [''],
       transportDate: [''],
       duration: [''],
-      file: ['']
+      transportFile: [''],
+
+      hotelName: [''],
+      hotelStartDate: [''],
+      hotelEndDate: [''],
+      hotelFile: [''],
     });
     
   }
@@ -59,6 +75,8 @@ export class AddTripPage {
   showDatePicker = false;
   startDate: string | null = '';
   endDate: string | null = '';
+  hotelStartDate: string | null = '';
+  hotelEndDate: string | null = '';
   transportDate: string | null = '';
 
   openDatePicker() {
@@ -68,29 +86,49 @@ export class AddTripPage {
   showStartPicker = false;
   showEndPicker = false;
   showTransportDatePicker = false;
+  showHotelStartDatePicker = false;
+  showHotelEndDatePicker = false;
 
   onStartDateChange(event: any) {
     this.startDate = event.detail.value;
+    this.form.patchValue({ startDate: this.startDate });
   }
 
   onEndDateChange(event: any) {
     this.endDate = event.detail.value;
+    this.form.patchValue({ endDate: this.endDate });
   }
 
   onTransportDateChange(event: any) {
     this.transportDate = event.detail.value;
+    this.form.patchValue({ transportDate: this.transportDate });
+  }
+
+  onHotelStartDateChange(event: any) {
+    this.hotelStartDate = event.detail.value;
+    this.form.patchValue({ hotelStartDate: this.hotelStartDate });
+  }
+
+  onHotelEndDateChange(event: any) {
+    this.hotelEndDate = event.detail.value;
+    this.form.patchValue({ hotelEndDate: this.hotelEndDate });
   }
 
   isCurrentStepValid(): boolean {
     switch (this.step) {
       case 1:
         return !!this.form.get('name')?.valid &&
-               !!this.form.get('date')?.valid &&
+              !!this.form.get('startDate')?.valid &&
+              !!this.form.get('endDate')?.valid &&
                !!this.form.get('people')?.valid;
       case 2:
         return !!this.form.get('transportType')?.valid &&
                !!this.form.get('transportDate')?.valid &&
                !!this.form.get('duration')?.valid;
+      case 3:
+        return !!this.form.get('hotelName')?.valid &&
+               !!this.form.get('hotelStartDate')?.valid &&
+               !!this.form.get('hotelEndDate')?.valid;
       // ajoute les autres étapes si besoin
       default:
         return true;
@@ -99,7 +137,8 @@ export class AddTripPage {
   
   isStep1Valid(): boolean {
     return !!this.form.get('name')?.valid &&
-           !!this.form.get('date')?.valid &&
+           !!this.form.get('startDate')?.valid &&
+           !!this.form.get('endDate')?.valid &&
            !!this.form.get('people')?.valid;
   }
   
@@ -110,6 +149,20 @@ export class AddTripPage {
     } else {
       console.log('Champs obligatoires manquants');
     }
+  }
+  
+  resetForm() {
+    this.form.reset();
+    this.step = 1;
+    this.startDate = null;
+    this.endDate = null;
+    this.transportDate = null;
+    this.hotelStartDate = null ;
+    this.hotelEndDate = null;
+  }
+
+  ngOnDestroy() {
+    this.resetForm();
   }
   
 
