@@ -60,6 +60,11 @@ export class AddTripPage implements OnDestroy {
       hotelStartDate: [''],
       hotelEndDate: [''],
       hotelFile: [''],
+
+      activityName: [''],
+      activityDate: [''],
+      activityLocation: [''],
+      activityFile: [''],
     });
     
   }
@@ -72,22 +77,19 @@ export class AddTripPage implements OnDestroy {
     if (this.step > 1) this.step--;
   }
 
-  showDatePicker = false;
   startDate: string | null = '';
   endDate: string | null = '';
   hotelStartDate: string | null = '';
   hotelEndDate: string | null = '';
   transportDate: string | null = '';
-
-  openDatePicker() {
-    this.showDatePicker = true;
-  }
+  activityDate: string | null = '';
 
   showStartPicker = false;
   showEndPicker = false;
   showTransportDatePicker = false;
   showHotelStartDatePicker = false;
   showHotelEndDatePicker = false;
+  showActivityDatePicker = false;
 
   onStartDateChange(event: any) {
     this.startDate = event.detail.value;
@@ -114,25 +116,9 @@ export class AddTripPage implements OnDestroy {
     this.form.patchValue({ hotelEndDate: this.hotelEndDate });
   }
 
-  isCurrentStepValid(): boolean {
-    switch (this.step) {
-      case 1:
-        return !!this.form.get('name')?.valid &&
-              !!this.form.get('startDate')?.valid &&
-              !!this.form.get('endDate')?.valid &&
-               !!this.form.get('people')?.valid;
-      case 2:
-        return !!this.form.get('transportType')?.valid &&
-               !!this.form.get('transportDate')?.valid &&
-               !!this.form.get('duration')?.valid;
-      case 3:
-        return !!this.form.get('hotelName')?.valid &&
-               !!this.form.get('hotelStartDate')?.valid &&
-               !!this.form.get('hotelEndDate')?.valid;
-      // ajoute les autres étapes si besoin
-      default:
-        return true;
-    }
+  onActivityDateChange(event: any) {
+    this.activityDate = event.detail.value;
+    this.form.patchValue({ activityDate: this.activityDate });
   }
   
   isStep1Valid(): boolean {
@@ -159,6 +145,10 @@ export class AddTripPage implements OnDestroy {
     this.transportDate = null;
     this.hotelStartDate = null ;
     this.hotelEndDate = null;
+  }
+
+  ionViewWillEnter() {
+    this.resetForm();
   }
 
   ngOnDestroy() {
