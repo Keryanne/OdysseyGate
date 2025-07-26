@@ -1,0 +1,88 @@
+@import "../../../theme/variables.scss";
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; // Prend toute la largeur
+  height: 100vh; // Prend toute la hauteur (y compris tabs)
+  background: rgba(0, 0, 0, 0.5); // Fond semi-transparent
+  display: flex;
+  align-items: flex-start; // Place la modale en haut
+  justify-content: center;
+
+  opacity: 0; // Départ invisible
+  transform: scale(0.9); // Légèrement réduit
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.custom-modal {
+  background-color: var(--ion-color-primary-200);
+  width: 100%;
+  border-radius: 0px 0px 25px 25px;
+  padding: 35px;
+
+  transform: translateY(-20px); // Légèrement décalé vers le haut
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.modal-overlay.active .custom-modal {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--ion-color-primary-500);
+}
+
+.close-icon {
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--ion-text-color);
+}
+
+.modal-item {
+  color: var(--ion-text-color);
+  padding: 8px;
+}
+
+ion-input.custom-input {
+  --background: var(--ion-color-primary-contrast);
+  --color: var(--ion-text-color);
+  --padding: 10px 5px;
+}
+
+.modal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.search-button {
+  position: absolute;
+  top: 270px;
+  right: 20px;
+  background: #ea5054;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.search-button ion-icon {
+  color: var(--ion-color-primary-contrast);
+  font-size: 24px;
+}

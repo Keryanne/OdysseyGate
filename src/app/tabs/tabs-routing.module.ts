@@ -1,7 +1,9 @@
+import { MyTripDetailsPage } from './../pages/my-trip-details/my-trip-details.page';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 import { AuthGuard } from '../guard/auth.guard';
+import { AnimationController } from '@ionic/angular';
 
 const routes: Routes = [
   {
@@ -18,6 +20,10 @@ const routes: Routes = [
         loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
       },
       {
+        path: 'my-trips',
+        loadChildren: () => import('../pages/my-trips/my-trips.module').then( m => m.MyTripsPageModule)
+      },
+      {
         path: 'login',
         loadChildren: () => import('../login/login.module').then( m => m.LoginPageModule)
       },
@@ -28,6 +34,18 @@ const routes: Routes = [
       {
         path: 'add-location',
         loadChildren: () => import('../add-location/add-location.module').then( m => m.AddLocationPageModule)
+      },
+      {
+        path: 'cities/:code',
+        loadChildren: () => import('../pages/cities/cities.module').then( m => m.CitiesPageModule)
+      },
+      {
+        path: 'trip-details/:id',
+        loadChildren: () => import('../pages/my-trip-details/my-trip-details.module').then( m => m.MyTripDetailsPageModule)
+      },
+      {
+        path: 'add-trip',
+        loadChildren: () => import('../pages/add-trip/add-trip.module').then( m => m.AddTripPageModule)
       },
       {
         path: '',

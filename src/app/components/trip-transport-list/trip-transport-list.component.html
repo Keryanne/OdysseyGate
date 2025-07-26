@@ -1,0 +1,43 @@
+<div class="main-container">
+    <div class="toolbar">
+      <h1>Mes transports</h1>
+      <ion-button>
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </div>
+
+    <div class="card-list">
+      <div class="card" *ngFor="let transport of transports">
+        <div class="card-content">
+          <div class="card-header">
+            <h3>{{ transport.type }}</h3>
+            <div class="card-row">
+              <h4>{{ transport.from }}</h4>
+              <ion-icon name="arrow-forward-outline"></ion-icon>
+              <h4>{{ transport.to }}</h4>
+            </div>
+          </div>
+          <div class="card-sub-content">
+            <div class="card-row">
+              <h4>{{ transport.date | date:'dd/MM/yyyy' }}</h4>
+              <p>{{ transport.duration }}</p>
+            </div>
+            <div class="file">
+              <ion-icon name="document"></ion-icon>
+              <p class="text">{{ transport.file }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <ion-button fill="clear">
+            <ion-icon name="pencil" class="icon"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear">
+            <ion-icon name="trash-bin" class="icon"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+    </div>
+</div>
+
+

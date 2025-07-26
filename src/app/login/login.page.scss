@@ -1,6 +1,66 @@
-.form {
-    width: 100%;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-}
+.login-page {
+    --background: var(--ion-color-primary-200);
+  
+    .header-logo {
+      background-image: url('../../assets/images/background-login.png');
+      background-size: cover;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+      img {
+        max-height: 150px;
+      }
+    }
+  
+    .login-card {
+      background-color: var(--ion-color-primary-200);
+      margin-top: -20px;
+      border-radius: 25px 25px 0 0;
+      padding: 24px;
+  
+      h2 {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 24px;
+        color: var(--ion-color-primary);
+      }
+  
+      .form-group {
+        margin-bottom: 20px;
+        gap: 3px;
+        display: flex;
+        flex-direction: column;
+      }
+  
+      ion-button {
+        --background: var(--ion-color-primary);
+        border-radius: 12px;
+        margin-top: 16px;
+      }
+
+      ion-input {
+        --background: var(--ion-text-color-white);
+        --color: var(--ion-text-color);
+        --border-radius: 10px;
+        --border: none;
+        --padding-end: 10px;
+        --padding-start: 10px;
+      }
+  
+      .signup-text {
+        margin-top: 16px;
+        text-align: center;
+        font-size: 14px;
+  
+        a {
+          color: var(--ion-color-primary);
+          font-weight: 500;
+          margin-left: 4px;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+  

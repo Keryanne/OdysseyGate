@@ -2,14 +2,23 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "./out-tsc/app",
-    "types": []
+    // "outDir": "./out-tsc/app",
+    "types": ["jest", "node"]
   },
   "files": [
     "src/main.ts",
     "src/polyfills.ts"
   ],
   "include": [
-    "src/**/*.d.ts"
-  ]
+    "src/**/*.ts",
+  ],
+  "exclude": [
+  "**/*.spec.ts",
+  "jest.config.ts",
+  "setup-jest.ts",
+  "capacitor.config.ts",
+  "src/environments/environment.prod.ts",
+  "src/app/services/cities.service.ts",
+  "src/app/services/flight.service.ts"
+]
 }

@@ -5,13 +5,16 @@ import { FormsModule } from '@angular/forms';
 import { ExplorePage } from './explore.page';
 
 import { ExplorePageRoutingModule } from './explore-routing.module';
+import { SharedModule } from '../shared/shared.module';
+import { share } from 'rxjs';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    ExplorePageRoutingModule
+    ExplorePageRoutingModule,
+    SharedModule
   ],
   declarations: [ExplorePage]
 })
