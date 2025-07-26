@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-signup',
@@ -15,30 +14,29 @@ export class SignupPage {
 
   constructor(
     private authService: AuthService,
-    private router: Router,
+    private navController: NavController,
     private alertController: AlertController
   ) {}
 
   async register() {
-    this.authService.register(this.username, this.email, this.password).subscribe(
-      async (response) => {
+    this.authService.register(this.username, this.email, this.password).subscribe({
+      next: async () => {
         const alert = await this.alertController.create({
-          header: 'Success',
-          message: 'Registration successful!',
+          header: 'Inscription réussie',
+          message: 'Ton compte a bien été créé !',
           buttons: ['OK']
         });
         await alert.present();
-        this.router.navigate(['/tabs/login']);
+        this.navController.navigateRoot(['/tabs/login']);
       },
-      async (error) => {
-        
+      error: async (error) => {
         const alert = await this.alertController.create({
-          header: 'L\'inscription a échoué',
-          message: error.error.message || 'An error occurred during registration. Please try again.',
+          header: 'Inscription échouée',
+          message: error?.error?.message || 'Une erreur est survenue',
           buttons: ['OK']
         });
         await alert.present();
       }
-    );
+    });
   }
 }

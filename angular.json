@@ -95,7 +95,8 @@
           "builder": "@angular-builders/jest:run",
           "options": {
             "tsConfig": "tsconfig.spec.json",
-            "setupFile": ["./src/setup-jest.ts"]
+            "setupFile": ["./src/setup-jest.ts"],
+            "configPath": "jest.config.ts"
           },
           "configurations": {
             "ci": {

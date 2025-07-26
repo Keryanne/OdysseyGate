@@ -1,12 +1,29 @@
-module.exports = {
-  preset: 'jest-preset-angular',
-  setupFilesAfterEnv: ['<rootDir>/src/setup-jest.ts'],
-  testMatch: [
-    "**/+(*.)+(spec).+(ts)?(x)"
-  ],
+// jest.config.ts
+import type { Config } from 'jest';
+
+const config: Config = {
+  preset: 'ts-jest',
+  testEnvironment: 'jsdom',
   transform: {
-    "^.+\\.(ts|js|html)$": "ts-jest"
+    '^.+\\.ts$': 'ts-jest',
+    '^.+\\.mjs$': 'babel-jest',
+    '^.+\\.js$': 'babel-jest',
+    '^.+\\.(ts|js)$': 'ts-jest'
   },
-  moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: 'coverage'
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^src/(.*)$': '<rootDir>/src/$1',
+    '^(\\.{1,2}/.*)\\.js$': '$1', // pour .mjs/.js import ESM
+  },
+  transformIgnorePatterns: [
+    'node_modules/(?!(.*\\.mjs$)|(@ionic|@stencil/core|@capacitor|@ionic-native|@awesome-cordova-plugins)/)'
+  ],
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.spec.json',
+      useESM: true,
+    },
+  },
 };
+
+export default config;
