@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5093/api'
+  apiUrl: 'https://odysseygateback.onrender.com'
 };
 
 /*
