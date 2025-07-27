@@ -69,21 +69,21 @@ describe('LoginPage (Jest)', () => {
 
   it('should login successfully and navigate', waitForAsync(async () => {
     jest.spyOn(authService, 'login').mockReturnValue(of({ token: 'abc123' }));
-    component.username = 'user';
+    component.email = 'user@exemple.com';
     component.password = 'pass';
 
     component.login();
 
     await fixture.whenStable();
 
-    expect(authService.login).toHaveBeenCalledWith('user', 'pass');
+    expect(authService.login).toHaveBeenCalledWith('user@exemple.com', 'pass');
     expect(localStorage.getItem('token')).toBe('abc123');
     expect(router.navigate).toHaveBeenCalledWith(['/tabs/explore']);
   }));
 
   it('should show alert on login failure', waitForAsync(async () => {
     jest.spyOn(authService, 'login').mockReturnValue(throwError(() => new Error('Invalid credentials')));
-    component.username = 'wrong';
+    component.email = 'wrong';
     component.password = 'wrong';
 
     component.login();

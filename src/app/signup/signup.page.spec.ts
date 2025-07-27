@@ -57,14 +57,16 @@ describe('SignupPage', () => {
 
   it('should call register and navigate on success', waitForAsync(async () => {
     jest.spyOn(authService, 'register').mockReturnValue(of({ success: true }));
-    component.username = 'newuser';
+    component.name = 'newname';
+    component.surname = 'newsurname';
     component.email = 'new@example.com';
     component.password = 'password123';
+    component.confirmPassword = 'password123';
 
     await component.register();
     await fixture.whenStable();
 
-    expect(authService.register).toHaveBeenCalledWith('newuser', 'new@example.com', 'password123');
+    expect(authService.register).toHaveBeenCalledWith('newname', 'newsurname', 'new@example.com', 'password123', 'password123');
     expect(alertController.create).toHaveBeenCalledWith({
       header: 'Inscription réussie',
       message: 'Ton compte a bien été créé !',
@@ -79,9 +81,11 @@ describe('SignupPage', () => {
       throwError(() => ({ error: { message: 'Une erreur est survenue' } }))
     );
 
-    component.username = 'fail';
+    component.name = 'fail';
+    component.surname = 'fail';
     component.email = 'fail@example.com';
     component.password = 'wrongpass';
+    component.confirmPassword = 'wrongpass';
 
     await component.register();
     await fixture.whenStable();

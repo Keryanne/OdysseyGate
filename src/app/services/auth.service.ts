@@ -20,10 +20,6 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/auth/register`, { nom: name, prenom: surname, email, password, confirmPassword });
   }
 
-  getUserById(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/users/${id}`);
-  }
-
   getUserIdFromToken(): number | null {
     const token = localStorage.getItem('token');
     if (token) {
