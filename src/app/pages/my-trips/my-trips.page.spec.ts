@@ -49,14 +49,14 @@ describe('MyTripsPage', () => {
     pixabayService = TestBed.inject(PixabayService) as jest.Mocked<PixabayService>;
     tripsService = TestBed.inject(TripsService) as jest.Mocked<TripsService>;
     router = TestBed.inject(Router);
-    fixture.detectChanges();
   });
 
   it('should create the MyTripsPage component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load trips and then images', () => {
+  it('should load trips and then images on ionViewWillEnter', () => {
+    component.ionViewWillEnter(); // ⬅️ important !
     expect(tripsService.getVoyages).toHaveBeenCalled();
     expect(component.trips.length).toBe(2);
     expect(pixabayService.getImages).toHaveBeenCalledWith('Paris');
