@@ -55,23 +55,25 @@ export class AddTripPage implements OnDestroy {
       departureCity: ['', Validators.required],
 
       transportType: [''],
-      transportNumero: [''],
+      transportNumber: [''],
       transportCompagnie: [''],
       transportStartDate: [''],
       transportEndDate: [''],
-      duration: [''],
-      transportFile: [''],
+      // duration: [''],
+      // transportFile: [''],
+      transportDeparture: [''],
+      transportDestination: [''],
 
       hotelName: [''],
-      hotelStartDate: [''],
-      hotelEndDate: [''],
-      hotelFile: [''],
+      // hotelStartDate: [''],
+      // hotelEndDate: [''],
+      // hotelFile: [''],
       hotelAdress: [''],
 
       activityName: [''],
-      activityDate: [''],
+      // activityDate: [''],
       activityLocation: [''],
-      activityFile: [''],
+      // activityFile: [''],
     });
     
   }
