@@ -68,7 +68,8 @@ describe('LoginPage (Jest)', () => {
   });
 
   it('should login successfully and navigate', waitForAsync(async () => {
-    jest.spyOn(authService, 'login').mockReturnValue(of({ token: 'abc123' }));
+    jest.spyOn(authService, 'login').mockReturnValue(of({ access_token: 'abc123' }));
+    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
     component.email = 'user@exemple.com';
     component.password = 'pass';
 
@@ -77,7 +78,7 @@ describe('LoginPage (Jest)', () => {
     await fixture.whenStable();
 
     expect(authService.login).toHaveBeenCalledWith('user@exemple.com', 'pass');
-    expect(localStorage.getItem('token')).toBe('abc123');
+    expect(setItemSpy).toHaveBeenCalledWith('token', 'abc123');
     expect(router.navigate).toHaveBeenCalledWith(['/tabs/explore']);
   }));
 
