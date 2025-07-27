@@ -7,6 +7,8 @@ import {
   style,
   animate
 } from '@angular/animations';
+import { TripsService } from 'src/app/services/trips.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -44,15 +46,19 @@ export class AddTripPage implements OnDestroy {
   ];
   
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private tripsService: TripsService, private router: Router) {
     this.form = this.fb.group({
-      name: ['', Validators.required],
+      destination: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       people: ['', Validators.min(1)],
+      departureCity: ['', Validators.required],
 
       transportType: [''],
-      transportDate: [''],
+      transportNumero: [''],
+      transportCompagnie: [''],
+      transportStartDate: [''],
+      transportEndDate: [''],
       duration: [''],
       transportFile: [''],
 
@@ -60,6 +66,7 @@ export class AddTripPage implements OnDestroy {
       hotelStartDate: [''],
       hotelEndDate: [''],
       hotelFile: [''],
+      hotelAdress: [''],
 
       activityName: [''],
       activityDate: [''],
@@ -81,12 +88,14 @@ export class AddTripPage implements OnDestroy {
   endDate: string | null = '';
   hotelStartDate: string | null = '';
   hotelEndDate: string | null = '';
-  transportDate: string | null = '';
+  transportStartDate: string | null = '';
+  transportEndDate: string | null = '';
   activityDate: string | null = '';
 
   showStartPicker = false;
   showEndPicker = false;
-  showTransportDatePicker = false;
+  showTransportStartDatePicker = false;
+  showTransportEndDatePicker = false;
   showHotelStartDatePicker = false;
   showHotelEndDatePicker = false;
   showActivityDatePicker = false;
@@ -101,9 +110,14 @@ export class AddTripPage implements OnDestroy {
     this.form.patchValue({ endDate: this.endDate });
   }
 
-  onTransportDateChange(event: any) {
-    this.transportDate = event.detail.value;
-    this.form.patchValue({ transportDate: this.transportDate });
+  onTransportStartDateChange(event: any) {
+    this.transportStartDate = event.detail.value;
+    this.form.patchValue({ transportDate: this.transportStartDate });
+  }
+
+   onTransportEndDateChange(event: any) {
+    this.transportEndDate = event.detail.value;
+    this.form.patchValue({ transportDate: this.transportEndDate });
   }
 
   onHotelStartDateChange(event: any) {
@@ -122,7 +136,8 @@ export class AddTripPage implements OnDestroy {
   }
   
   isStep1Valid(): boolean {
-    return !!this.form.get('name')?.valid &&
+    return !!this.form.get('destination')?.valid &&
+           !!this.form.get('departureCity')?.valid &&
            !!this.form.get('startDate')?.valid &&
            !!this.form.get('endDate')?.valid &&
            !!this.form.get('people')?.valid;
@@ -132,6 +147,55 @@ export class AddTripPage implements OnDestroy {
     if (this.isStep1Valid()) {
       console.log('Formulaire valide et prêt à être envoyé :', this.form.value);
       // Tu peux appeler ici ton service d’envoi ou naviguer
+      const formValue = this.form.value;
+
+    const payload = {
+      destination: formValue.destination,
+      dateDepart: formValue.startDate,
+      dateArrivee: formValue.endDate,
+      nombreVoyageurs: formValue.people,
+      villeDepart: formValue.departureCity, 
+      imageUrl: 'https://example.com/image.jpg', // à remplacer plus tard par Pixabay ou upload
+
+      transport: {
+        type: formValue.transportType,
+        numero: formValue.transportNumber,
+        compagnie: formValue.transportCompagnie,
+        dateDepart: formValue.transportStartDate,
+        dateArrivee: formValue.transportEndDate,
+        depart: formValue.transportDeparture,
+        arrivee: formValue.transportDestination
+        // duree: formValue.duration,
+        // fichier: formValue.transportFile
+      },
+
+      logement: {
+        nom: formValue.hotelName,
+        adresse: formValue.hotelAdress,
+        // dateDebut: formValue.hotelStartDate,
+        // dateFin: formValue.hotelEndDate,
+        // fichier: formValue.hotelFile
+      },
+
+      activite: {
+        // nom: formValue.activityName,
+        // date: formValue.activityDate,
+        description: formValue.activityName,
+        lieu: formValue.activityLocation,
+        // fichier: formValue.activityFile
+      }
+    };
+
+    this.tripsService.createVoyage(payload).subscribe({
+      next: () => {
+        console.log('Voyage créé avec succès !');
+        this.resetForm();
+        this.router.navigate(['/tabs/my-trips']);
+      },
+      error: (err) => {
+        console.error('Erreur lors de la création du voyage :', err);
+      }
+    });
     } else {
       console.log('Champs obligatoires manquants');
     }
@@ -142,7 +206,8 @@ export class AddTripPage implements OnDestroy {
     this.step = 1;
     this.startDate = null;
     this.endDate = null;
-    this.transportDate = null;
+    this.transportStartDate = null;
+    this.transportEndDate = null;
     this.hotelStartDate = null ;
     this.hotelEndDate = null;
   }
