@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { trips } from './mock-trips';
 import { PixabayService } from 'src/app/services/pixabay.service';
 import { Router } from '@angular/router';
+import { TripsService } from 'src/app/services/trips.service';
 
 @Component({
   selector: 'app-my-trips',
@@ -9,23 +10,29 @@ import { Router } from '@angular/router';
   styleUrls: ['./my-trips.page.scss'],
 })
 export class MyTripsPage implements OnInit {
-  trips = trips;
+  trips: any[] = [];
   images: { [key: string]: string } = {};
 
-  constructor( private pixabayService: PixabayService, private router: Router,) { }
+  constructor( private pixabayService: PixabayService, private router: Router, private tripsService: TripsService) { }
 
   ngOnInit() {
     this.loadImages();
+    this.loadTrips();
   }
 
-  loadImages() {
+  loadTrips() {
+    this.tripsService.getVoyages().subscribe((data) => {
+      this.trips = data;
+      this.loadImages();
+    });
+  }
+
+   loadImages() {
     this.trips.forEach(trip => {
-      this.pixabayService.getImages(trip.city).subscribe(response => {
-        if (response.hits.length > 0) {
-          this.images[trip.city] = response.hits[0].webformatURL; // Prend la première image trouvée
-        } else {
-          this.images[trip.city] = 'assets/no-image.png'; // Image par défaut
-        }
+      const key = trip.destination;
+      if (this.images[key]) return;
+      this.pixabayService.getImages(key).subscribe(response => {
+        this.images[key] = response?.hits?.[0]?.webformatURL || 'assets/no-image.png';
       });
     });
   }
