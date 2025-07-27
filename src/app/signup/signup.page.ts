@@ -22,6 +22,7 @@ export class SignupPage {
 
   async register() {
     this.authService.register(this.name, this.surname, this.email, this.password, this.confirmPassword).subscribe({
+
       next: async () => {
         const alert = await this.alertController.create({
           header: 'Inscription réussie',

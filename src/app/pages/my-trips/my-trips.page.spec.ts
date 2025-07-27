@@ -67,6 +67,7 @@ describe('MyTripsPage', () => {
 
   it('should navigate to trip details', () => {
     const trip = { id: 123, destination: 'Rome' };
+
     component.openTripDetails(trip);
     expect(router.navigate).toHaveBeenCalledWith(['/tabs/trip-details', 123]);
   });

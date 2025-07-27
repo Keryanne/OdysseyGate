@@ -92,12 +92,14 @@ export class AddTripPage implements OnDestroy {
   hotelEndDate: string | null = '';
   transportStartDate: string | null = '';
   transportEndDate: string | null = '';
+
   activityDate: string | null = '';
 
   showStartPicker = false;
   showEndPicker = false;
   showTransportStartDatePicker = false;
   showTransportEndDatePicker = false;
+
   showHotelStartDatePicker = false;
   showHotelEndDatePicker = false;
   showActivityDatePicker = false;
@@ -148,7 +150,6 @@ export class AddTripPage implements OnDestroy {
   submitForm() {
     if (this.isStep1Valid()) {
       console.log('Formulaire valide et prêt à être envoyé :', this.form.value);
-      // Tu peux appeler ici ton service d’envoi ou naviguer
       const formValue = this.form.value;
 
     const payload = {

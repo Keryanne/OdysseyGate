@@ -71,6 +71,7 @@ describe('LoginPage (Jest)', () => {
     jest.spyOn(authService, 'login').mockReturnValue(of({ access_token: 'abc123' }));
     const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
     component.email = 'user@exemple.com';
+
     component.password = 'pass';
 
     component.login();

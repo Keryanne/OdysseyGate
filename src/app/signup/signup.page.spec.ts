@@ -67,6 +67,7 @@ describe('SignupPage', () => {
     await fixture.whenStable();
 
     expect(authService.register).toHaveBeenCalledWith('newname', 'newsurname', 'new@example.com', 'password123', 'password123');
+
     expect(alertController.create).toHaveBeenCalledWith({
       header: 'Inscription réussie',
       message: 'Ton compte a bien été créé !',

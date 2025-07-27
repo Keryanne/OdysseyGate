@@ -65,6 +65,7 @@ describe('AddTripPage', () => {
       endDate: '2025-08-10',
       people: 2
     });
+
     expect(component.isStep1Valid()).toBe(true);
   });
 
