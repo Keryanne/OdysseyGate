@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { trips } from './mock-trips';
+import { Component } from '@angular/core';
 import { PixabayService } from 'src/app/services/pixabay.service';
 import { Router } from '@angular/router';
 import { TripsService } from 'src/app/services/trips.service';
@@ -9,14 +8,13 @@ import { TripsService } from 'src/app/services/trips.service';
   templateUrl: './my-trips.page.html',
   styleUrls: ['./my-trips.page.scss'],
 })
-export class MyTripsPage implements OnInit {
+export class MyTripsPage {
   trips: any[] = [];
   images: { [key: string]: string } = {};
 
   constructor( private pixabayService: PixabayService, private router: Router, private tripsService: TripsService) { }
 
-  ngOnInit() {
-    this.loadImages();
+  ionViewWillEnter() {
     this.loadTrips();
   }
 
