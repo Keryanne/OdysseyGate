@@ -21,8 +21,12 @@
       </div>
       <form [formGroup]="form" class="form">
         <div class="form-group">
-          <ion-label position="stacked">Nom *</ion-label>
-          <ion-input formControlName="name" fill="outline" required></ion-input>
+          <ion-label position="stacked">Destination  *</ion-label>
+          <ion-input formControlName="destination" fill="outline" required></ion-input>
+        </div>
+        <div class="form-group">
+          <ion-label position="stacked">Ville de départ *</ion-label>
+          <ion-input formControlName="departureCity" fill="outline" required></ion-input>
         </div>
         <div class="form-group">
           <ion-item lines="none" button (click)="showStartPicker = true">
@@ -93,35 +97,54 @@
           </ion-select>
         </div>
         <div class="form-group">
-          <ion-item lines="none" button (click)="showTransportDatePicker = true">
-            <ion-label>Date</ion-label>
-            <ion-text>{{ transportDate ? (transportDate | date: 'EEEE, d MMM yyyy HH:mm') : 'Sélectionner' }}</ion-text>
+          <ion-item lines="none" button (click)="showTransportStartDatePicker = true">
+            <ion-label>Date et heure de départ</ion-label>
+            <ion-text>{{ transportStartDate ? (transportStartDate | date: 'EEEE, d MMM yyyy HH:mm') : 'Sélectionner' }}</ion-text>
           </ion-item>
         </div>
         <div class="form-group">
+          <ion-item lines="none" button (click)="showTransportEndDatePicker = true">
+            <ion-label>Date et heure d'arrivé</ion-label>
+            <ion-text>{{ transportEndDate ? (transportEndDate | date: 'EEEE, d MMM yyyy HH:mm') : 'Sélectionner' }}</ion-text>
+          </ion-item>
+        </div>
+        <!-- <div class="form-group">
           <ion-label position="stacked">Durée </ion-label>
           <ion-select formControlName="duration" interface="popover" placeholder="Sélectionner une durée">
             <ion-select-option *ngFor="let d of durations" [value]="d.value">
               {{ d.label }}
             </ion-select-option>
           </ion-select>
-        </div>
-        <div class="form-group">
+        </div> -->
+        <!-- <div class="form-group">
           <ion-label position="stacked">Fichier</ion-label>
           <ion-input type="file" formControlName="transportFile"></ion-input>
-        </div>
+        </div> -->
       </form>
     </div>
-    <ion-modal [isOpen]="showTransportDatePicker" (ionModalDidDismiss)="showTransportDatePicker = false">
+    <ion-modal [isOpen]="showTransportStartDatePicker" (ionModalDidDismiss)="showTransportStartDatePicker = false">
       <ng-template>
         <ion-content class="ion-padding">
           <ion-datetime
             [presentation]="'date-time'"
-            [value]="transportDate"
-            (ionChange)="onTransportDateChange($event)"
+            [value]="transportStartDate"
+            (ionChange)="onTransportStartDateChange($event)"
             locale="fr-FR"
           ></ion-datetime>
-          <ion-button expand="full" (click)="showTransportDatePicker = false">OK</ion-button>
+          <ion-button expand="full" (click)="showTransportStartDatePicker = false">OK</ion-button>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+    <ion-modal [isOpen]="showTransportEndDatePicker" (ionModalDidDismiss)="showTransportEndDatePicker = false">
+      <ng-template>
+        <ion-content class="ion-padding">
+          <ion-datetime
+            [presentation]="'date-time'"
+            [value]="transportEndDate"
+            (ionChange)="onTransportEndDateChange($event)"
+            locale="fr-FR"
+          ></ion-datetime>
+          <ion-button expand="full" (click)="showTransportEndDatePicker = false">OK</ion-button>
         </ion-content>
       </ng-template>
     </ion-modal>
@@ -145,6 +168,10 @@
           <ion-input formControlName="hotelName" fill="outline" required></ion-input>
         </div>
         <div class="form-group">
+          <ion-label position="stacked">Adresse</ion-label>
+          <ion-input formControlName="hotelAdress" fill="outline"></ion-input>
+        </div>
+        <!-- <div class="form-group">
           <ion-item lines="none" button (click)="showHotelStartDatePicker = true">
             <ion-label>De </ion-label>
             <ion-text>{{ hotelStartDate ? (hotelStartDate | date: 'EEEE, d MMM yyyy HH:mm') : 'Sélectionner' }}</ion-text>
@@ -159,7 +186,8 @@
         <div class="form-group">
           <ion-label position="stacked">Fichier</ion-label>
           <ion-input type="file" formControlName="hotelFile"></ion-input>
-        </div>
+        </div> -->
+
       </form>
     </div>
      <!-- Modale de date -->
@@ -209,20 +237,20 @@
             <ion-label position="stacked">Nom</ion-label>
             <ion-input formControlName="activityName" fill="outline" required></ion-input>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <ion-item lines="none" button (click)="showActivityDatePicker = true">
               <ion-label>Date </ion-label>
               <ion-text>{{ activityDate ? (activityDate | date: 'EEEE, d MMM yyyy HH:mm') : 'Sélectionner' }}</ion-text>
             </ion-item>
-          </div>
+          </div> -->
           <div class="form-group">
             <ion-label position="stacked">Lieu</ion-label>
             <ion-input formControlName="activityLocation" fill="outline" required></ion-input>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <ion-label position="stacked">Fichier</ion-label>
             <ion-input type="file" formControlName="activityFile"></ion-input>
-          </div>
+          </div> -->
         </form>
       </div>
        <!-- Modale de date -->

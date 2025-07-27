@@ -1,4 +1,3 @@
-// jest.config.ts
 import type { Config } from 'jest';
 
 const config: Config = {
@@ -24,6 +23,9 @@ const config: Config = {
       useESM: true,
     },
   },
+  coverageDirectory: 'coverage',
+  collectCoverage: true,
+  coverageReporters: ['html', 'text', 'lcov'],
 };
 
 export default config;

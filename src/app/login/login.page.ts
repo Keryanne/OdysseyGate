@@ -9,7 +9,7 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  username: string = "";
+  email: string = "";
   password: string = "";
 
   constructor(
@@ -19,10 +19,10 @@ export class LoginPage {
   ) { }
 
   async login() {
-    this.authService.login(this.username, this.password).subscribe(
+    this.authService.login(this.email, this.password).subscribe(
       async (response) => {
         // Sauvegarder le token ou gérer la session ici
-        localStorage.setItem('token', response.token);
+        localStorage.setItem('token', response.access_token);
         console.log('User logged in successfully', response);
         this.router.navigate(['/tabs/explore']);
       },

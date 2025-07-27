@@ -8,9 +8,11 @@ import { NavController, AlertController } from '@ionic/angular';
   styleUrls: ['./signup.page.scss'],
 })
 export class SignupPage {
-  username: string = "";
+  name: string = "";
+  surname: string = "";
   email: string = "";
   password: string = "";
+  confirmPassword: string = "";
 
   constructor(
     private authService: AuthService,
@@ -19,7 +21,8 @@ export class SignupPage {
   ) {}
 
   async register() {
-    this.authService.register(this.username, this.email, this.password).subscribe({
+    this.authService.register(this.name, this.surname, this.email, this.password, this.confirmPassword).subscribe({
+
       next: async () => {
         const alert = await this.alertController.create({
           header: 'Inscription réussie',

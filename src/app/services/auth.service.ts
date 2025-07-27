@@ -12,16 +12,12 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/users/authenticate`, { username, password });
+  login(email: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/login`, { email, password });
   }
 
-  register(username: string, email: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/users/register`, { username, email, password });
-  }
-
-  getUserById(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/users/${id}`);
+  register(name: string, surname: string, email: string, password: string, confirmPassword: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/register`, { nom: name, prenom: surname, email, password, confirmPassword });
   }
 
   getUserIdFromToken(): number | null {
