@@ -51,6 +51,8 @@ web_modules/
 # Optional npm cache directory
 .npm
 .angular
+/dist
+package-lock.json
 
 # Optional eslint cache
 .eslintcache
