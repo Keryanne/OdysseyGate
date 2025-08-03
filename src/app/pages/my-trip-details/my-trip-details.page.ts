@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { tripDetails } from './trip-details.mock';
 import { AlertController } from '@ionic/angular';
+import { TripsService } from 'src/app/services/trips.service';
+import { Transport } from 'src/app/models/transport.model';
+import { Voyage } from 'src/app/models/trips.model';
+import { Logement } from 'src/app/models/logement.model';
+import { Activity } from 'src/app/models/activity.model';
 
 @Component({
   selector: 'app-my-trip-details',
@@ -11,12 +15,11 @@ import { AlertController } from '@ionic/angular';
 export class MyTripDetailsPage implements OnInit {
 
   tripId!: number;
-  trip: any;
-
-  transports: any[] = [];
-  logements: any[] = [];
-  activites: any[] = [];
+  trip: Voyage[] = []
   city: string = '';
+  transports: Transport[] = [];
+  logements: Logement[] = [];
+  activites: Activity[] = [];
 
   tabs = [
     { key: 'transports', label: 'Transport' },
@@ -26,31 +29,40 @@ export class MyTripDetailsPage implements OnInit {
   selectedTab = this.tabs[0];
   selectedTabIndex = 0;
 
-  constructor(private route: ActivatedRoute, private alertController: AlertController, private router: Router) {}
+  constructor(private route: ActivatedRoute, private alertController: AlertController, private router: Router, private tripsService: TripsService) {}
 
   ngOnInit() {
     this.tripId = +this.route.snapshot.paramMap.get('id')!;
 
-    this.trip = tripDetails[this.tripId];
+    this.tripsService.getVoyageById(this.tripId).subscribe({
+      next: (res) => {
+        this.trip = res;
+        this.city = res.destination;
+      },
+      error: (err) => console.error('Erreur voyage:', err)
+    });
 
-    if (this.trip) {
-      this.transports = this.trip.transports || [];
-      this.logements = this.trip.logements || [];
-      this.activites = this.trip.activites || [];
-    }
 
-    this.city = this.getCityNameById(this.tripId);
+    // this.trip = tripDetails[this.tripId];
+
+    // if (this.trip) {
+    //   this.transports = this.trip.transports || [];
+    //   this.logements = this.trip.logements || [];
+    //   this.activites = this.trip.activites || [];
+    // }
+
+    // this.city = this.getCityNameById(this.tripId);
   }
-  getCityNameById(id: number): string {
-    switch (id) {
-      case 1: return 'Paris';
-      case 2: return 'Seoul';
-      case 3: return 'New York';
-      case 4: return 'Tokyo';
-      case 5: return 'Rome';
-      default: return 'Inconnu';
-    }
-  }
+  // getCityNameById(id: number): string {
+  //   switch (id) {
+  //     case 1: return 'Paris';
+  //     case 2: return 'Seoul';
+  //     case 3: return 'New York';
+  //     case 4: return 'Tokyo';
+  //     case 5: return 'Rome';
+  //     default: return 'Inconnu';
+  //   }
+  // }
 
   selectTab(tab: any) {
     this.selectedTab = tab;

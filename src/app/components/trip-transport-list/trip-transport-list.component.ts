@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { tripDetails } from 'src/app/pages/my-trip-details/trip-details.mock';
+import { Transport } from 'src/app/models/transport.model';
+import { TripsService } from 'src/app/services/trips.service';
 
 @Component({
   selector: 'app-trip-transport-list',
@@ -9,13 +10,24 @@ import { tripDetails } from 'src/app/pages/my-trip-details/trip-details.mock';
 export class TripTransportListComponent  implements OnInit {
 
   @Input() tripId: number = 0;
-  transports: any[] = [];
+  transports: Transport[] = [];
+
+  constructor(private tripsService: TripsService) {}
 
   ngOnInit() {
-    if (this.tripId && tripDetails[this.tripId]) {
-      console.log('tripDetails', tripDetails[this.tripId]);
-      this.transports = tripDetails[this.tripId].transports;
-    }
-  }
+    // if (this.tripId && tripDetails[this.tripId]) {
+    //   console.log('tripDetails', tripDetails[this.tripId]);
+    //   this.transports = tripDetails[this.tripId].transports;
+    // }
+    if (this.tripId) {
+      this.tripsService.getTransportsByVoyage(this.tripId).subscribe({
+        next: (data) => {
+          this.transports = data;
+        },
+        error: (err) => {
+          console.error('Erreur chargement transports :', err);
+        },
+      });
+    }  }
 
 }
