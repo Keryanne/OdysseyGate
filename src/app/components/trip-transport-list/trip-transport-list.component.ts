@@ -15,10 +15,6 @@ export class TripTransportListComponent  implements OnInit {
   constructor(private tripsService: TripsService) {}
 
   ngOnInit() {
-    // if (this.tripId && tripDetails[this.tripId]) {
-    //   console.log('tripDetails', tripDetails[this.tripId]);
-    //   this.transports = tripDetails[this.tripId].transports;
-    // }
     if (this.tripId) {
       this.tripsService.getTransportsByVoyage(this.tripId).subscribe({
         next: (data) => {
