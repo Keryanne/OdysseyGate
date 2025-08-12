@@ -25,7 +25,7 @@ export class TripsService {
   }
 
   getTransportsByVoyage(voyageId: number): Observable<Transport[]> {
-    return this.http.get<Transport[]>(`${this.apiUrl}/transport?voyageId=${voyageId}`);
+    return this.http.get<Transport[]>(`${this.apiUrl}/transport/by-voyage/${voyageId}`);
   }
 
   addTransport(voyageId: number, data: any): Observable<any> {
