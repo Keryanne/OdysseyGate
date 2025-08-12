@@ -6,6 +6,23 @@
     </ion-button>
   </div>
 
+<ion-card class="card">
+  <ion-card-content>
+    <div class="summary-item">
+      <ion-icon name="location"></ion-icon>
+      <span>{{ trip.villeDepart }}</span>
+    </div>
+    <div class="summary-item">
+      <ion-icon name="calendar"></ion-icon>
+      <span>{{ trip.dateDepart | date:'dd/MM/yyyy' }}</span>
+    </div>
+    <div class="summary-item">
+      <ion-icon name="calendar-clear"></ion-icon>
+      <span>{{ trip.dateArrivee | date:'dd/MM/yyyy' }}</span>
+    </div>
+  </ion-card-content>
+</ion-card>
+
   <div class="content">
     <div class="custom-tabs">
       <div
