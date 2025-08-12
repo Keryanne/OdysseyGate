@@ -1,0 +1,64 @@
+      <div class="step-header">
+        <div class="step-icon">
+          <ion-icon name="airplane" class="icon"></ion-icon>
+        </div>
+        <div class="step-title">
+          <p>Étape 2/4  </p>
+          <h2>Transport</h2>
+        </div>
+    </div>
+      <form [formGroup]="form" class="form">
+        <div class="form-group">
+          <ion-label position="stacked">Type</ion-label>
+          <ion-select formControlName="transportType" label="Type">
+            <ion-select-option value="avion">Avion</ion-select-option>
+            <ion-select-option value="train">Train</ion-select-option>
+            <ion-select-option value="bateau">Bateau</ion-select-option>
+            <ion-select-option value="bus">Bus</ion-select-option>
+          </ion-select>
+        </div>
+        <div class="form-group">
+          <ion-item lines="none" button (click)="showTransportStartDatePicker = true">
+            <ion-label>Date et heure de départ</ion-label>
+            <ion-text>{{ transportStartDate ? (transportStartDate | date: 'EEEE, d MMM yyyy HH:mm') : 'Sélectionner' }}</ion-text>
+          </ion-item>
+        </div>
+        <div class="form-group">
+          <ion-item lines="none" button (click)="showTransportEndDatePicker = true">
+            <ion-label>Date et heure d'arrivé</ion-label>
+            <ion-text>{{ transportEndDate ? (transportEndDate | date: 'EEEE, d MMM yyyy HH:mm') : 'Sélectionner' }}</ion-text>
+          </ion-item>
+        </div>
+        @if (mode === 'single') {
+          <ion-button expand="full" (click)="submit()" [disabled]="!form.valid">
+            Ajouter
+          </ion-button>
+        }
+
+      </form>
+    <ion-modal [isOpen]="showTransportStartDatePicker" (ionModalDidDismiss)="showTransportStartDatePicker = false">
+      <ng-template>
+        <ion-content class="ion-padding">
+          <ion-datetime
+            [presentation]="'date-time'"
+            [value]="transportStartDate"
+            (ionChange)="onTransportStartDateChange($event)"
+            locale="fr-FR"
+          ></ion-datetime>
+          <ion-button expand="full" (click)="showTransportStartDatePicker = false">OK</ion-button>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+    <ion-modal [isOpen]="showTransportEndDatePicker" (ionModalDidDismiss)="showTransportEndDatePicker = false">
+      <ng-template>
+        <ion-content class="ion-padding">
+          <ion-datetime
+            [presentation]="'date-time'"
+            [value]="transportEndDate"
+            (ionChange)="onTransportEndDateChange($event)"
+            locale="fr-FR"
+          ></ion-datetime>
+          <ion-button expand="full" (click)="showTransportEndDatePicker = false">OK</ion-button>
+        </ion-content>
+      </ng-template>
+    </ion-modal>

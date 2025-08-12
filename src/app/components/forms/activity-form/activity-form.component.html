@@ -1,0 +1,24 @@
+<div class="step-header">
+  <div class="step-icon">
+    <ion-icon name="bicycle" class="icon"></ion-icon>
+  </div>
+  <div class="step-title">
+    <p>Étape 4/4  </p>
+    <h2>Activités</h2>
+  </div>
+</div>
+<form [formGroup]="form" class="form">
+  <div class="form-group">
+    <ion-label position="stacked">Nom</ion-label>
+    <ion-input formControlName="activityName" fill="outline" required></ion-input>
+  </div>
+  <div class="form-group">
+    <ion-label position="stacked">Lieu</ion-label>
+    <ion-input formControlName="activityLocation" fill="outline" required></ion-input>
+  </div>
+  @if (mode === 'single') {
+    <ion-button expand="full" (click)="submit()" [disabled]="!form.valid">
+      Ajouter
+    </ion-button>
+  }
+</form>
