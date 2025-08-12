@@ -57,7 +57,7 @@ describe('TripsService', () => {
     const voyageId = 3;
     const mockTransports = [{ id: 1, type: 'Avion' }];
 
-    service.getTransports(voyageId).subscribe(res => {
+    service.getTransportsByVoyage(voyageId).subscribe(res => {
       expect(res).toEqual(mockTransports);
     });
 

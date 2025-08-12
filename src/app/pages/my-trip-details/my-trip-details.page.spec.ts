@@ -2,17 +2,27 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { MyTripDetailsPage } from './my-trip-details.page';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { of } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { of } from 'rxjs';
+import { TripsService } from 'src/app/services/trips.service';
 
 describe('MyTripDetailsPage', () => {
   let component: MyTripDetailsPage;
   let fixture: ComponentFixture<MyTripDetailsPage>;
   let router: Router;
   let alertController: AlertController;
+  let tripsService: TripsService;
 
   const mockAlert = {
-    present: jest.fn()
+    present: jest.fn(),
+  };
+
+  const mockVoyage = {
+    id: 1,
+    destination: 'Paris',
+    transport: [],
+    logement: [],
+    activite: [],
   };
 
   beforeEach(async () => {
@@ -25,30 +35,37 @@ describe('MyTripDetailsPage', () => {
           useValue: {
             snapshot: {
               paramMap: {
-                get: () => '1'
-              }
-            }
-          }
+                get: () => '1',
+              },
+            },
+          },
         },
         {
           provide: Router,
           useValue: {
-            navigate: jest.fn()
-          }
+            navigate: jest.fn(),
+          },
         },
         {
           provide: AlertController,
           useValue: {
-            create: jest.fn().mockResolvedValue(mockAlert)
-          }
-        }
-      ]
+            create: jest.fn().mockResolvedValue(mockAlert),
+          },
+        },
+        {
+          provide: TripsService,
+          useValue: {
+            getVoyageById: jest.fn().mockReturnValue(of(mockVoyage)),
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MyTripDetailsPage);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     alertController = TestBed.inject(AlertController);
+    tripsService = TestBed.inject(TripsService);
     fixture.detectChanges();
   });
 
@@ -58,8 +75,9 @@ describe('MyTripDetailsPage', () => {
 
   it('should initialize tripId and trip data on ngOnInit', () => {
     expect(component.tripId).toBe(1);
-    expect(component.transports).toBeDefined();
+    expect(tripsService.getVoyageById).toHaveBeenCalledWith(1);
     expect(component.city).toBe('Paris');
+    expect(component.transports).toEqual([]);
   });
 
   it('should update selected tab correctly', () => {
@@ -76,10 +94,12 @@ describe('MyTripDetailsPage', () => {
 
   it('should present delete confirmation alert', fakeAsync(async () => {
     await component.presentDeleteAlert('Rome');
-    expect(alertController.create).toHaveBeenCalledWith(expect.objectContaining({
-      header: expect.stringContaining('Rome'),
-      cssClass: 'custom-alert'
-    }));
+    expect(alertController.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        header: expect.stringContaining('Rome'),
+        cssClass: 'custom-alert',
+      }),
+    );
     expect(mockAlert.present).toHaveBeenCalled();
   }));
 });

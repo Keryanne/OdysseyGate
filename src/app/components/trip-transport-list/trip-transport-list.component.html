@@ -12,20 +12,20 @@
           <div class="card-header">
             <h3>{{ transport.type }}</h3>
             <div class="card-row">
-              <h4>{{ transport.from }}</h4>
+              <h4>{{ transport.depart }}</h4>
               <ion-icon name="arrow-forward-outline"></ion-icon>
-              <h4>{{ transport.to }}</h4>
+              <h4>{{ transport.arrivee }}</h4>
             </div>
           </div>
           <div class="card-sub-content">
             <div class="card-row">
-              <h4>{{ transport.date | date:'dd/MM/yyyy' }}</h4>
-              <p>{{ transport.duration }}</p>
+              <h4>{{ transport.dateDepart| date:'dd/MM/yyyy' }}</h4>
+              <p>{{ transport.dateArrivee }}</p>
             </div>
-            <div class="file">
+            <!-- <div class="file">
               <ion-icon name="document"></ion-icon>
               <p class="text">{{ transport.file }}</p>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="card-actions">
