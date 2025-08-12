@@ -41,7 +41,6 @@ export class MyTripDetailsPage implements OnInit {
       },
       error: (err) => console.error('Erreur voyage:', err)
     });
-  }
 
   selectTab(tab: any) {
     this.selectedTab = tab;
