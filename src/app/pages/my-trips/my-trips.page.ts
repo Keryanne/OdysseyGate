@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { PixabayService } from 'src/app/services/pixabay.service';
 import { Router } from '@angular/router';
 import { TripsService } from 'src/app/services/trips.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-my-trips',
@@ -12,7 +13,11 @@ export class MyTripsPage {
   trips: any[] = [];
   images: { [key: string]: string } = {};
 
-  constructor( private pixabayService: PixabayService, private router: Router, private tripsService: TripsService) { }
+  constructor( private pixabayService: PixabayService, private router: Router, private tripsService: TripsService, private authService: AuthService) { }
+
+  get isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
 
   ionViewWillEnter() {
     this.loadTrips();

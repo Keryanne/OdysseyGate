@@ -24,7 +24,7 @@ export class LoginPage {
         // Sauvegarder le token ou gérer la session ici
         localStorage.setItem('token', response.access_token);
         console.log('User logged in successfully', response);
-        this.router.navigate(['/tabs/explore']);
+        this.router.navigate(['/tabs/welcome']);
       },
       async (error) => {
         const alert = await this.alertController.create({

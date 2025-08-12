@@ -23,17 +23,18 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
-          localStorage.removeItem('token');
-
           this.alertController.create({
-            header: 'Session expirée',
-            message: 'Tu as été déconnecté(e). Merci de te reconnecter.',
-            buttons: ['OK']
-          }).then(alert => {
-            alert.present().then(() => {
-              this.router.navigate(['/tabs/login']);
-            });
-          });
+            header: 'Non connecté',
+            message: 'Vous devez être connecté pour accéder à cette page.',
+            buttons: [
+              {
+                text: 'Se connecter',
+                handler: () => {
+                  this.router.navigate(['/tabs/login']);
+                }
+              }
+            ]
+          }).then(alert => alert.present());
         }
 
         return throwError(() => error);
