@@ -61,7 +61,7 @@ describe('TripsService', () => {
       expect(res).toEqual(mockTransports);
     });
 
-    const req = httpMock.expectOne(`${apiUrl}/transport?voyageId=3`);
+    const req = httpMock.expectOne(`${apiUrl}/transport/by-voyage/${voyageId}`);
     expect(req.request.method).toBe('GET');
 
     req.flush(mockTransports);
