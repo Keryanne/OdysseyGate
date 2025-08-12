@@ -1,0 +1,32 @@
+.cta-page {
+  --background: none;
+  background-image: url('../../../assets/images/background_welcome.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.cta-container {
+  text-align: center;
+  padding: 2rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding-bottom: 110px;
+}
+
+.logo {
+  width: 250px;
+  margin: 0 auto 2rem;
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  font-weight: bold;
+  color: white;
+}

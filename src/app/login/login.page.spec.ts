@@ -80,7 +80,7 @@ describe('LoginPage (Jest)', () => {
 
     expect(authService.login).toHaveBeenCalledWith('user@exemple.com', 'pass');
     expect(setItemSpy).toHaveBeenCalledWith('token', 'abc123');
-    expect(router.navigate).toHaveBeenCalledWith(['/tabs/explore']);
+    expect(router.navigate).toHaveBeenCalledWith(['/tabs/welcome']);
   }));
 
   it('should show alert on login failure', waitForAsync(async () => {

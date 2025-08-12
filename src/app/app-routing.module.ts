@@ -11,10 +11,10 @@ const routes: Routes = [
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
-  {
-    path: 'cities',
-    loadChildren: () => import('./pages/cities/cities.module').then( m => m.CitiesPageModule)
-  },
+  // {
+  //   path: 'cities',
+  //   loadChildren: () => import('./pages/cities/cities.module').then( m => m.CitiesPageModule) FEATURES IN PROGRESS
+  // },
   {
     path: 'my-travels',
     loadChildren: () => import('./pages/my-trips/my-trips.module').then( m => m.MyTripsPageModule)
@@ -24,12 +24,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/my-trip-details/my-trip-details.module').then( m => m.MyTripDetailsPageModule)
   },
   {
-    path: 'my-trip-details',
-    loadChildren: () => import('./pages/my-trip-details/my-trip-details.module').then( m => m.MyTripDetailsPageModule)
-  },
-  {
     path: 'add-trip',
     loadChildren: () => import('./pages/add-trip/add-trip.module').then( m => m.AddTripPageModule)
+  },
+  {
+    path: 'welcome',
+    loadChildren: () => import('./pages/welcome/welcome.module').then( m => m.WelcomePageModule)
   },
 
 

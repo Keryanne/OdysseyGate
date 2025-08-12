@@ -35,9 +35,9 @@ describe('TabsPage', () => {
   });
 
   it('should update selectedTab on NavigationEnd event', () => {
-    const event = new NavigationEnd(1, '/tabs/explore', '/tabs/explore');
+    const event = new NavigationEnd(1, '/tabs/welcome', '/tabs/welcome');
     routerEvents$.next(event);
 
-    expect(component.selectedTab).toBe('explore');
+    expect(component.selectedTab).toBe('welcome');
   });
 });

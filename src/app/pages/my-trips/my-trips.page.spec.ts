@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { PixabayService } from 'src/app/services/pixabay.service';
 import { TripsService } from 'src/app/services/trips.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 describe('MyTripsPage', () => {
   let component: MyTripsPage;
@@ -39,6 +40,12 @@ describe('MyTripsPage', () => {
           provide: Router,
           useValue: {
             navigate: jest.fn()
+          }
+        },
+        {
+          provide: AuthService,
+          useValue: {
+            isLoggedIn: jest.fn().mockReturnValue(true),
           }
         }
       ]

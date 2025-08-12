@@ -12,7 +12,7 @@ const routes: Routes = [
     children: [
       {
         path: 'explore',
-        loadChildren: () => import('../explore/explore.module').then(m => m.ExplorePageModule)
+        loadChildren: () => import('../explore/explore.module').then(m => m.ExplorePageModule) //FEATURES IN PROGRESS
       },
       {
         path: 'profile',
@@ -35,10 +35,10 @@ const routes: Routes = [
         path: 'add-location',
         loadChildren: () => import('../add-location/add-location.module').then( m => m.AddLocationPageModule)
       },
-      {
-        path: 'cities/:code',
-        loadChildren: () => import('../pages/cities/cities.module').then( m => m.CitiesPageModule)
-      },
+      // {
+      //   path: 'cities/:code',
+      //   loadChildren: () => import('../pages/cities/cities.module').then( m => m.CitiesPageModule) FEATURES IN PROGRESS
+      // },
       {
         path: 'trip-details/:id',
         loadChildren: () => import('../pages/my-trip-details/my-trip-details.module').then( m => m.MyTripDetailsPageModule)
@@ -47,9 +47,13 @@ const routes: Routes = [
         path: 'add-trip',
         loadChildren: () => import('../pages/add-trip/add-trip.module').then( m => m.AddTripPageModule)
       },
+       {
+        path: 'welcome',
+        loadChildren: () => import('../pages/welcome/welcome.module').then( m => m.WelcomePageModule)
+      },
       {
         path: '',
-        redirectTo: '/tabs/explore',
+        redirectTo: '/tabs/welcome',
         pathMatch: 'full'
       }
     ]
