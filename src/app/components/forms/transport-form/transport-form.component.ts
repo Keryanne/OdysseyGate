@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Transport } from 'src/app/models/transport.model';
 import { IonicModule } from "@ionic/angular";
 import { DatePipe } from '@angular/common';
-import { TripsService } from 'src/app/services/trips.service';
 
 @Component({
   selector: 'app-transport-form',
@@ -26,7 +25,7 @@ export class TransportFormComponent implements OnInit {
   showTransportStartDatePicker = false;
   showTransportEndDatePicker = false;
 
-  constructor(private fb: FormBuilder, private tripsService: TripsService) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -43,7 +42,7 @@ export class TransportFormComponent implements OnInit {
     this.transportEndDate = this.form.value.transportEndDate;
 
      if (this.mode === 'full') {
-      this.form.valueChanges.subscribe((value: Transport) => {
+      this.form.valueChanges.subscribe((value) => {
         if (this.form.valid) {
           this.formSubmitted.emit(value);
         }
@@ -65,9 +64,9 @@ export class TransportFormComponent implements OnInit {
     if (this.form.valid) {
       this.formSubmitted.emit(this.form.value);
 
-      if (this.mode === 'single') {
+      // if (this.mode === 'single') {
         // this.tripsService.addTransportToVoyage(this.tripId, this.form.value).subscribe(...)
-      }
+      // }
     }
   }
 }

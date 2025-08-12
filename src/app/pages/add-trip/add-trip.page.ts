@@ -103,33 +103,30 @@ export class AddTripPage implements OnDestroy {
   
   submitForm() {
     if (this.isStep1Valid()) {
-      console.log('Formulaire valide et prêt à être envoyé :', this.form.value);
       const formValue = this.form.value;
 
-      const get = (obj: any, key: string) => (obj && obj[key] !== undefined && obj[key] !== null ? obj[key] : '');
+      const payload = {
+        destination: formValue.destination ?? '',
+        dateDepart: formValue.startDate ?? '',
+        dateArrivee: formValue.endDate ?? '',
+        nombreVoyageurs: formValue.people ?? 1,
+        villeDepart: formValue.departureCity ?? '',
+        imageUrl: 'https://example.com/image.jpg',
+        transports: this.collectedData.transport ?? {},
+        logements: this.collectedData.logement ?? {},
+        activites: this.collectedData.activite ?? {}
+      };
 
-    const payload = {
-      destination: formValue.destination ?? '',
-      dateDepart: formValue.startDate ?? '',
-      dateArrivee: formValue.endDate ?? '',
-      nombreVoyageurs: formValue.people ?? 1,
-      villeDepart: formValue.departureCity ?? '',
-      imageUrl: 'https://example.com/image.jpg',
-      transports: this.collectedData.transport,
-      logements: this.collectedData.logement,
-      activites: this.collectedData.activites
-    };
-
-    this.tripsService.createVoyage(payload).subscribe({
-      next: () => {
-        console.log('Voyage créé avec succès !');
-        this.resetForm();
-        this.router.navigate(['/tabs/my-trips']);
-      },
-      error: (err) => {
-        console.error('Erreur lors de la création du voyage :', err);
-      }
-    });
+      this.tripsService.createVoyage(payload).subscribe({
+        next: () => {
+          console.log('Voyage créé avec succès !');
+          this.resetForm();
+          this.router.navigate(['/tabs/my-trips']);
+        },
+        error: (err) => {
+          console.error('Erreur lors de la création du voyage :', err);
+        }
+      });
     } else {
       console.log('Champs obligatoires manquants');
     }
