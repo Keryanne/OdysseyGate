@@ -9,6 +9,9 @@ import {
 } from '@angular/animations';
 import { TripsService } from 'src/app/services/trips.service';
 import { Router } from '@angular/router';
+import { Transport } from 'src/app/models/transport.model';
+import { Logement } from 'src/app/models/logement.model';
+import { Activity } from 'src/app/models/activity.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +36,7 @@ import { Router } from '@angular/router';
 export class AddTripPage implements OnDestroy {
 
   step = 1;
-
+  collectedData: any = {};
   form: FormGroup;
 
   durations = [
@@ -54,27 +57,15 @@ export class AddTripPage implements OnDestroy {
       people: ['', Validators.min(1)],
       departureCity: ['', Validators.required],
 
-      transportType: [''],
-      transportNumber: [''],
-      transportCompagnie: [''],
-      transportStartDate: [''],
-      transportEndDate: [''],
-      // duration: [''],
-      // transportFile: [''],
-      transportDeparture: [''],
-      transportDestination: [''],
-
-      hotelName: [''],
-      // hotelStartDate: [''],
-      // hotelEndDate: [''],
-      // hotelFile: [''],
-      hotelAdress: [''],
-
       activityName: [''],
-      // activityDate: [''],
       activityLocation: [''],
-      // activityFile: [''],
     });
+
+     this.collectedData = {
+      transport: {},
+      logement: {},
+      activite: {}
+    };
     
   }
 
@@ -88,21 +79,9 @@ export class AddTripPage implements OnDestroy {
 
   startDate: string | null = '';
   endDate: string | null = '';
-  hotelStartDate: string | null = '';
-  hotelEndDate: string | null = '';
-  transportStartDate: string | null = '';
-  transportEndDate: string | null = '';
-
-  activityDate: string | null = '';
 
   showStartPicker = false;
   showEndPicker = false;
-  showTransportStartDatePicker = false;
-  showTransportEndDatePicker = false;
-
-  showHotelStartDatePicker = false;
-  showHotelEndDatePicker = false;
-  showActivityDatePicker = false;
 
   onStartDateChange(event: any) {
     this.startDate = event.detail.value;
@@ -112,31 +91,6 @@ export class AddTripPage implements OnDestroy {
   onEndDateChange(event: any) {
     this.endDate = event.detail.value;
     this.form.patchValue({ endDate: this.endDate });
-  }
-
-  onTransportStartDateChange(event: any) {
-    this.transportStartDate = event.detail.value;
-    this.form.patchValue({ transportDate: this.transportStartDate });
-  }
-
-   onTransportEndDateChange(event: any) {
-    this.transportEndDate = event.detail.value;
-    this.form.patchValue({ transportDate: this.transportEndDate });
-  }
-
-  onHotelStartDateChange(event: any) {
-    this.hotelStartDate = event.detail.value;
-    this.form.patchValue({ hotelStartDate: this.hotelStartDate });
-  }
-
-  onHotelEndDateChange(event: any) {
-    this.hotelEndDate = event.detail.value;
-    this.form.patchValue({ hotelEndDate: this.hotelEndDate });
-  }
-
-  onActivityDateChange(event: any) {
-    this.activityDate = event.detail.value;
-    this.form.patchValue({ activityDate: this.activityDate });
   }
   
   isStep1Valid(): boolean {
@@ -149,56 +103,30 @@ export class AddTripPage implements OnDestroy {
   
   submitForm() {
     if (this.isStep1Valid()) {
-      console.log('Formulaire valide et prêt à être envoyé :', this.form.value);
       const formValue = this.form.value;
 
-    const payload = {
-      destination: formValue.destination,
-      dateDepart: formValue.startDate,
-      dateArrivee: formValue.endDate,
-      nombreVoyageurs: formValue.people,
-      villeDepart: formValue.departureCity, 
-      imageUrl: 'https://example.com/image.jpg', // à remplacer plus tard par Pixabay ou upload
+      const payload = {
+        destination: formValue.destination ?? '',
+        dateDepart: formValue.startDate ?? '',
+        dateArrivee: formValue.endDate ?? '',
+        nombreVoyageurs: formValue.people ?? 1,
+        villeDepart: formValue.departureCity ?? '',
+        imageUrl: 'https://example.com/image.jpg',
+        transports: this.collectedData.transport ?? {},
+        logements: this.collectedData.logement ?? {},
+        activites: this.collectedData.activite ?? {}
+      };
 
-      transport: {
-        type: formValue.transportType,
-        numero: formValue.transportNumber,
-        compagnie: formValue.transportCompagnie,
-        dateDepart: formValue.transportStartDate,
-        dateArrivee: formValue.transportEndDate,
-        depart: formValue.transportDeparture,
-        arrivee: formValue.transportDestination
-        // duree: formValue.duration,
-        // fichier: formValue.transportFile
-      },
-
-      logement: {
-        nom: formValue.hotelName,
-        adresse: formValue.hotelAdress,
-        // dateDebut: formValue.hotelStartDate,
-        // dateFin: formValue.hotelEndDate,
-        // fichier: formValue.hotelFile
-      },
-
-      activite: {
-        // nom: formValue.activityName,
-        // date: formValue.activityDate,
-        description: formValue.activityName,
-        lieu: formValue.activityLocation,
-        // fichier: formValue.activityFile
-      }
-    };
-
-    this.tripsService.createVoyage(payload).subscribe({
-      next: () => {
-        console.log('Voyage créé avec succès !');
-        this.resetForm();
-        this.router.navigate(['/tabs/my-trips']);
-      },
-      error: (err) => {
-        console.error('Erreur lors de la création du voyage :', err);
-      }
-    });
+      this.tripsService.createVoyage(payload).subscribe({
+        next: () => {
+          console.log('Voyage créé avec succès !');
+          this.resetForm();
+          this.router.navigate(['/tabs/my-trips']);
+        },
+        error: (err) => {
+          console.error('Erreur lors de la création du voyage :', err);
+        }
+      });
     } else {
       console.log('Champs obligatoires manquants');
     }
@@ -209,10 +137,11 @@ export class AddTripPage implements OnDestroy {
     this.step = 1;
     this.startDate = null;
     this.endDate = null;
-    this.transportStartDate = null;
-    this.transportEndDate = null;
-    this.hotelStartDate = null ;
-    this.hotelEndDate = null;
+    this.collectedData = {
+      transport: {},
+      logement: {},
+      activite: {}
+    };
   }
 
   ionViewWillEnter() {
@@ -222,6 +151,17 @@ export class AddTripPage implements OnDestroy {
   ngOnDestroy() {
     this.resetForm();
   }
-  
+
+  onTransportStepSubmitted(transportData: Transport) {
+    this.collectedData.transport = transportData;
+  }
+
+  onLogementStepSubmitted(logementData: Logement) {
+    this.collectedData.logement = logementData;
+  }
+
+  onActivityStepSubmitted(activiteData: Activity) {
+    this.collectedData.activite = activiteData;
+  }
 
 }

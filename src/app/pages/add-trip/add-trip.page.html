@@ -78,195 +78,32 @@
 
   <!-- Étape 2 : Transports -->
    @if (step === 2) {
-    <div class="step-container" @stepAnimation>
-      <div class="step-header">
-        <div class="step-icon">
-          <ion-icon name="airplane" class="icon"></ion-icon>
-        </div>
-        <div class="step-title">
-          <p>Étape 2/4  </p>
-          <h2>Transport</h2>
-        </div>
+     <div class="step-container" @stepAnimation>
+      <app-transport-form
+      [mode]="'full'"
+      (formSubmitted)="onTransportStepSubmitted($event)">
+      </app-transport-form>
     </div>
-      <form [formGroup]="form" class="form">
-        <div class="form-group">
-          <ion-label position="stacked">Type</ion-label>
-          <ion-select formControlName="transportType" label="Type">
-            <ion-select-option value="avion">Avion</ion-select-option>
-            <ion-select-option value="train">Train</ion-select-option>
-          </ion-select>
-        </div>
-        <div class="form-group">
-          <ion-item lines="none" button (click)="showTransportStartDatePicker = true">
-            <ion-label>Date et heure de départ</ion-label>
-            <ion-text>{{ transportStartDate ? (transportStartDate | date: 'EEEE, d MMM yyyy HH:mm') : 'Sélectionner' }}</ion-text>
-          </ion-item>
-        </div>
-        <div class="form-group">
-          <ion-item lines="none" button (click)="showTransportEndDatePicker = true">
-            <ion-label>Date et heure d'arrivé</ion-label>
-            <ion-text>{{ transportEndDate ? (transportEndDate | date: 'EEEE, d MMM yyyy HH:mm') : 'Sélectionner' }}</ion-text>
-          </ion-item>
-        </div>
-        <!-- <div class="form-group">
-          <ion-label position="stacked">Durée </ion-label>
-          <ion-select formControlName="duration" interface="popover" placeholder="Sélectionner une durée">
-            <ion-select-option *ngFor="let d of durations" [value]="d.value">
-              {{ d.label }}
-            </ion-select-option>
-          </ion-select>
-        </div> -->
-        <!-- <div class="form-group">
-          <ion-label position="stacked">Fichier</ion-label>
-          <ion-input type="file" formControlName="transportFile"></ion-input>
-        </div> -->
-      </form>
-    </div>
-    <ion-modal [isOpen]="showTransportStartDatePicker" (ionModalDidDismiss)="showTransportStartDatePicker = false">
-      <ng-template>
-        <ion-content class="ion-padding">
-          <ion-datetime
-            [presentation]="'date-time'"
-            [value]="transportStartDate"
-            (ionChange)="onTransportStartDateChange($event)"
-            locale="fr-FR"
-          ></ion-datetime>
-          <ion-button expand="full" (click)="showTransportStartDatePicker = false">OK</ion-button>
-        </ion-content>
-      </ng-template>
-    </ion-modal>
-    <ion-modal [isOpen]="showTransportEndDatePicker" (ionModalDidDismiss)="showTransportEndDatePicker = false">
-      <ng-template>
-        <ion-content class="ion-padding">
-          <ion-datetime
-            [presentation]="'date-time'"
-            [value]="transportEndDate"
-            (ionChange)="onTransportEndDateChange($event)"
-            locale="fr-FR"
-          ></ion-datetime>
-          <ion-button expand="full" (click)="showTransportEndDatePicker = false">OK</ion-button>
-        </ion-content>
-      </ng-template>
-    </ion-modal>
    }
 
    <!-- Étape 3 : Logements -->
    @if (step === 3) {
     <div class="step-container" @stepAnimation>
-      <div class="step-header">
-        <div class="step-icon">
-          <ion-icon name="business" class="icon"></ion-icon>
-        </div>
-        <div class="step-title">
-          <p>Étape 3/4  </p>
-          <h2>Logements</h2>
-        </div>
+     <app-logement-form 
+      [mode]="'full'"
+      (formSubmitted)="onLogementStepSubmitted($event)">
+    </app-logement-form>
     </div>
-      <form [formGroup]="form" class="form">
-        <div class="form-group">
-          <ion-label position="stacked">Nom</ion-label>
-          <ion-input formControlName="hotelName" fill="outline" required></ion-input>
-        </div>
-        <div class="form-group">
-          <ion-label position="stacked">Adresse</ion-label>
-          <ion-input formControlName="hotelAdress" fill="outline"></ion-input>
-        </div>
-        <!-- <div class="form-group">
-          <ion-item lines="none" button (click)="showHotelStartDatePicker = true">
-            <ion-label>De </ion-label>
-            <ion-text>{{ hotelStartDate ? (hotelStartDate | date: 'EEEE, d MMM yyyy HH:mm') : 'Sélectionner' }}</ion-text>
-          </ion-item>
-        </div>
-        <div class="form-group">
-          <ion-item lines="none" button (click)="showHotelEndDatePicker = true">
-            <ion-label>A </ion-label>
-            <ion-text>{{ hotelEndDate ? (hotelEndDate | date: 'EEEE, d MMM yyyy HH:mm') : 'Sélectionner' }}</ion-text>
-          </ion-item>
-        </div>
-        <div class="form-group">
-          <ion-label position="stacked">Fichier</ion-label>
-          <ion-input type="file" formControlName="hotelFile"></ion-input>
-        </div> -->
-
-      </form>
-    </div>
-     <!-- Modale de date -->
-     <ion-modal [isOpen]="showHotelStartDatePicker" (ionModalDidDismiss)="showHotelStartDatePicker = false">
-      <ng-template>
-        <ion-content class="ion-padding">
-          <ion-datetime
-            [presentation]="'date-time'"
-            [value]="hotelStartDate"
-            (ionChange)="onHotelStartDateChange($event)"
-            locale="fr-FR"
-          ></ion-datetime>
-          <ion-button expand="full" (click)="showHotelStartDatePicker = false">OK</ion-button>
-        </ion-content>
-      </ng-template>
-    </ion-modal>
-
-    <ion-modal [isOpen]="showHotelEndDatePicker" (ionModalDidDismiss)="showHotelEndDatePicker = false">
-      <ng-template>
-        <ion-content class="ion-padding">
-          <ion-datetime
-            [presentation]="'date-time'"
-            [value]="hotelEndDate"
-            (ionChange)="onHotelEndDateChange($event)"
-            locale="fr-FR"
-          ></ion-datetime>
-          <ion-button expand="full" (click)="showHotelEndDatePicker = false">OK</ion-button>
-        </ion-content>
-      </ng-template>
-    </ion-modal>
-   }
+    }
 
     <!-- Étape 3 : Activités -->
     @if (step === 4) {
       <div class="step-container" @stepAnimation>
-        <div class="step-header">
-          <div class="step-icon">
-            <ion-icon name="bicycle" class="icon"></ion-icon>
-          </div>
-          <div class="step-title">
-            <p>Étape 4/4  </p>
-            <h2>Activités</h2>
-          </div>
+        <app-activity-form 
+          [mode]="'full'"
+          (formSubmitted)="onActivityStepSubmitted($event)">
+        </app-activity-form>
       </div>
-        <form [formGroup]="form" class="form">
-          <div class="form-group">
-            <ion-label position="stacked">Nom</ion-label>
-            <ion-input formControlName="activityName" fill="outline" required></ion-input>
-          </div>
-          <!-- <div class="form-group">
-            <ion-item lines="none" button (click)="showActivityDatePicker = true">
-              <ion-label>Date </ion-label>
-              <ion-text>{{ activityDate ? (activityDate | date: 'EEEE, d MMM yyyy HH:mm') : 'Sélectionner' }}</ion-text>
-            </ion-item>
-          </div> -->
-          <div class="form-group">
-            <ion-label position="stacked">Lieu</ion-label>
-            <ion-input formControlName="activityLocation" fill="outline" required></ion-input>
-          </div>
-          <!-- <div class="form-group">
-            <ion-label position="stacked">Fichier</ion-label>
-            <ion-input type="file" formControlName="activityFile"></ion-input>
-          </div> -->
-        </form>
-      </div>
-       <!-- Modale de date -->
-       <ion-modal [isOpen]="showActivityDatePicker" (ionModalDidDismiss)="showActivityDatePicker = false">
-        <ng-template>
-          <ion-content class="ion-padding">
-            <ion-datetime
-              [presentation]="'date-time'"
-              [value]="activityDate"
-              (ionChange)="onActivityDateChange($event)"
-              locale="fr-FR"
-            ></ion-datetime>
-            <ion-button expand="full" (click)="showActivityDatePicker = false">OK</ion-button>
-          </ion-content>
-        </ng-template>
-      </ion-modal>
      }
 
   <!-- Boutons bas -->
