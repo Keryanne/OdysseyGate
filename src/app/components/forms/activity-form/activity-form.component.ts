@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from "@ionic/angular";
 import { Activity } from 'src/app/models/activity.model';
 
@@ -12,10 +12,10 @@ import { Activity } from 'src/app/models/activity.model';
 })
 export class ActivityFormComponent implements OnInit {
   @Input() mode: 'full' | 'single' = 'full';
-  @Input() existingActivity?: Activity;
+  @Input() existingActivities?: Activity[] = [];
   @Input() tripId?: number;
 
-  @Output() formSubmitted = new EventEmitter<Activity>();
+  @Output() formSubmitted = new EventEmitter<Activity[]>();
 
   form!: FormGroup;
 
@@ -23,22 +23,35 @@ export class ActivityFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      activityName: [this.existingActivity?.description || ''],
-      activityLocation: [this.existingActivity?.lieu || ''],
+      activities: this.fb.array([])
     });
 
-    if (this.mode === 'full') {
-      this.form.valueChanges.subscribe((value: Activity) => {
-        if (this.form.valid) {
-          this.formSubmitted.emit(value);
-        }
-      });
+    // pré-remplir avec une activité existante
+    if (this.existingActivities && this.existingActivities.length > 0) {
+      this.existingActivities.forEach(activity => this.addActivity(activity));
+    } else {
+      this.addActivity(); // Ajoute un bloc vide au départ
     }
+  }
+
+  get activities(): FormArray {
+    return this.form.get('activities') as FormArray;
+  }
+
+  addActivity(data?: Partial<Activity>) {
+    this.activities.push(this.fb.group({
+      description: [data?.description || ''],
+      lieu: [data?.lieu || ''],
+    }));
+  }
+
+  removeActivity(index: number) {
+    this.activities.removeAt(index);
   }
 
   submit() {
     if (this.form.valid) {
-      this.formSubmitted.emit(this.form.value);
+      this.formSubmitted.emit(this.form.value.activities);
     }
   }
 }

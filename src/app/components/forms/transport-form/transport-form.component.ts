@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { Transport } from 'src/app/models/transport.model';
 import { IonicModule } from "@ionic/angular";
 import { DatePipe } from '@angular/common';
@@ -13,60 +13,62 @@ import { DatePipe } from '@angular/common';
 })
 export class TransportFormComponent implements OnInit {
   @Input() mode: 'full' | 'single' = 'full';
-  @Input() existingTransport?: Transport;
+  @Input() existingTransports?: Transport[] = [];
   @Input() tripId?: number;
 
-  @Output() formSubmitted = new EventEmitter<Transport>();
+  @Output() formSubmitted = new EventEmitter<Transport[]>();
 
   form!: FormGroup;
-  transportStartDate?: string;
-  transportEndDate?: string;
 
-  showTransportStartDatePicker = false;
-  showTransportEndDatePicker = false;
+  showTransportStartDatePicker: number | null = null;
+  showTransportEndDatePicker: number | null = null;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      transportType: [this.existingTransport?.type || ''],
-      transportNumber: [this.existingTransport?.numero || ''],
-      transportCompagnie: [this.existingTransport?.compagnie || ''],
-      transportStartDate: [this.existingTransport?.dateDepart || ''],
-      transportEndDate: [this.existingTransport?.dateArrivee || ''],
-      transportDeparture: [this.existingTransport?.depart || ''],
-      transportDestination: [this.existingTransport?.arrivee || ''],
+      transports: this.fb.array([])
     });
 
-    this.transportStartDate = this.form.value.transportStartDate;
-    this.transportEndDate = this.form.value.transportEndDate;
-
-     if (this.mode === 'full') {
-      this.form.valueChanges.subscribe((value) => {
-        if (this.form.valid) {
-          this.formSubmitted.emit(value);
-        }
-    });
-  }
+    // pré-remplir avec un transport existant
+    if (this.existingTransports && this.existingTransports.length > 0) {
+      this.existingTransports.forEach(t => this.addTransport(t));
+    } else {
+      this.addTransport();
+    }
   }
 
-  onTransportStartDateChange(event: any) {
-    this.transportStartDate = event.detail.value;
-    this.form.patchValue({ transportStartDate: this.transportStartDate });
+  get transports(): FormArray {
+    return this.form.get('transports') as FormArray;
   }
 
-   onTransportEndDateChange(event: any) {
-    this.transportEndDate = event.detail.value;
-    this.form.patchValue({ transportEndDate: this.transportEndDate });
+  addTransport(data?: Partial<Transport>) {
+    this.transports.push(this.fb.group({
+      type: [data?.type || ''],
+      numero: [data?.numero || ''],
+      compagnie: [data?.compagnie || ''],
+      dateDepart: [data?.dateDepart || ''],
+      dateArrivee: [data?.dateArrivee || ''],
+      depart: [data?.depart || ''],
+      arrivee: [data?.arrivee || ''],
+    }));
+  }
+
+  removeTransport(index: number) {
+    this.transports.removeAt(index);
+  }
+
+  onTransportStartDateChange(event: any, index: number) {
+    this.transports.at(index).patchValue({ dateDepart: event.detail.value });
+  }
+
+  onTransportEndDateChange(event: any, index: number) {
+    this.transports.at(index).patchValue({ dateArrivee: event.detail.value });
   }
 
   submit() {
     if (this.form.valid) {
-      this.formSubmitted.emit(this.form.value);
-
-      // if (this.mode === 'single') {
-        // this.tripsService.addTransportToVoyage(this.tripId, this.form.value).subscribe(...)
-      // }
+      this.formSubmitted.emit(this.form.value.transports);
     }
   }
 }
