@@ -46,6 +46,13 @@
       justify-content: space-between;
     }
 
+    .icon-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 4px;
+    }
+
     .file {
       display: flex;
       flex-direction: row;

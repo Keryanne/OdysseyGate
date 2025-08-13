@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { Transport } from 'src/app/models/transport.model';
-import { IonicModule } from "@ionic/angular";
+import { IonicModule, ModalController } from "@ionic/angular";
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -15,6 +15,7 @@ export class TransportFormComponent implements OnInit {
   @Input() mode: 'full' | 'single' = 'full';
   @Input() existingTransports?: Transport[] = [];
   @Input() tripId?: number;
+  @Input() isUpdate?: boolean = false;
 
   @Output() formSubmitted = new EventEmitter<Transport[]>();
 
@@ -23,7 +24,7 @@ export class TransportFormComponent implements OnInit {
   showTransportStartDatePicker: number | null = null;
   showTransportEndDatePicker: number | null = null;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private modalController: ModalController) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -43,15 +44,22 @@ export class TransportFormComponent implements OnInit {
   }
 
   addTransport(data?: Partial<Transport>) {
-    this.transports.push(this.fb.group({
+    const groupConfig: any = {
       type: [data?.type || ''],
       numero: [data?.numero || ''],
       compagnie: [data?.compagnie || ''],
-      dateDepart: [data?.dateDepart || ''],
-      dateArrivee: [data?.dateArrivee || ''],
+      dateDepart: [data?.dateDepart || null],
+      dateArrivee: [data?.dateArrivee || null],
       depart: [data?.depart || ''],
       arrivee: [data?.arrivee || ''],
-    }));
+    };
+
+    // Ajoute l'id uniquement en mode update et si présent
+    if (this.isUpdate && data?.id !== undefined) {
+      groupConfig.id = [data.id];
+    }
+
+    this.transports.push(this.fb.group(groupConfig));
   }
 
   removeTransport(index: number) {
@@ -67,8 +75,17 @@ export class TransportFormComponent implements OnInit {
   }
 
   submit() {
-    if (this.form.valid) {
+    if (this.form.valid && this.mode === 'full' && !this.isUpdate) {
       this.formSubmitted.emit(this.form.value.transports);
+    }
+    if (this.form.valid && this.mode === 'single') {
+      if (this.isUpdate) {
+        // Envoie le transport à mettre à jour (avec id)
+        console.log('Mise à jour du transport :', this.form.value.transports);
+        this.modalController.dismiss({ update: true, transports: this.form.value.transports });
+      } else {
+        this.modalController.dismiss({ update: false, transports: this.form.value.transports });
+      }
     }
   }
 }

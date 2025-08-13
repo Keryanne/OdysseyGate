@@ -89,8 +89,13 @@
     </div>
   }
   </ng-container>
-  <ion-button expand="block" color="primary" (click)="addTransport()">
-    <ion-icon name="add"></ion-icon>
-    Ajouter un transport
+  @if (!isUpdate) {
+    <ion-button expand="block" color="primary" (click)="addTransport()">
+      <ion-icon name="add"></ion-icon>
+      Ajouter un transport
+    </ion-button>
+  }
+  <ion-button expand="block" color="primary" (click)="submit()">
+    Valider
   </ion-button>
 </form>
