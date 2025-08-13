@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from "@ionic/angular";
 import { Logement } from 'src/app/models/logement.model';
 
@@ -12,10 +12,10 @@ import { Logement } from 'src/app/models/logement.model';
 })
 export class LogementFormComponent implements OnInit {
   @Input() mode: 'full' | 'single' = 'full';
-  @Input() existingLogement?: Logement;
+  @Input() existingLogements?: Logement[] = [];
   @Input() tripId?: number;
 
-  @Output() formSubmitted = new EventEmitter<Logement>();
+  @Output() formSubmitted = new EventEmitter<Logement[]>();
 
   form!: FormGroup;
 
@@ -23,22 +23,35 @@ export class LogementFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      hotelName: [this.existingLogement?.nom || ''],
-      hotelAdress: [this.existingLogement?.adress || ''],
+      logements: this.fb.array([])
     });
 
-    if (this.mode === 'full') {
-      this.form.valueChanges.subscribe((value: Logement) => {
-        if (this.form.valid) {
-          this.formSubmitted.emit(value);
-        }
-      });
+    // pré-remplir avec un logement existant
+    if (this.existingLogements && this.existingLogements.length > 0) {
+      this.existingLogements.forEach(logement => this.addLogement(logement));
+    } else {
+      this.addLogement(); // Ajoute un bloc vide au départ
     }
+  }
+
+  get logements(): FormArray {
+    return this.form.get('logements') as FormArray;
+  }
+
+  addLogement(data?: Partial<Logement>) {
+    this.logements.push(this.fb.group({
+      nom: [data?.nom || ''],
+      adress: [data?.adress || ''],
+    }));
+  }
+
+  removeLogement(index: number) {
+    this.logements.removeAt(index);
   }
 
   submit() {
     if (this.form.valid) {
-      this.formSubmitted.emit(this.form.value);
+      this.formSubmitted.emit(this.form.value.logements);
     }
   }
 }

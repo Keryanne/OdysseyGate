@@ -12,6 +12,9 @@ import { Router } from '@angular/router';
 import { Transport } from 'src/app/models/transport.model';
 import { Logement } from 'src/app/models/logement.model';
 import { Activity } from 'src/app/models/activity.model';
+import { TransportFormComponent } from 'src/app/components/forms/transport-form/transport-form.component';
+import { LogementFormComponent } from 'src/app/components/forms/logement-form/logement-form.component';
+import { ActivityFormComponent } from 'src/app/components/forms/activity-form/activity-form.component';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +51,9 @@ export class AddTripPage implements OnDestroy {
     { label: '3 heures', value: '03:00' },
   ];
   
+  @ViewChild(TransportFormComponent) transportFormComponent!: TransportFormComponent;
+  @ViewChild(LogementFormComponent) logementFormComponent!: LogementFormComponent;
+  @ViewChild(ActivityFormComponent) activityFormComponent!: ActivityFormComponent;
 
   constructor(private fb: FormBuilder, private tripsService: TripsService, private router: Router) {
     this.form = this.fb.group({
@@ -56,20 +62,27 @@ export class AddTripPage implements OnDestroy {
       endDate: ['', Validators.required],
       people: ['', Validators.min(1)],
       departureCity: ['', Validators.required],
-
-      activityName: [''],
-      activityLocation: [''],
     });
 
      this.collectedData = {
-      transport: {},
-      logement: {},
-      activite: {}
+      transport: [],
+      logement: [],
+      activite: []
     };
     
   }
 
   nextStep() {
+    if (this.step === 2 && this.transportFormComponent) {
+      this.transportFormComponent.submit();
+    }
+    if (this.step === 3 && this.logementFormComponent) {
+      this.logementFormComponent.submit();
+    }
+    if (this.step === 4 && this.activityFormComponent) {
+      this.activityFormComponent.submit();
+    }
+    
     if (this.step < 4) this.step++;
   }
 
@@ -103,6 +116,16 @@ export class AddTripPage implements OnDestroy {
   
   submitForm() {
     if (this.isStep1Valid()) {
+      if (this.transportFormComponent) {
+        this.transportFormComponent.submit();
+      }
+      if (this.logementFormComponent) {
+        this.logementFormComponent.submit();
+      }
+      if (this.activityFormComponent) {
+        this.activityFormComponent.submit();
+      }
+
       const formValue = this.form.value;
 
       const payload = {
@@ -112,14 +135,14 @@ export class AddTripPage implements OnDestroy {
         nombreVoyageurs: formValue.people ?? 1,
         villeDepart: formValue.departureCity ?? '',
         imageUrl: 'https://example.com/image.jpg',
-        transports: this.collectedData.transport ?? {},
-        logements: this.collectedData.logement ?? {},
-        activites: this.collectedData.activite ?? {}
+        transports: this.collectedData.transport ?? [],
+        logements: this.collectedData.logement ?? [],
+        activites: this.collectedData.activite ?? []
       };
 
       this.tripsService.createVoyage(payload).subscribe({
         next: () => {
-          console.log('Voyage créé avec succès !');
+          console.log('Voyage créé avec succès ! ', payload);
           this.resetForm();
           this.router.navigate(['/tabs/my-trips']);
         },
@@ -138,9 +161,9 @@ export class AddTripPage implements OnDestroy {
     this.startDate = null;
     this.endDate = null;
     this.collectedData = {
-      transport: {},
-      logement: {},
-      activite: {}
+      transport: [],
+      logement: [],
+      activite: []
     };
   }
 
@@ -152,15 +175,17 @@ export class AddTripPage implements OnDestroy {
     this.resetForm();
   }
 
-  onTransportStepSubmitted(transportData: Transport) {
+  onTransportStepSubmitted(transportData: Transport[]) {
+    console.log('Transport data collected:', transportData);
     this.collectedData.transport = transportData;
   }
 
-  onLogementStepSubmitted(logementData: Logement) {
+  onLogementStepSubmitted(logementData: Logement[]) {
+    console.log('Logement data collected:', logementData);
     this.collectedData.logement = logementData;
   }
 
-  onActivityStepSubmitted(activiteData: Activity) {
+  onActivityStepSubmitted(activiteData: Activity[]) {
     this.collectedData.activite = activiteData;
   }
 

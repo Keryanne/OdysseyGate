@@ -1,24 +1,36 @@
- <div class="step-header">
-    <div class="step-icon">
-      <ion-icon name="business" class="icon"></ion-icon>
-    </div>
-    <div class="step-title">
-      <p>Étape 3/4  </p>
-      <h2>Logements</h2>
-    </div>
+<div class="step-header">
+  <div class="step-icon">
+    <ion-icon name="business" class="icon"></ion-icon>
+  </div>
+  <div class="step-title">
+    <p>Étape 3/4</p>
+    <h2>Logements</h2>
+  </div>
 </div>
 <form [formGroup]="form" class="form">
-  <div class="form-group">
-    <ion-label position="stacked">Nom</ion-label>
-      <ion-input formControlName="hotelName" fill="outline" required></ion-input>
-    </div>
-    <div class="form-group">
-      <ion-label position="stacked">Adresse</ion-label>
-    <ion-input formControlName="hotelAdress" fill="outline"></ion-input>
-  </div>
-  @if (mode === 'single') {
-    <ion-button expand="full" (click)="submit()" [disabled]="!form.valid">
-      Ajouter
-    </ion-button>
-  }
+  <ng-container formArrayName="logements">
+    @for (group of logements.controls; track $index; let i = $index) {
+      <div [formGroupName]="i" class="logement-block">
+        <div class="form-group">
+          <ion-label position="stacked">Nom</ion-label>
+          <ion-input formControlName="nom" fill="outline"></ion-input>
+        </div>
+        <div class="form-group">
+          <ion-label position="stacked">Adresse</ion-label>
+          <ion-input formControlName="adress" fill="outline"></ion-input>
+        </div>
+        @if (logements.length > 1) {
+          <ion-button color="danger" fill="clear" (click)="removeLogement(i)">
+            <ion-icon name="trash"></ion-icon>
+            Supprimer
+          </ion-button>
+        }
+        <hr>
+      </div>
+    }
+  </ng-container>
+  <ion-button expand="block" color="primary" (click)="addLogement()">
+    <ion-icon name="add"></ion-icon>
+    Ajouter un logement
+  </ion-button>
 </form>

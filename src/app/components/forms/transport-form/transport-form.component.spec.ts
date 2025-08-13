@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TransportFormComponent } from './transport-form.component';
-import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormArray, Validators } from '@angular/forms';
 import { Transport } from 'src/app/models/transport.model';
 
 describe('TransportFormComponent', () => {
@@ -22,124 +22,114 @@ describe('TransportFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize form with empty values by default', () => {
+  it('should initialize form with one empty transport by default', () => {
+    expect(component.transports.length).toBe(1);
     expect(component.form.value).toEqual({
-      transportType: '',
-      transportNumber: '',
-      transportCompagnie: '',
-      transportStartDate: '',
-      transportEndDate: '',
-      transportDeparture: '',
-      transportDestination: ''
+      transports: [{
+        type: '',
+        numero: '',
+        compagnie: '',
+        dateDepart: '',
+        dateArrivee: '',
+        depart: '',
+        arrivee: ''
+      }]
     });
   });
 
-  it('should initialize form with existingTransport values', () => {
-    const transport: Transport = {
-      type: 'Train',
-      numero: 'TGV123',
-      compagnie: 'SNCF',
-      dateDepart: '2025-01-01T10:00:00Z',
-      dateArrivee: '2025-01-01T12:00:00Z',
-      depart: 'Paris',
-      arrivee: 'Lyon'
-    };
-    component.existingTransport = transport;
+  it('should initialize form with existingTransports values', () => {
+    const transports: Transport[] = [
+      {
+        type: 'Train',
+        numero: 'TGV123',
+        compagnie: 'SNCF',
+        dateDepart: '2025-01-01T10:00:00Z',
+        dateArrivee: '2025-01-01T12:00:00Z',
+        depart: 'Paris',
+        arrivee: 'Lyon'
+      },
+      {
+        type: 'Bus',
+        numero: 'B456',
+        compagnie: 'BusComp',
+        dateDepart: '2025-01-02T08:00:00Z',
+        dateArrivee: '2025-01-02T10:00:00Z',
+        depart: 'Nice',
+        arrivee: 'Marseille'
+      }
+    ];
+    component.existingTransports = transports;
     component.ngOnInit();
-    expect(component.form.value).toEqual({
-      transportType: 'Train',
-      transportNumber: 'TGV123',
-      transportCompagnie: 'SNCF',
-      transportStartDate: '2025-01-01T10:00:00Z',
-      transportEndDate: '2025-01-01T12:00:00Z',
-      transportDeparture: 'Paris',
-      transportDestination: 'Lyon'
-    });
+    expect(component.transports.length).toBe(2);
+    expect(component.form.value.transports[0]).toEqual(transports[0]);
+    expect(component.form.value.transports[1]).toEqual(transports[1]);
   });
 
-  it('should patch transportStartDate on onTransportStartDateChange', () => {
+  it('should add a new transport block when addTransport is called', () => {
+    const initialLength = component.transports.length;
+    component.addTransport();
+    expect(component.transports.length).toBe(initialLength + 1);
+  });
+
+  it('should remove a transport block when removeTransport is called', () => {
+    component.addTransport();
+    const initialLength = component.transports.length;
+    component.removeTransport(0);
+    expect(component.transports.length).toBe(initialLength - 1);
+  });
+
+  it('should patch dateDepart on onTransportStartDateChange', () => {
     const event = { detail: { value: '2025-01-01T10:00:00Z' } };
-    component.onTransportStartDateChange(event);
-    expect(component.form.value.transportStartDate).toBe('2025-01-01T10:00:00Z');
-    expect(component.transportStartDate).toBe('2025-01-01T10:00:00Z');
+    component.onTransportStartDateChange(event, 0);
+    expect(component.transports.at(0).value.dateDepart).toBe('2025-01-01T10:00:00Z');
   });
 
-  it('should patch transportEndDate on onTransportEndDateChange', () => {
+  it('should patch dateArrivee on onTransportEndDateChange', () => {
     const event = { detail: { value: '2025-01-01T12:00:00Z' } };
-    component.onTransportEndDateChange(event);
-    expect(component.form.value.transportEndDate).toBe('2025-01-01T12:00:00Z');
-    expect(component.transportEndDate).toBe('2025-01-01T12:00:00Z');
+    component.onTransportEndDateChange(event, 0);
+    expect(component.transports.at(0).value.dateArrivee).toBe('2025-01-01T12:00:00Z');
   });
 
-  it('should emit formSubmitted on submit if form is valid', () => {
+  it('should emit formSubmitted with all transports on submit if form is valid', () => {
     jest.spyOn(component.formSubmitted, 'emit');
-    component.form.patchValue({
-      transportType: 'Bus',
-      transportNumber: 'B123',
-      transportCompagnie: 'BusComp',
-      transportStartDate: '2025-01-01T08:00:00Z',
-      transportEndDate: '2025-01-01T10:00:00Z',
-      transportDeparture: 'Nice',
-      transportDestination: 'Marseille'
+    component.transports.at(0).patchValue({
+      type: 'Bus',
+      numero: 'B123',
+      compagnie: 'BusComp',
+      dateDepart: '2025-01-01T08:00:00Z',
+      dateArrivee: '2025-01-01T10:00:00Z',
+      depart: 'Nice',
+      arrivee: 'Marseille'
+    });
+    component.addTransport({
+      type: 'Train',
+      numero: 'TGV456',
+      compagnie: 'SNCF',
+      dateDepart: '2025-01-02T10:00:00Z',
+      dateArrivee: '2025-01-02T12:00:00Z',
+      depart: 'Lyon',
+      arrivee: 'Paris'
+    });
+    component.transports.at(1).patchValue({
+      type: 'Train',
+      numero: 'TGV456',
+      compagnie: 'SNCF',
+      dateDepart: '2025-01-02T10:00:00Z',
+      dateArrivee: '2025-01-02T12:00:00Z',
+      depart: 'Lyon',
+      arrivee: 'Paris'
     });
     component.submit();
-    expect(component.formSubmitted.emit).toHaveBeenCalledWith(component.form.value);
-  });
-
- it('should not emit formSubmitted on submit if form is invalid', () => {
-  jest.spyOn(component.formSubmitted, 'emit');
-  component.form.get('transportType')?.setValidators([Validators.required]);
-  component.form.get('transportType')?.updateValueAndValidity();
-  component.form.patchValue({ transportType: '' });
-  component.form.updateValueAndValidity();
-
-  // Clear any emits from valueChanges
-  (component.formSubmitted.emit as jest.Mock).mockClear();
-
-  component.submit();
-  expect(component.formSubmitted.emit).not.toHaveBeenCalled();
-});
-
-  it('should emit valueChanges in full mode when form is valid', () => {
-    component.mode = 'full';
-    jest.spyOn(component.formSubmitted, 'emit');
-    component.ngOnInit();
-    component.form.patchValue({
-      transportType: 'Avion',
-      transportNumber: 'AF123',
-      transportCompagnie: 'Air France',
-      transportStartDate: '2025-01-01T08:00:00Z',
-      transportEndDate: '2025-01-01T10:00:00Z',
-      transportDeparture: 'Paris',
-      transportDestination: 'New York'
-    });
-    // Trigger valueChanges
-    component.form.updateValueAndValidity();
-    expect(component.formSubmitted.emit).toHaveBeenCalledWith(component.form.value);
-  });
-
-  it('should not emit valueChanges in full mode when form is invalid', () => {
-    component.mode = 'full';
-    jest.spyOn(component.formSubmitted, 'emit');
-    component.ngOnInit();
-
-    component.form.get('transportType')?.setValidators([Validators.required]);
-    component.form.get('transportType')?.updateValueAndValidity();
-    component.form.patchValue({ transportType: '' });
-    component.form.updateValueAndValidity();
-
-    (component.formSubmitted.emit as jest.Mock).mockClear();
-
-    component.form.patchValue({ transportType: '' });
-    expect(component.formSubmitted.emit).not.toHaveBeenCalled();
+    expect(component.formSubmitted.emit).toHaveBeenCalledWith(component.form.value.transports);
+    expect(component.form.value.transports.length).toBe(2);
   });
 
   it('should set showTransportStartDatePicker and showTransportEndDatePicker flags', () => {
-    component.showTransportStartDatePicker = false;
-    component.showTransportEndDatePicker = false;
-    component.showTransportStartDatePicker = true;
-    expect(component.showTransportStartDatePicker).toBe(true);
-    component.showTransportEndDatePicker = true;
-    expect(component.showTransportEndDatePicker).toBe(true);
+    component.showTransportStartDatePicker = null;
+    component.showTransportEndDatePicker = null;
+    component.showTransportStartDatePicker = 0;
+    expect(component.showTransportStartDatePicker).toBe(0);
+    component.showTransportEndDatePicker = 1;
+    expect(component.showTransportEndDatePicker).toBe(1);
   });
 });

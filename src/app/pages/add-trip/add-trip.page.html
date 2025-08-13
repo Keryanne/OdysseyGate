@@ -81,6 +81,7 @@
      <div class="step-container" @stepAnimation>
       <app-transport-form
       [mode]="'full'"
+      [existingTransports]="collectedData.transport"
       (formSubmitted)="onTransportStepSubmitted($event)">
       </app-transport-form>
     </div>
@@ -91,6 +92,7 @@
     <div class="step-container" @stepAnimation>
      <app-logement-form 
       [mode]="'full'"
+      [existingLogements]="collectedData.logement"
       (formSubmitted)="onLogementStepSubmitted($event)">
     </app-logement-form>
     </div>
@@ -101,6 +103,7 @@
       <div class="step-container" @stepAnimation>
         <app-activity-form 
           [mode]="'full'"
+          [existingActivities]="collectedData.activite"
           (formSubmitted)="onActivityStepSubmitted($event)">
         </app-activity-form>
       </div>

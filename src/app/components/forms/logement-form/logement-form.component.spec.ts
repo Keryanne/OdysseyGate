@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { LogementFormComponent } from './logement-form.component';
 import { Logement } from 'src/app/models/logement.model';
@@ -23,80 +23,63 @@ describe('LogementFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize form with empty values by default', () => {
+  it('should initialize form with one empty logement by default', () => {
+    expect(component.logements.length).toBe(1);
     expect(component.form.value).toEqual({
-      hotelName: '',
-      hotelAdress: ''
+      logements: [{
+        nom: '',
+        adress: ''
+      }]
     });
   });
 
-  it('should initialize form with existingLogement values', () => {
-    const logement: Logement = {
+  it('should initialize form with existingLogements values', () => {
+    const logements: Logement[] = [
+      { nom: 'Hotel Test', adress: '123 rue Test', voyageId: '' },
+      { nom: 'Hotel Deux', adress: '456 rue Deux', voyageId: '' }
+    ];
+    component.existingLogements = logements;
+    component.ngOnInit();
+    expect(component.logements.length).toBe(2);
+    expect(component.form.value.logements[0]).toEqual({
       nom: 'Hotel Test',
-      adress: '123 rue Test',
-      voyageId: ''
-    };
-    component.existingLogement = logement;
-    component.ngOnInit();
-    expect(component.form.value).toEqual({
-      hotelName: 'Hotel Test',
-      hotelAdress: '123 rue Test'
+      adress: '123 rue Test'
+    });
+    expect(component.form.value.logements[1]).toEqual({
+      nom: 'Hotel Deux',
+      adress: '456 rue Deux'
     });
   });
 
-  it('should emit formSubmitted on submit if form is valid', () => {
+  it('should add a new logement block when addLogement is called', () => {
+    const initialLength = component.logements.length;
+    component.addLogement();
+    expect(component.logements.length).toBe(initialLength + 1);
+  });
+
+  it('should remove a logement block when removeLogement is called', () => {
+    component.addLogement();
+    const initialLength = component.logements.length;
+    component.removeLogement(0);
+    expect(component.logements.length).toBe(initialLength - 1);
+  });
+
+  it('should emit formSubmitted with all logements on submit if form is valid', () => {
     jest.spyOn(component.formSubmitted, 'emit');
-    component.form.patchValue({
-      hotelName: 'Hotel ABC',
-      hotelAdress: '1 rue de Paris'
+    component.logements.at(0).patchValue({
+      nom: 'Hotel ABC',
+      adress: '1 rue de Paris'
+    });
+    component.addLogement({
+      nom: 'Hotel DEF',
+      adress: '2 rue DEF'
+    });
+    component.logements.at(1).patchValue({
+      nom: 'Hotel DEF',
+      adress: '2 rue DEF'
     });
     component.submit();
-    expect(component.formSubmitted.emit).toHaveBeenCalledWith(component.form.value);
-  });
-
-  it('should not emit formSubmitted on submit if form is invalid', () => {
-    jest.spyOn(component.formSubmitted, 'emit');
-    // Make form invalid by adding required validator for this test
-    component.form.get('hotelName')?.setValidators([Validators.required]);
-    component.form.get('hotelName')?.updateValueAndValidity();
-    component.form.patchValue({ hotelName: '' });
-    component.submit();
-    expect(component.formSubmitted.emit).not.toHaveBeenCalled();
-  });
-
-  it('should emit valueChanges in full mode when form is valid', () => {
-    component.mode = 'full';
-    jest.spyOn(component.formSubmitted, 'emit');
-    component.ngOnInit();
-    component.form.patchValue({
-      hotelName: 'Hotel DEF',
-      hotelAdress: '2 rue DEF'
-    });
-    component.form.updateValueAndValidity();
-    expect(component.formSubmitted.emit).toHaveBeenCalledWith(component.form.value);
-  });
-
-  it('should not emit valueChanges in full mode when form is invalid', () => {
-    component.mode = 'full';
-    jest.spyOn(component.formSubmitted, 'emit');
-    component.ngOnInit();
-    // Make form invalid by adding required validator for this test
-    component.form.get('hotelName')?.setValidators([Validators.required]);
-    component.form.get('hotelName')?.updateValueAndValidity();
-    component.form.patchValue({ hotelName: '' });
-    component.form.updateValueAndValidity();
-    expect(component.formSubmitted.emit).not.toHaveBeenCalled();
-  });
-
-  it('should not emit valueChanges in single mode', () => {
-    component.mode = 'single';
-    jest.spyOn(component.formSubmitted, 'emit');
-    component.ngOnInit();
-    component.form.patchValue({
-      hotelName: 'Hotel Single',
-      hotelAdress: '3 rue Single'
-    });
-    component.form.updateValueAndValidity();
-    expect(component.formSubmitted.emit).not.toHaveBeenCalled();
+    expect(component.formSubmitted.emit).toHaveBeenCalledWith(component.form.value.logements);
+    expect(component.form.value.logements.length).toBe(2);
   });
 });
