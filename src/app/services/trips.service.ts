@@ -31,5 +31,8 @@ export class TripsService {
   addTransport(voyageId: number, data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/transport`, { voyageId, ...data });
   }
-}
 
+  removeVoyage(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/voyages/${id}`);
+  }
+}

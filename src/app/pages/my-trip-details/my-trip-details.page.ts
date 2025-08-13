@@ -67,8 +67,15 @@ export class MyTripDetailsPage implements OnInit {
           cssClass: 'alert-delete-btn',
           handler: () => {
             // Action de suppression ici
-            console.log('Suppression confirmée');
-            this.router.navigate(['/tabs/my-trips']);
+            this.tripsService.removeVoyage(this.tripId).subscribe({
+              next: () => {
+                console.log('Suppression confirmée');
+                this.router.navigate(['/tabs/my-trips']);
+              },
+              error: (err) => {
+                console.error('Erreur lors de la suppression:', err);
+              }
+            });
           }
         }
       ],
