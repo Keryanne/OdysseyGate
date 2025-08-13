@@ -102,9 +102,9 @@ describe('AddTripPage', () => {
     expect(component.startDate).toBeNull();
     expect(component.endDate).toBeNull();
     expect(component.collectedData).toEqual({
-      transport: {},
-      logement: {},
-      activite: {}
+      transport: [],
+      logement: [],
+      activite: []
     });
   });
 
@@ -135,24 +135,33 @@ describe('AddTripPage', () => {
   });
 
   it('should collect transport data on onTransportStepSubmitted', () => {
-    const transportData = { type: 'Bus', numero: 'B123' };
+    const transportData = [
+      { type: 'Bus', numero: 'B123' },
+      { type: 'Train', numero: 'TGV456' }
+    ];
     component.onTransportStepSubmitted(transportData as any);
     expect(component.collectedData.transport).toEqual(transportData);
   });
 
   it('should collect logement data on onLogementStepSubmitted', () => {
-    const logementData = { nom: 'Hotel', adresse: 'Rue' };
+    const logementData = [
+      { nom: 'Hotel', adress: 'Rue' },
+      { nom: 'Auberge', adress: 'Place' }
+    ];
     component.onLogementStepSubmitted(logementData as any);
     expect(component.collectedData.logement).toEqual(logementData);
   });
 
   it('should collect activite data on onActivityStepSubmitted', () => {
-    const activiteData = { description: 'Visite', lieu: 'Paris' };
+    const activiteData = [
+      { description: 'Visite', lieu: 'Paris' },
+      { description: 'Randonnée', lieu: 'Alpes' }
+    ];
     component.onActivityStepSubmitted(activiteData as any);
     expect(component.collectedData.activite).toEqual(activiteData);
   });
 
-  it('should call tripsService.createVoyage and navigate on valid submit', () => {
+  it('should call tripsService.createVoyage and navigate on valid submit with arrays', () => {
     component.form.patchValue({
       destination: 'Madrid',
       startDate: '2025-10-01',
@@ -161,23 +170,29 @@ describe('AddTripPage', () => {
       departureCity: 'Valence'
     });
     component.collectedData = {
-      transport: {
-        transportType: 'Train',
-        transportNumber: 'TGV001',
-        transportCompagnie: 'SNCF',
-        transportStartDate: '2025-10-01',
-        transportEndDate: '2025-10-10',
-        transportDeparture: 'Valence',
-        transportDestination: 'Madrid'
-      },
-      logement: {
-        hotelName: 'Ibis',
-        hotelAdress: 'Rue centrale'
-      },
-      activite: {
-        activityName: 'Visite musée',
-        activityLocation: 'Centre-ville'
-      }
+      transport: [
+        {
+          type: 'Train',
+          numero: 'TGV001',
+          compagnie: 'SNCF',
+          dateDepart: '2025-10-01',
+          dateArrivee: '2025-10-10',
+          depart: 'Valence',
+          arrivee: 'Madrid'
+        }
+      ],
+      logement: [
+        {
+          nom: 'Ibis',
+          adress: 'Rue centrale'
+        }
+      ],
+      activite: [
+        {
+          description: 'Visite musée',
+          lieu: 'Centre-ville'
+        }
+      ]
     };
 
     component.submitForm();
@@ -189,23 +204,29 @@ describe('AddTripPage', () => {
         dateArrivee: '2025-10-10',
         nombreVoyageurs: 2,
         villeDepart: 'Valence',
-        transports: expect.objectContaining({
-          transportType: 'Train',
-          transportNumber: 'TGV001',
-          transportCompagnie: 'SNCF',
-          transportStartDate: '2025-10-01',
-          transportEndDate: '2025-10-10',
-          transportDeparture: 'Valence',
-          transportDestination: 'Madrid'
-        }),
-        logements: expect.objectContaining({
-          hotelName: 'Ibis',
-          hotelAdress: 'Rue centrale'
-        }),
-        activites: expect.objectContaining({
-          activityName: 'Visite musée',
-          activityLocation: 'Centre-ville'
-        })
+        transports: expect.arrayContaining([
+          expect.objectContaining({
+            type: 'Train',
+            numero: 'TGV001',
+            compagnie: 'SNCF',
+            dateDepart: '2025-10-01',
+            dateArrivee: '2025-10-10',
+            depart: 'Valence',
+            arrivee: 'Madrid'
+          })
+        ]),
+        logements: expect.arrayContaining([
+          expect.objectContaining({
+            nom: 'Ibis',
+            adress: 'Rue centrale'
+          })
+        ]),
+        activites: expect.arrayContaining([
+          expect.objectContaining({
+            description: 'Visite musée',
+            lieu: 'Centre-ville'
+          })
+        ])
       })
     );
 
@@ -247,7 +268,7 @@ describe('AddTripPage', () => {
     expect(routerMock.navigate).not.toHaveBeenCalled();
   });
 
-  it('should build payload with empty collectedData', () => {
+  it('should build payload with empty collectedData arrays', () => {
     component.form.patchValue({
       destination: 'Nice',
       startDate: '2025-12-01',
@@ -256,16 +277,16 @@ describe('AddTripPage', () => {
       departureCity: 'Marseille'
     });
     component.collectedData = {
-      transport: {},
-      logement: {},
-      activite: {}
+      transport: [],
+      logement: [],
+      activite: []
     };
     component.submitForm();
     expect(tripsServiceMock.createVoyage).toHaveBeenCalledWith(
       expect.objectContaining({
-        transports: {},
-        logements: {},
-        activites: {}
+        transports: [],
+        logements: [],
+        activites: []
       })
     );
   });

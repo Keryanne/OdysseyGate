@@ -62,15 +62,12 @@ export class AddTripPage implements OnDestroy {
       endDate: ['', Validators.required],
       people: ['', Validators.min(1)],
       departureCity: ['', Validators.required],
-
-      activityName: [''],
-      activityLocation: [''],
     });
 
      this.collectedData = {
       transport: [],
-      logement: {},
-      activite: {}
+      logement: [],
+      activite: []
     };
     
   }
