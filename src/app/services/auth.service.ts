@@ -20,18 +20,18 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/auth/register`, { nom: name, prenom: surname, email, password, confirmPassword });
   }
 
-  getUserIdFromToken(): number | null {
+  getUserIdFromToken(): number {
     const token = localStorage.getItem('token');
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
-        return payload.id || null;
+        return payload.id;
       } catch (error) {
         console.error('Error decoding token', error);
-        return null;
+        return 0;
       }
     }
-    return null;
+    return 0;
   }
 
   isLoggedIn(): boolean {
@@ -41,5 +41,13 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+  }
+
+  getUserById(id: number): any {
+    return this.http.get(`${this.apiUrl}/auth/user/${id}`);
+  }
+
+  getUser(): any {
+    return this.http.get(`${this.apiUrl}/auth/me`);
   }
 }

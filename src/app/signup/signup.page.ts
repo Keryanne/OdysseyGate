@@ -42,4 +42,8 @@ export class SignupPage {
       }
     });
   }
+
+  goToLogin() {
+    this.navController.navigateRoot(['/tabs/login']);
+  }
 }

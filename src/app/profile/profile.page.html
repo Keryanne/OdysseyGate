@@ -6,25 +6,29 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-button slot="primary" (click)="logout()" fill="clear" color="primary"><ion-icon slot="icon-only" name="log-out-outline"></ion-icon></ion-button>
-      <ion-title size="large">Mon profil</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="profile-page" [fullscreen]="true">
+  <div class="header-logo">
+    <img src="../../assets/images/logo_odyssey_gate_web_blanc.png" alt="Odyssey Gate Logo">
+  </div>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Nom Prénom</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p>Email : exempleexemple.fr</p>
-      <p>Mot de passe : ******</p>
-      <ion-button expand="full" (click)="navigateToAddLocation()">Ajouter une location</ion-button>
-      <ion-button expand="full" (click)="navigateToMyLocations()">Voir mes locations</ion-button>
-    </ion-card-content>
-    
-  </ion-card>
-
+  <div class="form profile-card">
+    <h2>Mon profil</h2>
+    <div class="profile-info">
+      <div class="form-group">
+        <ion-label position="stacked">Nom Prénom</ion-label>
+        <ion-text>{{ user.nom || 'Nom' }}</ion-text>
+        <ion-text>{{ user.prenom || 'Prénom' }}</ion-text>
+      </div>
+      <div class="form-group">
+        <ion-label position="stacked">Email</ion-label>
+        <ion-text>{{ user.email || 'exemple@exemple.fr' }}</ion-text>
+      </div>
+    </div>
+    <div class="profile-actions">
+      <ion-button fill="clear" color="primary" class="btn-clear" (click)="logout()">
+        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+        Déconnexion
+      </ion-button>
+    </div>
+  </div>
 </ion-content>
