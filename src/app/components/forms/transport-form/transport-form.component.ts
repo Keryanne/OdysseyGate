@@ -88,4 +88,8 @@ export class TransportFormComponent implements OnInit {
       }
     }
   }
+
+  cancel() {
+    this.modalController.dismiss();
+  }
 }

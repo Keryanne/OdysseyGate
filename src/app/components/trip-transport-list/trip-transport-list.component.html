@@ -14,6 +14,7 @@
           <div class="card">
             <div class="card-content">
               <div class="card-header">
+                <div class="card-row">
                 @if(transport.type) {
                   <ion-icon
                     [name]="
@@ -25,32 +26,53 @@
                     style="font-size: 2rem;"
                   ></ion-icon>
                 }
+                @if(transport.numero) {
+                  <h3>{{ transport.numero }}</h3>
+                } @else {
+                  <h3>Numéro</h3>
+                }
+                @if(transport.compagnie) {
+                  <h3>{{ transport.compagnie }}</h3>
+                } @else {
+                  <h3>Compagnie</h3>
+                }
+                </div>
                 <div class="card-row">
                   @if(transport.depart) {
                     <h4>{{ transport.depart }}</h4>
+                  } @else {
+                    <h4>Départ</h4>
                   }
                   @if(transport.depart && transport.arrivee) {
                     <ion-icon name="arrow-forward-outline"></ion-icon>
                   }
                   @if(transport.arrivee) {
                     <h4>{{ transport.arrivee }}</h4>
+                  } @else {
+                    <h4>Destination</h4>
                   }
                 </div>
               </div>
               <div class="card-sub-content">
                 <div class="card-row">
-                  @if(transport.dateDepart) {
-                    <div class="icon-row">
-                      <ion-icon name="calendar"></ion-icon>
-                      <h4>{{ transport.dateDepart | date:'dd/MM/yyyy' }}</h4>
-                    </div>
-                  }
-                  @if(transport.dateArrivee) {
-                    <div class="icon-row">
-                      <ion-icon name="calendar-number"></ion-icon>
-                      <p>{{ transport.dateArrivee | date:'dd/MM/yyyy' }}</p>
-                    </div>
-                  }
+                  <div class="icon-row">
+                    <ion-icon name="calendar"></ion-icon>
+                    @if(transport.dateDepart) {
+                    
+                      <h5>{{ transport.dateDepart | date:'dd/MM/yyyy' }}</h5>
+                    } @else {
+                      <h5>Date de départ</h5>
+                    }
+                  </div>
+                  <div class="icon-row">
+                    <ion-icon name="calendar-number"></ion-icon>
+                    @if(transport.dateArrivee) {
+                      <h5>{{ transport.dateArrivee | date:'dd/MM/yyyy' }}</h5>
+                    } @else {
+                      <h5>Date d'arrivée</h5>
+                    }
+                  </div>
+
                 </div>
               </div>
             </div>
