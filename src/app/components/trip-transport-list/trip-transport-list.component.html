@@ -1,7 +1,7 @@
 <div class="main-container">
     <div class="toolbar">
       <h1>Mes transports</h1>
-      <ion-button>
+      <ion-button (click)="openSingleTransportForm()">
         <ion-icon name="add"></ion-icon>
       </ion-button>
     </div>
@@ -10,34 +10,105 @@
       @if(transports && transports.length === 0) {
         <p>Aucun transport trouvé.</p>
       } @else {
-      <div class="card" *ngFor="let transport of transports">
-        <div class="card-content">
-          <div class="card-header">
-            <h3>{{ transport.type }}</h3>
-            <div class="card-row">
-              <h4>{{ transport.depart }}</h4>
-              <ion-icon name="arrow-forward-outline"></ion-icon>
-              <h4>{{ transport.arrivee }}</h4>
+        @for (transport of transports; track $index) {
+          <div class="card">
+            <div class="card-content">
+              <div class="card-header">
+                <div class="card-row">
+                @if(transport.type) {
+                  <ion-icon
+                    [name]="
+                      transport.type === 'avion' ? 'airplane' :
+                      transport.type === 'train' ? 'train' :
+                      transport.type === 'bateau' ? 'boat' :
+                      transport.type === 'bus' ? 'bus' : 'help-circle'
+                    "
+                    style="font-size: 2rem;"
+                  ></ion-icon>
+                }
+                @if(transport.numero) {
+                  <h3>{{ transport.numero }}</h3>
+                } @else {
+                  <h3>Numéro</h3>
+                }
+                @if(transport.compagnie) {
+                  <h3>{{ transport.compagnie }}</h3>
+                } @else {
+                  <h3>Compagnie</h3>
+                }
+                </div>
+                <div class="card-row">
+                  @if(transport.depart) {
+                    <h4>{{ transport.depart }}</h4>
+                  } @else {
+                    <h4>Départ</h4>
+                  }
+                  @if(transport.depart && transport.arrivee) {
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                  }
+                  @if(transport.arrivee) {
+                    <h4>{{ transport.arrivee }}</h4>
+                  } @else {
+                    <h4>Destination</h4>
+                  }
+                </div>
+              </div>
+              <div class="card-sub-content">
+                <div class="card-row">
+                  <div class="icon-row">
+                    <ion-icon name="calendar"></ion-icon>
+                    @if(transport.dateDepart) {
+                    
+                      <h5>{{ transport.dateDepart | date:'dd/MM/yyyy' }}</h5>
+                    } @else {
+                      <h5>Date de départ</h5>
+                    }
+                  </div>
+                  <div class="icon-row">
+                    <ion-icon name="calendar-number"></ion-icon>
+                    @if(transport.dateArrivee) {
+                      <h5>{{ transport.dateArrivee | date:'dd/MM/yyyy' }}</h5>
+                    } @else {
+                      <h5>Date d'arrivée</h5>
+                    }
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="card-actions">
+              <ion-button fill="clear" (click)="editTransport(transport.id!)">
+                <ion-icon name="pencil" class="icon"></ion-icon>
+              </ion-button>
+              <ion-button fill="clear" (click)="deleteTransport(transport.id!)">
+                <ion-icon name="trash-bin" class="icon"></ion-icon>
+              </ion-button>
             </div>
           </div>
-          <div class="card-sub-content">
-            <div class="card-row">
-              <h4>{{ transport.dateDepart| date:'dd/MM/yyyy' }}</h4>
-              <p>{{ transport.dateArrivee }}</p>
-            </div>
-          </div>
-        </div>
-        <div class="card-actions">
-          <ion-button fill="clear">
-            <ion-icon name="pencil" class="icon"></ion-icon>
-          </ion-button>
-          <ion-button fill="clear">
-            <ion-icon name="trash-bin" class="icon"></ion-icon>
-          </ion-button>
-        </div>
-      </div>
+        }
     }
     </div>
+  <ion-modal [isOpen]="showSingleTransportForm" (ionModalDidDismiss)="handleAddTransportModal($event)">
+    <ng-template>
+      <ion-content class="ion-padding">
+        <app-transport-form
+          [mode]="'single'">
+        </app-transport-form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [isOpen]="showUpdateTransportForm" (ionModalDidDismiss)="handleUpdateTransportModal($event)">
+    <ng-template>
+      <ion-content class="ion-padding">
+        <app-transport-form
+          [mode]="'single'"
+          [existingTransports]="selectedTransport"
+          [isUpdate]="true">
+        </app-transport-form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </div>
 
 

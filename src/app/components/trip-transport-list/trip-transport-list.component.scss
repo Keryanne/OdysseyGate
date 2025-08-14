@@ -33,6 +33,7 @@
     width: -webkit-fill-available;
     padding: 15px;
     gap: 10px;
+    justify-content: space-around;
 
     .text {
       margin: 0px;
@@ -46,6 +47,13 @@
       justify-content: space-between;
     }
 
+    .icon-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 4px;
+    }
+
     .file {
       display: flex;
       flex-direction: row;
@@ -55,6 +63,7 @@
 
     h3 {
       padding: 0px;
+      margin: 0px;
       color: var(--ion-text-color);
     }
 
@@ -63,6 +72,13 @@
       margin: 0px;
       color: var(--ion-text-color);
       font-weight: 600;
+    }
+
+    h5 {
+      padding: 0px;
+      margin: 0px;
+      color: var(--ion-text-color);
+      font-weight: 400;
     }
   }
 
@@ -85,7 +101,7 @@
     flex-direction: column;
     align-items: stretch;
     justify-content: center;
-    gap: 5px;
+    gap: 10px;
   }
 }
 

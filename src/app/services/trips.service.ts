@@ -24,6 +24,10 @@ export class TripsService {
     return this.http.post(`${this.apiUrl}/voyages`, data);
   }
 
+  removeVoyage(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/voyages/${id}`);
+  }
+
   getTransportsByVoyage(voyageId: number): Observable<Transport[]> {
     return this.http.get<Transport[]>(`${this.apiUrl}/transport/by-voyage/${voyageId}`);
   }
@@ -32,7 +36,12 @@ export class TripsService {
     return this.http.post(`${this.apiUrl}/transport`, { voyageId, ...data });
   }
 
-  removeVoyage(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/voyages/${id}`);
+  removeTransport(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/transport/${id}`);
+  }
+
+  updateTransport(id: number, data: any): Observable<any> {
+    console.log('Mise à jour du transport avec ID:', id, 'et données:', data);
+    return this.http.patch<Transport>(`${this.apiUrl}/transport/${id}`, data);
   }
 }

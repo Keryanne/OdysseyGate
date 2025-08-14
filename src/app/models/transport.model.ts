@@ -5,8 +5,8 @@ export interface Transport {
   compagnie: string;
   depart: string;
   arrivee: string;
-  dateDepart: string;  // Format ISO, ex: "2025-05-22T12:00:00Z"
-  dateArrivee: string;
+  dateDepart: Date;  // Format ISO, ex: "2025-05-22T12:00:00Z"
+  dateArrivee: Date;
   voyageId?: number;
 }
 

@@ -1,3 +1,4 @@
+<div class="step-container">
 <div class="step-header">
   <div class="step-icon">
     <ion-icon name="airplane" class="icon"></ion-icon>
@@ -89,8 +90,21 @@
     </div>
   }
   </ng-container>
-  <ion-button expand="block" color="primary" (click)="addTransport()">
-    <ion-icon name="add"></ion-icon>
-    Ajouter un transport
-  </ion-button>
+  @if (!isUpdate) {
+    <ion-button expand="block" color="primary" (click)="addTransport()">
+      <ion-icon name="add"></ion-icon>
+      Ajouter un transport
+    </ion-button>
+  }
+@if(mode === 'single') {
+  <div class="step-actions">
+    <ion-button expand="block" color="primary" fill="outline" (click)="cancel()">
+        Annuler
+    </ion-button>
+    <ion-button expand="block" color="primary" (click)="submit()">
+      Valider
+    </ion-button>
+  </div>
+}
 </form>
+</div>

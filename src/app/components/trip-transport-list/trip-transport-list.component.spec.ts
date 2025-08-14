@@ -36,8 +36,8 @@ describe('TripTransportListComponent', () => {
         compagnie: 'SNCF',
         depart: 'Paris',
         arrivee: 'Lyon',
-        dateDepart: '2025-03-05T08:00:00Z',
-        dateArrivee: '2025-03-05T11:30:00Z',
+        dateDepart: new Date('2025-03-05T08:00:00Z'),
+        dateArrivee: new Date('2025-03-05T11:30:00Z'),
       }
     ];
 
