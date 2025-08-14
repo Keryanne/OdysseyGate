@@ -67,11 +67,17 @@ export class TransportFormComponent implements OnInit {
   }
 
   onTransportStartDateChange(event: any, index: number) {
-    this.transports.at(index).patchValue({ dateDepart: event.detail.value });
+    const value = event.detail.value;
+    this.transports.at(index).patchValue({
+      dateDepart: value ? new Date(value) : null
+    });
   }
 
   onTransportEndDateChange(event: any, index: number) {
-    this.transports.at(index).patchValue({ dateArrivee: event.detail.value });
+    const value = event.detail.value;
+    this.transports.at(index).patchValue({
+      dateArrivee: value ? new Date(value) : null
+    });
   }
 
   submit() {

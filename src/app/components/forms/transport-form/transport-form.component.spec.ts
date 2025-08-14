@@ -29,8 +29,8 @@ describe('TransportFormComponent', () => {
         type: '',
         numero: '',
         compagnie: '',
-        dateDepart: '',
-        dateArrivee: '',
+        dateDepart: null,
+        dateArrivee: null,
         depart: '',
         arrivee: ''
       }]
@@ -43,8 +43,8 @@ describe('TransportFormComponent', () => {
         type: 'Train',
         numero: 'TGV123',
         compagnie: 'SNCF',
-        dateDepart: '2025-01-01T10:00:00Z',
-        dateArrivee: '2025-01-01T12:00:00Z',
+        dateDepart: new Date('2025-01-01T10:00:00Z'),
+        dateArrivee: new Date('2025-01-01T12:00:00Z'),
         depart: 'Paris',
         arrivee: 'Lyon'
       },
@@ -52,8 +52,8 @@ describe('TransportFormComponent', () => {
         type: 'Bus',
         numero: 'B456',
         compagnie: 'BusComp',
-        dateDepart: '2025-01-02T08:00:00Z',
-        dateArrivee: '2025-01-02T10:00:00Z',
+        dateDepart: new Date('2025-01-02T08:00:00Z'),
+        dateArrivee: new Date('2025-01-02T10:00:00Z'),
         depart: 'Nice',
         arrivee: 'Marseille'
       }
@@ -81,13 +81,13 @@ describe('TransportFormComponent', () => {
   it('should patch dateDepart on onTransportStartDateChange', () => {
     const event = { detail: { value: '2025-01-01T10:00:00Z' } };
     component.onTransportStartDateChange(event, 0);
-    expect(component.transports.at(0).value.dateDepart).toBe('2025-01-01T10:00:00Z');
+    expect(component.transports.at(0).value.dateDepart).toEqual(new Date('2025-01-01T10:00:00Z'));
   });
 
   it('should patch dateArrivee on onTransportEndDateChange', () => {
     const event = { detail: { value: '2025-01-01T12:00:00Z' } };
     component.onTransportEndDateChange(event, 0);
-    expect(component.transports.at(0).value.dateArrivee).toBe('2025-01-01T12:00:00Z');
+    expect(component.transports.at(0).value.dateArrivee).toEqual(new Date('2025-01-01T12:00:00Z'));
   });
 
   it('should emit formSubmitted with all transports on submit if form is valid', () => {
@@ -96,8 +96,8 @@ describe('TransportFormComponent', () => {
       type: 'Bus',
       numero: 'B123',
       compagnie: 'BusComp',
-      dateDepart: '2025-01-01T08:00:00Z',
-      dateArrivee: '2025-01-01T10:00:00Z',
+      dateDepart: new Date('2025-01-01T08:00:00Z'),
+      dateArrivee: new Date('2025-01-01T10:00:00Z'),
       depart: 'Nice',
       arrivee: 'Marseille'
     });
@@ -105,8 +105,8 @@ describe('TransportFormComponent', () => {
       type: 'Train',
       numero: 'TGV456',
       compagnie: 'SNCF',
-      dateDepart: '2025-01-02T10:00:00Z',
-      dateArrivee: '2025-01-02T12:00:00Z',
+      dateDepart: new Date('2025-01-02T10:00:00Z'),
+      dateArrivee: new Date('2025-01-02T12:00:00Z'),
       depart: 'Lyon',
       arrivee: 'Paris'
     });
@@ -114,8 +114,8 @@ describe('TransportFormComponent', () => {
       type: 'Train',
       numero: 'TGV456',
       compagnie: 'SNCF',
-      dateDepart: '2025-01-02T10:00:00Z',
-      dateArrivee: '2025-01-02T12:00:00Z',
+      dateDepart: new Date('2025-01-02T10:00:00Z'),
+      dateArrivee: new Date('2025-01-02T12:00:00Z'),
       depart: 'Lyon',
       arrivee: 'Paris'
     });
