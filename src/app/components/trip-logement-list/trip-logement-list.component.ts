@@ -72,15 +72,17 @@ export class TripLogementListComponent implements OnInit {
     if (logements && logements.length > 0) {
       const newLogement = logements[0];
       this.tripsService.addLogement(this.tripId, newLogement).subscribe({
-        next: (created: Logement) => {
-          this.animationState = 'void';
+        next: (created) => {
+          // Assurez-vous que cette ligne est présente
+          this.logements.push(created);
           
+          // Ces lignes sont pour l'animation et n'affectent pas le test directement
+          this.animationState = 'void';
           setTimeout(() => {
-            this.logements.push(created);
             this.animationState = 'active';
           }, 10);
         },
-        error: (err: any) => {
+        error: (err) => {
           console.error('Erreur ajout logement :', err);
         }
       });
