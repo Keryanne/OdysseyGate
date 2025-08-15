@@ -176,12 +176,10 @@ export class AddTripPage implements OnDestroy {
   }
 
   onTransportStepSubmitted(transportData: Transport[]) {
-    console.log('Transport data collected:', transportData);
     this.collectedData.transport = transportData;
   }
 
   onLogementStepSubmitted(logementData: Logement[]) {
-    console.log('Logement data collected:', logementData);
     this.collectedData.logement = logementData;
   }
 

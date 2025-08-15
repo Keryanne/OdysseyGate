@@ -28,26 +28,26 @@ describe('LogementFormComponent', () => {
     expect(component.form.value).toEqual({
       logements: [{
         nom: '',
-        adress: ''
+        adresse: ''
       }]
     });
   });
 
   it('should initialize form with existingLogements values', () => {
     const logements: Logement[] = [
-      { nom: 'Hotel Test', adress: '123 rue Test', voyageId: '' },
-      { nom: 'Hotel Deux', adress: '456 rue Deux', voyageId: '' }
+      { nom: 'Hotel Test', adresse: '123 rue Test', voyageId: 0 },
+      { nom: 'Hotel Deux', adresse: '456 rue Deux', voyageId: 0 }
     ];
     component.existingLogements = logements;
     component.ngOnInit();
     expect(component.logements.length).toBe(2);
     expect(component.form.value.logements[0]).toEqual({
       nom: 'Hotel Test',
-      adress: '123 rue Test'
+      adresse: '123 rue Test'
     });
     expect(component.form.value.logements[1]).toEqual({
       nom: 'Hotel Deux',
-      adress: '456 rue Deux'
+      adresse: '456 rue Deux'
     });
   });
 
@@ -68,15 +68,15 @@ describe('LogementFormComponent', () => {
     jest.spyOn(component.formSubmitted, 'emit');
     component.logements.at(0).patchValue({
       nom: 'Hotel ABC',
-      adress: '1 rue de Paris'
+      adresse: '1 rue de Paris'
     });
     component.addLogement({
       nom: 'Hotel DEF',
-      adress: '2 rue DEF'
+      adresse: '2 rue DEF'
     });
     component.logements.at(1).patchValue({
       nom: 'Hotel DEF',
-      adress: '2 rue DEF'
+      adresse: '2 rue DEF'
     });
     component.submit();
     expect(component.formSubmitted.emit).toHaveBeenCalledWith(component.form.value.logements);

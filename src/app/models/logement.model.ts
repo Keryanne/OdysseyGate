@@ -1,8 +1,8 @@
 export interface Logement {
   id?: number;
   nom: string;
-  adress: string;
-  voyageId: string;
+  adresse: string;
+  voyageId: number;
 }
 
 export type CreateLogementDto = Omit<Logement, 'id'>;

@@ -1,36 +1,55 @@
-<div class="step-header">
-  <div class="step-icon">
-    <ion-icon name="business" class="icon"></ion-icon>
+<div class="step-container">
+  <div class="step-header">
+    <div class="step-icon">
+      <ion-icon name="business" class="icon"></ion-icon>
+    </div>
+    <div class="step-title">
+      <p>Étape 3/4</p>
+      <h2>Logements</h2>
+    </div>
   </div>
-  <div class="step-title">
-    <p>Étape 3/4</p>
-    <h2>Logements</h2>
-  </div>
-</div>
-<form [formGroup]="form" class="form">
-  <ng-container formArrayName="logements">
-    @for (group of logements.controls; track $index; let i = $index) {
-      <div [formGroupName]="i" class="logement-block">
-        <div class="form-group">
-          <ion-label position="stacked">Nom</ion-label>
-          <ion-input formControlName="nom" fill="outline"></ion-input>
+
+  <form [formGroup]="form" class="form">
+    <ng-container formArrayName="logements">
+      @for (logementGroup of logements.controls; track $index; let i = $index) {
+        <div [formGroupName]="i" class="form-block">
+          <div class="form-group">
+            <ion-label position="stacked">Nom de l'hébergement</ion-label>
+            <ion-input formControlName="nom"></ion-input>
+          </div>
+          
+          <div class="form-group">
+            <ion-label position="stacked">Adresse</ion-label>
+            <ion-input formControlName="adresse"></ion-input>
+          </div>
+          
+          @if (logements.length > 1) {
+            <ion-button color="danger" fill="clear" (click)="removeLogement(i)">
+              <ion-icon name="trash"></ion-icon>
+              Supprimer
+            </ion-button>
+          }
+          <hr>
         </div>
-        <div class="form-group">
-          <ion-label position="stacked">Adresse</ion-label>
-          <ion-input formControlName="adress" fill="outline"></ion-input>
-        </div>
-        @if (logements.length > 1) {
-          <ion-button color="danger" fill="clear" (click)="removeLogement(i)">
-            <ion-icon name="trash"></ion-icon>
-            Supprimer
-          </ion-button>
-        }
-        <hr>
+      }
+    </ng-container>
+    
+    @if (!isUpdate) {
+      <ion-button expand="block" color="primary" (click)="addLogement()">
+        <ion-icon name="add"></ion-icon>
+        Ajouter un hébergement
+      </ion-button>
+    }
+    
+    @if(mode === 'single') {
+      <div class="step-actions">
+        <ion-button expand="block" color="primary" fill="outline" (click)="cancel()">
+          Annuler
+        </ion-button>
+        <ion-button expand="block" color="primary" (click)="submit()">
+          Valider
+        </ion-button>
       </div>
     }
-  </ng-container>
-  <ion-button expand="block" color="primary" (click)="addLogement()">
-    <ion-icon name="add"></ion-icon>
-    Ajouter un logement
-  </ion-button>
-</form>
+  </form>
+</div>

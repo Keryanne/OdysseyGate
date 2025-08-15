@@ -12,7 +12,7 @@
 <form [formGroup]="form" class="form">
   <ng-container formArrayName="transports">
     @for (group of transports.controls; track $index; let i = $index) {
-      <div [formGroupName]="i" class="transport-block">
+      <div [formGroupName]="i" class="form-block">
         <div class="form-group">
           <ion-label position="stacked">Type</ion-label>
           <ion-select formControlName="type" label="Type">

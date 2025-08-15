@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Transport } from '../models/transport.model';
+import { Logement } from '../models/logement.model'; // Ajoute cet import
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +42,22 @@ export class TripsService {
   }
 
   updateTransport(id: number, data: any): Observable<any> {
-    console.log('Mise à jour du transport avec ID:', id, 'et données:', data);
     return this.http.patch<Transport>(`${this.apiUrl}/transport/${id}`, data);
+  }
+
+  getLogementsByVoyage(voyageId: number): Observable<Logement[]> {
+    return this.http.get<Logement[]>(`${this.apiUrl}/logement/by-voyage/${voyageId}`);
+  }
+
+  addLogement(voyageId: number, data: any): Observable<Logement> {
+    return this.http.post<Logement>(`${this.apiUrl}/logement`, { voyageId, ...data });
+  }
+
+  removeLogement(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/logement/${id}`);
+  }
+
+  updateLogement(id: number, data: any): Observable<Logement> {
+    return this.http.patch<Logement>(`${this.apiUrl}/logement/${id}`, data);
   }
 }
