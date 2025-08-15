@@ -8,17 +8,20 @@ import { TripTransportListComponent } from '../components/trip-transport-list/tr
 import { TransportFormComponent } from "../components/forms/transport-form/transport-form.component";
 import { TripLogementListComponent } from '../components/trip-logement-list/trip-logement-list.component';
 import { LogementFormComponent } from '../components/forms/logement-form/logement-form.component';
+import { ActivityFormComponent } from '../components/forms/activity-form/activity-form.component';
+import { TripActivityListComponent } from '../components/trip-activity-list/trip-activity-list.component';
 
 @NgModule({
-  declarations: [SearchButtonComponent, SearchModalComponent, TripTransportListComponent, TripLogementListComponent],
+  declarations: [SearchButtonComponent, SearchModalComponent, TripTransportListComponent, TripLogementListComponent, TripActivityListComponent],
   imports: [
     CommonModule,
     IonicModule,
     FormsModule,
     ReactiveFormsModule,
     TransportFormComponent,
-    LogementFormComponent
+    LogementFormComponent,
+    ActivityFormComponent
 ],
-  exports: [SearchButtonComponent, SearchModalComponent, TripTransportListComponent, TripLogementListComponent]
+  exports: [SearchButtonComponent, SearchModalComponent, TripTransportListComponent, TripLogementListComponent, TripActivityListComponent]
 })
 export class SharedModule { }

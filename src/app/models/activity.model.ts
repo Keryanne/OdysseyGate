@@ -2,7 +2,7 @@ export interface Activity {
   id?: number;
   description: string;
   lieu: string;
-  voyageId: string;
+  voyageId: number;
 }
 
 export type CreateActivityDto = Omit<Activity, 'id'>;

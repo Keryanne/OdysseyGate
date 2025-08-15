@@ -1,36 +1,55 @@
-<div class="step-header">
-  <div class="step-icon">
-    <ion-icon name="bicycle" class="icon"></ion-icon>
+<div class="step-container">
+  <div class="step-header">
+    <div class="step-icon">
+      <ion-icon name="bicycle" class="icon"></ion-icon>
+    </div>
+    <div class="step-title">
+      <p>Étape 4/4</p>
+      <h2>Activités</h2>
+    </div>
   </div>
-  <div class="step-title">
-    <p>Étape 4/4</p>
-    <h2>Activités</h2>
-  </div>
-</div>
-<form [formGroup]="form" class="form">
-  <ng-container formArrayName="activities">
-    @for (group of activities.controls; track $index; let i = $index) {
-      <div [formGroupName]="i" class="activity-block">
-        <div class="form-group">
-          <ion-label position="stacked">Nom</ion-label>
-          <ion-input formControlName="description" fill="outline"></ion-input>
+
+  <form [formGroup]="form" class="form">
+    <ng-container formArrayName="activities">
+      @for (activityGroup of activities.controls; track $index; let i = $index) {
+        <div [formGroupName]="i" class="form-block">
+          <div class="form-group">
+            <ion-label position="stacked">Nom de l'activité</ion-label>
+            <ion-input formControlName="description"></ion-input>
+          </div>
+          
+          <div class="form-group">
+            <ion-label position="stacked">Lieu</ion-label>
+            <ion-input formControlName="lieu"></ion-input>
+          </div>
+          
+          @if (activities.length > 1) {
+            <ion-button color="danger" fill="clear" (click)="removeActivity(i)">
+              <ion-icon name="trash"></ion-icon>
+              Supprimer
+            </ion-button>
+          }
+          <hr>
         </div>
-        <div class="form-group">
-          <ion-label position="stacked">Lieu</ion-label>
-          <ion-input formControlName="lieu" fill="outline"></ion-input>
-        </div>
-        @if (activities.length > 1) {
-          <ion-button color="danger" fill="clear" (click)="removeActivity(i)">
-            <ion-icon name="trash"></ion-icon>
-            Supprimer
-          </ion-button>
-        }
-        <hr>
+      }
+    </ng-container>
+    
+    @if (!isUpdate) {
+      <ion-button expand="block" color="primary" (click)="addActivity()">
+        <ion-icon name="add"></ion-icon>
+        Ajouter une activité
+      </ion-button>
+    }
+    
+    @if(mode === 'single') {
+      <div class="step-actions">
+        <ion-button expand="block" color="primary" fill="outline" (click)="cancel()">
+          Annuler
+        </ion-button>
+        <ion-button expand="block" color="primary" (click)="submit()">
+          Valider
+        </ion-button>
       </div>
     }
-  </ng-container>
-  <ion-button expand="block" color="primary" (click)="addActivity()">
-    <ion-icon name="add"></ion-icon>
-    Ajouter une activité
-  </ion-button>
-</form>
+  </form>
+</div>
