@@ -66,6 +66,8 @@
             <ion-datetime
               [presentation]="'date-time'"
               [value]="group.value.dateDepart"
+              [min]="tripStartDate"
+              [max]="tripEndDate"
               (ionChange)="onTransportStartDateChange($event, i)"
               locale="fr-FR"
             ></ion-datetime>
@@ -79,6 +81,8 @@
             <ion-datetime
               [presentation]="'date-time'"
               [value]="group.value.dateArrivee"
+              [min]="group.value.dateDepart && tripStartDate"
+              [max]="tripEndDate"
               (ionChange)="onTransportEndDateChange($event, i)"
               locale="fr-FR"
             ></ion-datetime>

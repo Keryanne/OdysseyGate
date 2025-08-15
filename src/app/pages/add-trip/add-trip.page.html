@@ -61,6 +61,7 @@
               <ion-datetime
                 [presentation]="'date-time'"
                 [value]="endDate"
+                [min]="startDate"
                 (ionChange)="onEndDateChange($event)"
                 locale="fr-FR"
               ></ion-datetime>
@@ -82,6 +83,8 @@
       <app-transport-form
       [mode]="'full'"
       [existingTransports]="collectedData.transport"
+      [tripStartDate]="startDate" 
+      [tripEndDate]="endDate"
       (formSubmitted)="onTransportStepSubmitted($event)">
       </app-transport-form>
     </div>
