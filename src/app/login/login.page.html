@@ -15,8 +15,11 @@
         <ion-label position="stacked">Mot de passe*</ion-label>
         <ion-input type="password" fill="outline" [(ngModel)]="password" name="password" required></ion-input>
       </div>
-      <ion-button expand="full" type="submit" class="btn btn-plain">Se connecter</ion-button>
+      <ion-button expand="block" type="submit">Se connecter</ion-button>
     </form>
-    <p>Vous n'avez pas de compte ? <a fill="clear" routerLink="tabs/register">S'inscrire</a></p>
+     <div class="signup-text">
+      <span>Vous n'avez pas de compte ?</span>
+      <ion-button fill="clear" color="primary" class="btn-clear" (click)="goToRegister()">S'inscrire</ion-button>
+    </div>
   </div>
 </ion-content>

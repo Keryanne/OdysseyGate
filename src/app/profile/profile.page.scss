@@ -1,0 +1,87 @@
+.profile-page {
+  --background: var(--ion-color-primary-200);
+
+  .header-logo {
+    background-color: white;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .profile-card {
+    background-color: var(--ion-color-primary-200);
+    margin-top: -90px;
+    border-radius: 25px 25px 0 0;
+    padding: 24px;
+
+    h2 {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 24px;
+      color: var(--ion-color-primary);
+    }
+
+    .profile-info {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+
+      .form-group {
+        gap: 3px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .icon-container {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: var(--ion-color-primary);
+          border-radius: 50%;
+          padding: 10px;
+          width: 100px;
+          height: 100px;
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 50%;
+          border-radius: 50%;
+        }
+
+        .row {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 10px;
+        }
+      }
+    }
+
+    .profile-actions {
+      margin-top: 16px;
+      text-align: center;
+
+      .btn-clear {
+        padding: 5px;
+        color: var(--ion-text-color-white);
+        background: var(--ion-color-primary);
+      }
+    }
+  }
+
+  .error-message {
+    color: var(--ion-color-danger);
+    text-align: center;
+    margin: 24px 0;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+  }
+}

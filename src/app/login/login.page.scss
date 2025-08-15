@@ -53,12 +53,14 @@
         margin-top: 16px;
         text-align: center;
         font-size: 14px;
+        align-items: center;
+        justify-content: center;
+        display: flex;
   
-        a {
-          color: var(--ion-color-primary);
-          font-weight: 500;
-          margin-left: 4px;
-          text-decoration: none;
+          .btn-clear {
+          padding: 0;
+          width: auto;
+          margin-top: 0px;
         }
       }
     }

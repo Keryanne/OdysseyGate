@@ -21,8 +21,17 @@ export class SignupPage {
   ) {}
 
   async register() {
-    this.authService.register(this.name, this.surname, this.email, this.password, this.confirmPassword).subscribe({
+    if (!this.isPasswordComplex(this.password)) {
+      const alert = await this.alertController.create({
+        header: 'Mot de passe trop simple',
+        message: 'Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.',
+        buttons: ['OK']
+      });
+      await alert.present();
+      return;
+    }
 
+    this.authService.register(this.name, this.surname, this.email, this.password, this.confirmPassword).subscribe({
       next: async () => {
         const alert = await this.alertController.create({
           header: 'Inscription réussie',
@@ -41,5 +50,15 @@ export class SignupPage {
         await alert.present();
       }
     });
+  }
+
+  goToLogin() {
+    this.navController.navigateRoot(['/tabs/login']);
+  }
+
+  private isPasswordComplex(password: string): boolean {
+    // Au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    return regex.test(password);
   }
 }

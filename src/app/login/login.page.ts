@@ -37,4 +37,8 @@ export class LoginPage {
     );
   }
 
+  goToRegister() {
+    this.router.navigate(['/tabs/register']);
+  }
+
 }

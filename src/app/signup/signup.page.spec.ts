@@ -60,13 +60,13 @@ describe('SignupPage', () => {
     component.name = 'newname';
     component.surname = 'newsurname';
     component.email = 'new@example.com';
-    component.password = 'password123';
-    component.confirmPassword = 'password123';
+    component.password = 'Password123!'; // Mot de passe complexe
+    component.confirmPassword = 'Password123!';
 
     await component.register();
     await fixture.whenStable();
 
-    expect(authService.register).toHaveBeenCalledWith('newname', 'newsurname', 'new@example.com', 'password123', 'password123');
+    expect(authService.register).toHaveBeenCalledWith('newname', 'newsurname', 'new@example.com', 'Password123!', 'Password123!');
 
     expect(alertController.create).toHaveBeenCalledWith({
       header: 'Inscription réussie',
@@ -85,8 +85,8 @@ describe('SignupPage', () => {
     component.name = 'fail';
     component.surname = 'fail';
     component.email = 'fail@example.com';
-    component.password = 'wrongpass';
-    component.confirmPassword = 'wrongpass';
+    component.password = 'Abcdef12!'; // Mot de passe complexe
+    component.confirmPassword = 'Abcdef12!';
 
     await component.register();
     await fixture.whenStable();
@@ -99,4 +99,36 @@ describe('SignupPage', () => {
     });
     expect(presentSpy).toHaveBeenCalled();
   }));
+
+  it('should show alert if password is not complex enough', waitForAsync(async () => {
+    component.name = 'John';
+    component.surname = 'Doe';
+    component.email = 'john@example.com';
+    component.password = 'simple'; // Mot de passe trop simple
+    component.confirmPassword = 'simple';
+
+    await component.register();
+    await fixture.whenStable();
+
+    expect(alertController.create).toHaveBeenCalledWith({
+      header: 'Mot de passe trop simple',
+      message: 'Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.',
+      buttons: ['OK']
+    });
+    expect(presentSpy).toHaveBeenCalled();
+    expect(authService.register).not.toHaveBeenCalled();
+  }));
+
+  it('should navigate to login page when goToLogin is called', () => {
+    component.goToLogin();
+    expect(navController.navigateRoot).toHaveBeenCalledWith(['/tabs/login']);
+  });
+
+  it('should validate password complexity (isPasswordComplex)', () => {
+    expect(component['isPasswordComplex']('Abcdef12!')).toBe(true); // complexe
+    expect(component['isPasswordComplex']('abcdef12')).toBe(false); // pas de majuscule ni de spécial
+    expect(component['isPasswordComplex']('ABCDEF12!')).toBe(false); // pas de minuscule
+    expect(component['isPasswordComplex']('Abcdefgh!')).toBe(false); // pas de chiffre
+    expect(component['isPasswordComplex']('Abc1!')).toBe(false); // trop court
+  });
 });

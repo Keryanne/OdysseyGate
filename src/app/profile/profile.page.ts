@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-profile',
@@ -8,13 +9,29 @@ import { Router } from '@angular/router';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-  userEmail: string = "";
 
   constructor(private authService: AuthService, private router: Router) {}
+  user!: User;
+  loading = true;
+  errorMsg = '';
 
   ngOnInit() {
-    // Récupérer les informations de l'utilisateur
-    this.userEmail = 'user@example.com'; // Remplacez par la logique réelle pour obtenir l'email de l'utilisateur connecté
+    this.loadUserProfile();
+  }
+
+  loadUserProfile() {
+    this.loading = true;
+    this.errorMsg = '';
+    this.authService.getUser().subscribe({
+      next: (user: User) => {
+        this.user = user;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.errorMsg = "Impossible de charger le profil. Veuillez réessayer plus tard.";
+      }
+    });
   }
 
   logout() {
@@ -22,11 +39,4 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['/tabs/login']);
   }
 
-  navigateToAddLocation() {
-    this.router.navigate(['/tabs/add-location']);
-  }
-
-  navigateToMyLocations() {
-    this.router.navigate(['/tabs/my-locations']);
-  }
 }

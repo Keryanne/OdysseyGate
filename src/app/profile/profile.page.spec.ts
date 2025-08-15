@@ -3,12 +3,21 @@ import { ProfilePage } from './profile.page';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { of, throwError } from 'rxjs';
+import { User } from '../models/user.model';
 
 describe('ProfilePage', () => {
   let component: ProfilePage;
   let fixture: ComponentFixture<ProfilePage>;
   let authService: AuthService;
   let router: Router;
+
+  const mockUser: User = {
+    id: 1,
+    nom: 'Doe',
+    prenom: 'John',
+    email: 'john.doe@example.com'
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -18,6 +27,7 @@ describe('ProfilePage', () => {
         {
           provide: AuthService,
           useValue: {
+            getUser: jest.fn(),
             logout: jest.fn()
           }
         },
@@ -34,31 +44,30 @@ describe('ProfilePage', () => {
     component = fixture.componentInstance;
     authService = TestBed.inject(AuthService);
     router = TestBed.inject(Router);
-    fixture.detectChanges();
   });
 
   it('should create the ProfilePage component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set userEmail on ngOnInit', () => {
-    component.ngOnInit();
-    expect(component.userEmail).toBe('user@example.com');
+  it('should load user profile and set user/flags on success', () => {
+    (authService.getUser as jest.Mock).mockReturnValue(of(mockUser));
+    component.loadUserProfile();
+    expect(component.loading).toBe(false);
+    expect(component.user).toEqual(mockUser);
+    expect(component.errorMsg).toBe('');
+  });
+
+  it('should set errorMsg and loading=false on user profile load error', () => {
+    (authService.getUser as jest.Mock).mockReturnValue(throwError(() => new Error('fail')));
+    component.loadUserProfile();
+    expect(component.loading).toBe(false);
+    expect(component.errorMsg).toBe("Impossible de charger le profil. Veuillez réessayer plus tard.");
   });
 
   it('should call logout and navigate to login on logout()', () => {
     component.logout();
     expect(authService.logout).toHaveBeenCalled();
     expect(router.navigate).toHaveBeenCalledWith(['/tabs/login']);
-  });
-
-  it('should navigate to add-location page', () => {
-    component.navigateToAddLocation();
-    expect(router.navigate).toHaveBeenCalledWith(['/tabs/add-location']);
-  });
-
-  it('should navigate to my-locations page', () => {
-    component.navigateToMyLocations();
-    expect(router.navigate).toHaveBeenCalledWith(['/tabs/my-locations']);
   });
 });
