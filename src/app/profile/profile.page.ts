@@ -12,14 +12,25 @@ export class ProfilePage implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) {}
   user!: User;
+  loading = true;
+  errorMsg = '';
 
   ngOnInit() {
     this.loadUserProfile();
   }
 
   loadUserProfile() {
-    this.authService.getUser().subscribe((user: User) => {
-      this.user = user;
+    this.loading = true;
+    this.errorMsg = '';
+    this.authService.getUser().subscribe({
+      next: (user: User) => {
+        this.user = user;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.errorMsg = "Impossible de charger le profil. Veuillez réessayer plus tard.";
+      }
     });
   }
 
