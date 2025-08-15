@@ -75,14 +75,10 @@ export class TripTransportListComponent implements OnInit {
       const newTransport = transports[0];
       this.tripsService.addTransport(this.tripId, newTransport).subscribe({
         next: (created) => {
-          // Réinitialiser l'état d'animation pour déclencher l'effet stagger
           this.animationState = 'void';
-          
-          // Ajouter le transport avec un délai pour permettre le reset de l'animation
-          setTimeout(() => {
-            this.transports.push(created);
-            this.animationState = 'active';
-          }, 10);
+          // Ajouter directement le transport sans setTimeout
+          this.transports.push(created);
+          this.animationState = 'active';
         },
         error: (err) => {
           console.error('Erreur ajout transport :', err);
