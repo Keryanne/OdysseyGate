@@ -12,4 +12,31 @@ app-tabs {
   height: 100%;
 }
 
+// Ajoutez ces styles pour gérer l'affichage avec le clavier
+ion-content {
+  --keyboard-offset: 0 !important;
+}
+
+// Fixe la taille des modales et ajuste leur position
+ion-modal {
+  --height: auto;
+}
+
+// Style pour iOS
+.ios {
+  // Évite que la tab bar reste collée au clavier
+  ion-tab-bar {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+// Sur Android, parfois nécessaire d'ajouter une classe spécifique
+.md {
+  &.keyboard-is-open {
+    ion-tab-bar {
+      display: none;
+    }
+  }
+}
+
 

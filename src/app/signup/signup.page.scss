@@ -1,5 +1,6 @@
 .signup-page {
   --background: var(--ion-color-primary-200);
+    --overflow: auto;
 
   .header-logo {
     background-image: url('../../assets/images/background-login.png');
@@ -21,6 +22,10 @@
     padding: 24px;
     display: flex;
     justify-content: center;
+
+      @supports (-webkit-touch-callout: none) {
+      padding-bottom: 40px;
+    }
 
     .content-container {
       width: 100%;

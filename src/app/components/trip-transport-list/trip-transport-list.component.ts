@@ -160,7 +160,6 @@ export class TripTransportListComponent implements OnInit {
               }
             }
             
-            console.log('Dates du voyage chargées :', this.startDate, this.endDate);
           } catch (e) {
             console.error('Erreur de conversion des dates du voyage:', e);
             // Utiliser des dates par défaut si nécessaire
