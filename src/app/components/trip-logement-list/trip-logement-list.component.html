@@ -1,0 +1,75 @@
+<div class="main-container">
+    <div class="toolbar animate-item" [@cardAnimation]>
+      <h1>Mes hébergements</h1>
+      <ion-button (click)="openSingleLogementForm()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </div>
+
+    <div class="card-list" [@listAnimation]="animationState">
+      @if(logements && logements.length === 0) {
+        <p class="animate-item" [@cardAnimation]>Aucun hébergement trouvé.</p>
+      } @else {
+        @for (logement of logements; track logement.id) {
+          <div class="card" [@cardAnimation]>
+            <div class="card-content">
+              <div class="card-header">
+                <div class="card-row">
+                  <ion-icon name="home" style="font-size: 2rem;"></ion-icon>
+                  
+                  @if(logement.nom) {
+                    <h3>{{ logement.nom }}</h3>
+                  } @else {
+                    <h3>Nom</h3>
+                  }
+                </div>
+              </div>
+              <div class="card-row">
+                  @if(logement.adresse) {
+                    <div class="icon-row">
+                      <ion-icon name="location"></ion-icon>
+                      <h4>{{ logement.adresse }}</h4>
+                    </div>
+                  } @else {
+                    <div class="icon-row">
+                      <ion-icon name="location"></ion-icon>
+                      <h4>Adresse non spécifiée</h4>
+                    </div>
+                  }
+                </div>
+            </div>
+            <div class="card-actions">
+              <ion-button fill="clear" (click)="editLogement(logement.id!)">
+                <ion-icon name="pencil" class="icon"></ion-icon>
+              </ion-button>
+              <ion-button fill="clear" (click)="deleteLogement(logement.id!)">
+                <ion-icon name="trash-bin" class="icon"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        }
+      }
+    </div>
+    
+  <ion-modal [isOpen]="showSingleLogementForm" (ionModalDidDismiss)="handleAddLogementModal($event)">
+    <ng-template>
+      <ion-content class="ion-padding">
+        <app-logement-form
+          [mode]="'single'">
+        </app-logement-form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [isOpen]="showUpdateLogementForm" (ionModalDidDismiss)="handleUpdateLogementModal($event)">
+    <ng-template>
+      <ion-content class="ion-padding">
+        <app-logement-form
+          [mode]="'single'"
+          [existingLogements]="selectedLogement"
+          [isUpdate]="true">
+        </app-logement-form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</div>

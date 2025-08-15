@@ -1,7 +1,7 @@
 export interface Logement {
   id?: number;
   nom: string;
-  adress: string;
+  adresse: string;
   voyageId: string;
 }
 
