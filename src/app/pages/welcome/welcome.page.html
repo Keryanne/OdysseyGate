@@ -6,6 +6,10 @@
 
     <h1>Prêt à planifier ton prochain voyage ?</h1>
 
+    <ion-button *ngIf="canInstall" (click)="installApp()">
+      <ion-icon name="download-outline" slot="start"></ion-icon>
+      <ion-label>Installer l'application</ion-label>
+    </ion-button>
     <ng-container *ngIf="isLoggedIn; else notLoggedIn">
       <ion-button expand="block" color="primary" (click)="goToAddTrip()">
         Créer un voyage

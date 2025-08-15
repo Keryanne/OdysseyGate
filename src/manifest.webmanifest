@@ -1,0 +1,24 @@
+{
+  "name": "OdysseyGate - Planifiez vos voyages",
+  "short_name": "OdysseyGate",
+  "theme_color": "#3880ff",
+  "background_color": "#f2f2f7",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
+  "icons": [
+    {
+      "src": "icons/logo_application_mobile.jpg",
+      "sizes": "72x72",
+      "type": "image/jpg",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/logo_application_mobile.jpg",
+      "sizes": "96x96",
+      "type": "image/jpg",
+      "purpose": "maskable any"
+    }
+   
+  ]
+}

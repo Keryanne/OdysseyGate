@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { PwaUpdateService } from './services/pwa-update.service';
+import { PwaDiagnosticService } from './services/pwa-diagnostique.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(
+    private pwaDiagnostic: PwaDiagnosticService
+  ) {
+    this.pwaDiagnostic.checkInstallability();
+  }
 }

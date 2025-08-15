@@ -8,7 +8,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 registerLocaleData(localeFr);
 
 import { IonicModule, IonicRouteStrategy, AlertController  } from '@ionic/angular';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, isDevMode } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +16,8 @@ import { registerLocaleData } from '@angular/common';
 import { fadeTransition } from './animations/fade-transition';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,7 +29,11 @@ import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
   }),
   AppRoutingModule,
   HttpClientModule,
-  BrowserAnimationsModule
+  BrowserAnimationsModule,
+  ServiceWorkerModule.register('ngsw-worker.js', {
+    enabled: environment.production,
+    registrationStrategy: 'registerWhenStable:30000'
+  })
 ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
