@@ -3,7 +3,7 @@ import { MyTripDetailsPage } from './my-trip-details.page';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { TripsService } from 'src/app/services/trips.service';
 
 describe('MyTripDetailsPage', () => {
@@ -56,6 +56,7 @@ describe('MyTripDetailsPage', () => {
           provide: TripsService,
           useValue: {
             getVoyageById: jest.fn().mockReturnValue(of(mockVoyage)),
+            removeVoyage: jest.fn().mockReturnValue(of({ success: true })),
           },
         },
       ],
@@ -77,7 +78,14 @@ describe('MyTripDetailsPage', () => {
     expect(component.tripId).toBe(1);
     expect(tripsService.getVoyageById).toHaveBeenCalledWith(1);
     expect(component.city).toBe('Paris');
-    expect(component.transports).toEqual([]);
+    expect(component.trip).toEqual(mockVoyage);
+  });
+
+  it('should handle error on getVoyageById', () => {
+    (tripsService.getVoyageById as jest.Mock).mockReturnValueOnce(throwError(() => new Error('fail')));
+    component.ngOnInit();
+    // No throw, just logs error
+    expect(component.tripId).toBe(1);
   });
 
   it('should update selected tab correctly', () => {
@@ -101,5 +109,70 @@ describe('MyTripDetailsPage', () => {
       }),
     );
     expect(mockAlert.present).toHaveBeenCalled();
+  }));
+
+  it('should call removeVoyage and navigate on confirm delete', fakeAsync(() => {
+    // Capture la configuration de l'alerte pour accéder au handler
+    let alertConfig: any;
+    (alertController.create as jest.Mock).mockImplementation((config) => {
+      alertConfig = config;
+      return Promise.resolve({
+        present: jest.fn()
+      });
+    });
+    
+    // Appelle la méthode pour afficher l'alerte
+    component.presentDeleteAlert('Paris');
+    // Avance le temps pour résoudre la Promise
+    tick();
+    
+    // Simule le clic sur le bouton "Supprimer" en appelant son handler directement
+    const deleteHandler = alertConfig.buttons[1].handler;
+    deleteHandler();
+    
+    // Force l'exécution asynchrone
+    tick();
+    
+    // Vérifie que removeVoyage a été appelé avec l'id attendu
+    expect(tripsService.removeVoyage).toHaveBeenCalledWith(1);
+    expect(router.navigate).toHaveBeenCalledWith(['/tabs/my-trips']);
+  }));
+
+  it('should handle error on removeVoyage', fakeAsync(() => {
+    // Capture la configuration de l'alerte pour accéder au handler
+    let alertConfig: any;
+    (alertController.create as jest.Mock).mockImplementation((config) => {
+      alertConfig = config;
+      return Promise.resolve({
+        present: jest.fn()
+      });
+    });
+    
+    // Mock removeVoyage pour retourner une erreur
+    (tripsService.removeVoyage as jest.Mock).mockReturnValue(throwError(() => new Error('fail')));
+    
+    // Espionne console.error
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    
+    // Appelle la méthode pour afficher l'alerte
+    component.presentDeleteAlert('Paris');
+    // Avance le temps pour résoudre la Promise dans presentDeleteAlert
+    tick();
+    
+    // Simule le clic sur le bouton "Supprimer" en appelant son handler directement
+    const deleteHandler = alertConfig.buttons[1].handler;
+    deleteHandler();
+    
+    // Force l'exécution asynchrone
+    tick();
+    
+    // Vérifie que removeVoyage a été appelé avec l'id attendu
+    expect(tripsService.removeVoyage).toHaveBeenCalledWith(1);
+    
+    // Vérifie que console.error a été appelé avec l'erreur
+    expect(consoleSpy).toHaveBeenCalledWith('Erreur lors de la suppression:', expect.any(Error));
+    
+    // Restaure console.error
+    consoleSpy.mockRestore();
   }));
 });

@@ -18,7 +18,7 @@ describe('TripsService', () => {
   });
 
   afterEach(() => {
-    httpMock.verify(); // vérifie qu'il n'y a pas de requêtes en attente
+    httpMock.verify();
   });
 
   it('should be created', () => {
@@ -34,7 +34,17 @@ describe('TripsService', () => {
 
     const req = httpMock.expectOne(`${apiUrl}/voyages`);
     expect(req.request.method).toBe('GET');
+    req.flush(mockResponse);
+  });
 
+  it('should GET voyage by id', () => {
+    const mockResponse = { id: 2, destination: 'Tokyo' };
+    service.getVoyageById(2).subscribe(res => {
+      expect(res).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${apiUrl}/voyages/2`);
+    expect(req.request.method).toBe('GET');
     req.flush(mockResponse);
   });
 
@@ -49,7 +59,19 @@ describe('TripsService', () => {
     const req = httpMock.expectOne(`${apiUrl}/voyages`);
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(newVoyage);
+    req.flush(mockResponse);
+  });
 
+  it('should DELETE a voyage', () => {
+    const voyageId = 4;
+    const mockResponse = { success: true };
+
+    service.removeVoyage(voyageId).subscribe(res => {
+      expect(res).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${apiUrl}/voyages/${voyageId}`);
+    expect(req.request.method).toBe('DELETE');
     req.flush(mockResponse);
   });
 
@@ -63,7 +85,6 @@ describe('TripsService', () => {
 
     const req = httpMock.expectOne(`${apiUrl}/transport/by-voyage/${voyageId}`);
     expect(req.request.method).toBe('GET');
-
     req.flush(mockTransports);
   });
 
@@ -79,7 +100,34 @@ describe('TripsService', () => {
     const req = httpMock.expectOne(`${apiUrl}/transport`);
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual({ voyageId, ...data });
+    req.flush(mockResponse);
+  });
 
+  it('should DELETE a transport by id', () => {
+    const transportId = 7;
+    const mockResponse = { success: true };
+
+    service.removeTransport(transportId).subscribe(res => {
+      expect(res).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${apiUrl}/transport/${transportId}`);
+    expect(req.request.method).toBe('DELETE');
+    req.flush(mockResponse);
+  });
+
+  it('should PATCH (update) a transport by id', () => {
+    const transportId = 8;
+    const updateData = { type: 'Bus', depart: 'Nice', arrivee: 'Cannes' };
+    const mockResponse = { id: transportId, ...updateData };
+
+    service.updateTransport(transportId, updateData).subscribe(res => {
+      expect(res).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${apiUrl}/transport/${transportId}`);
+    expect(req.request.method).toBe('PATCH');
+    expect(req.request.body).toEqual(updateData);
     req.flush(mockResponse);
   });
 });

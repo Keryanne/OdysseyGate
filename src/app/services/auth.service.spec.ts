@@ -18,8 +18,8 @@ describe('AuthService', () => {
   });
 
   afterEach(() => {
-    httpMock.verify(); // Vérifie qu'aucune requête HTTP n’est en attente
-    localStorage.clear(); // Réinitialise localStorage après chaque test
+    httpMock.verify();
+    localStorage.clear();
   });
 
   it('should be created', () => {
@@ -92,5 +92,27 @@ describe('AuthService', () => {
     localStorage.setItem('token', 'fake');
     service.logout();
     expect(localStorage.getItem('token')).toBeNull();
+  });
+
+  it('should GET user by id', () => {
+    const mockUser = { id: 1, nom: 'John', prenom: 'Doe', email: 'john@example.com' };
+    service.getUserById(1).subscribe((res: any) => {
+      expect(res).toEqual(mockUser);
+    });
+
+    const req = httpMock.expectOne(`${apiUrl}/auth/user/1`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockUser);
+  });
+
+  it('should GET current user', () => {
+    const mockUser = { id: 2, nom: 'Jane', prenom: 'Doe', email: 'jane@example.com' };
+    service.getUser().subscribe((res: any) => {
+      expect(res).toEqual(mockUser);
+    });
+
+    const req = httpMock.expectOne(`${apiUrl}/auth/me`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockUser);
   });
 });
