@@ -1,10 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { TripTransportListComponent } from './trip-transport-list.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TripsService } from 'src/app/services/trips.service';
 import { of, throwError } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Transport } from 'src/app/models/transport.model';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('TripTransportListComponent', () => {
   let component: TripTransportListComponent;
@@ -25,7 +26,7 @@ describe('TripTransportListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TripTransportListComponent],
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, NoopAnimationsModule],
       providers: [TripsService],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -95,7 +96,7 @@ describe('TripTransportListComponent', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('should add new transport via service and update local list', () => {
+  it('should add new transport via service and update local list', fakeAsync(() => {
     const newTransport: Transport = { 
       type: 'Bus',
       numero: 'B456',
@@ -112,10 +113,13 @@ describe('TripTransportListComponent', () => {
 
     component.onSingleTransportAdded([newTransport]);
     
+    // Si l'implémentation utilise setTimeout, avancer le temps
+    tick(20); // Avancer au-delà du setTimeout(10)
+    
     expect(tripsService.addTransport).toHaveBeenCalledWith(1, newTransport);
     expect(component.transports).toEqual([mockTransport, createdTransport]);
     expect(component.showSingleTransportForm).toBe(false);
-  });
+  }));
 
   it('should handle error when adding transport', () => {
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();

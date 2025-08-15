@@ -1,19 +1,42 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Transport } from 'src/app/models/transport.model';
 import { TripsService } from 'src/app/services/trips.service';
+import { trigger, style, animate, transition, query, stagger } from '@angular/animations';
 
 @Component({
   selector: 'app-trip-transport-list',
   templateUrl: './trip-transport-list.component.html',
   styleUrls: ['./trip-transport-list.component.scss'],
+  animations: [
+    trigger('listAnimation', [
+      transition('* => *', [
+        query(':enter', [
+          style({ opacity: 0, transform: 'translateY(20px)' }),
+          stagger(80, [
+            animate('400ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+          ])
+        ], { optional: true })
+      ])
+    ]),
+    trigger('cardAnimation', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ]),
+      transition(':leave', [
+        animate('200ms ease-in', style({ opacity: 0, transform: 'translateY(20px)' }))
+      ])
+    ])
+  ]
 })
-export class TripTransportListComponent  implements OnInit {
+export class TripTransportListComponent implements OnInit {
 
   @Input() tripId: number = 0;
   transports: Transport[] = [];
   showSingleTransportForm = false;
   showUpdateTransportForm = false;
   selectedTransport: Transport[] = [];
+  animationState = 'void';
 
   constructor(private tripsService: TripsService) {}
 
@@ -22,6 +45,10 @@ export class TripTransportListComponent  implements OnInit {
       this.tripsService.getTransportsByVoyage(this.tripId).subscribe({
         next: (data) => {
           this.transports = data;
+          // Déclencher l'animation après le chargement des données
+          setTimeout(() => {
+            this.animationState = 'active';
+          }, 100);
         },
         error: (err) => {
           console.error('Erreur chargement transports :', err);
@@ -48,7 +75,10 @@ export class TripTransportListComponent  implements OnInit {
       const newTransport = transports[0];
       this.tripsService.addTransport(this.tripId, newTransport).subscribe({
         next: (created) => {
-          this.transports.push(created); // Ajoute le transport retourné par l'API
+          this.animationState = 'void';
+          // Ajouter directement le transport sans setTimeout
+          this.transports.push(created);
+          this.animationState = 'active';
         },
         error: (err) => {
           console.error('Erreur ajout transport :', err);

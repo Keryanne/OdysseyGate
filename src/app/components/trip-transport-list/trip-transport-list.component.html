@@ -1,17 +1,17 @@
 <div class="main-container">
-    <div class="toolbar">
+    <div class="toolbar animate-item" [@cardAnimation]>
       <h1>Mes transports</h1>
       <ion-button (click)="openSingleTransportForm()">
         <ion-icon name="add"></ion-icon>
       </ion-button>
     </div>
 
-    <div class="card-list">
+    <div class="card-list" [@listAnimation]="animationState">
       @if(transports && transports.length === 0) {
-        <p>Aucun transport trouvé.</p>
+        <p class="animate-item" [@cardAnimation]>Aucun transport trouvé.</p>
       } @else {
-        @for (transport of transports; track $index) {
-          <div class="card">
+        @for (transport of transports; track transport.id) {
+          <div class="card" [@cardAnimation]>
             <div class="card-content">
               <div class="card-header">
                 <div class="card-row">
@@ -86,8 +86,9 @@
             </div>
           </div>
         }
-    }
+      }
     </div>
+    
   <ion-modal [isOpen]="showSingleTransportForm" (ionModalDidDismiss)="handleAddTransportModal($event)">
     <ng-template>
       <ion-content class="ion-padding">

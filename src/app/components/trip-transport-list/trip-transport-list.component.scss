@@ -27,6 +27,14 @@
   flex-direction: row;
   width: 100%;
 
+  will-change: transform, opacity;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  }
+
   .card-content {
     display: flex;
     flex-direction: column;
@@ -91,6 +99,14 @@
     padding: 3px;
     justify-content: space-around;
 
+    ion-button {
+      transition: color 0.2s ease;
+
+      &:hover {
+        --color: var(--ion-color-primary);
+      }
+    }
+
     .icon {
       color: var(--ion-text-color-white);
     }
@@ -103,6 +119,19 @@
     justify-content: center;
     gap: 10px;
   }
+
+  // Animation pour les icônes
+  ion-icon {
+    transition: transform 0.2s ease;
+  }
+
+  &:hover ion-icon {
+    transform: scale(1.1);
+  }
+}
+
+.animate-item {
+  will-change: transform, opacity;
 }
 
 
