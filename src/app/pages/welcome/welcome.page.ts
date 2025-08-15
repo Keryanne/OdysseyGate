@@ -19,7 +19,7 @@ export class WelcomePage {
   }
 
   goToAddTrip() {
-    this.router.navigate(['/tabs/add-trip']);
+    this.router.navigate(['/add-trip']);
   }
 
   goToMyTrips() {

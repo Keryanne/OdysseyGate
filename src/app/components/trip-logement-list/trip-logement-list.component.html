@@ -1,8 +1,8 @@
 <div class="main-container">
     <div class="toolbar animate-item" [@cardAnimation]>
       <h1>Mes hébergements</h1>
-      <ion-button (click)="openSingleLogementForm()">
-        <ion-icon name="add"></ion-icon>
+      <ion-button (click)="openSingleLogementForm()" class="icon-only-button">
+        <ion-icon name="add" slot="icon-only"></ion-icon>
       </ion-button>
     </div>
 
@@ -39,11 +39,11 @@
                 </div>
             </div>
             <div class="card-actions">
-              <ion-button fill="clear" (click)="editLogement(logement.id!)">
-                <ion-icon name="pencil" class="icon"></ion-icon>
+              <ion-button fill="clear" class="icon-only-button large" (click)="editLogement(logement.id!)">
+                <ion-icon name="pencil" class="icon" slot="icon-only"></ion-icon>
               </ion-button>
-              <ion-button fill="clear" (click)="deleteLogement(logement.id!)">
-                <ion-icon name="trash-bin" class="icon"></ion-icon>
+              <ion-button fill="clear" class="icon-only-button large" (click)="deleteLogement(logement.id!)">
+                <ion-icon name="trash-bin" class="icon" slot="icon-only"></ion-icon>
               </ion-button>
             </div>
           </div>

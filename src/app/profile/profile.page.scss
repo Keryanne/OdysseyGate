@@ -65,6 +65,9 @@
     .profile-actions {
       margin-top: 16px;
       text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       .btn-clear {
         padding: 5px;

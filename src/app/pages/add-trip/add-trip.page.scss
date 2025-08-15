@@ -1,28 +1,40 @@
+/* Header personnalisé */
+ion-header ion-toolbar {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  max-width: var(--card-max-width-small);
+  margin: 0 auto;
+}
+
+/* Step container responsive */
 .step-container {
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding-top: 15px;
   width: 100%;
+  max-width: var(--card-max-width-small);
+  margin: 0 auto;
 }
 
 .step-header {
   display: flex;
   flex-direction: row;
   gap: 10px;
+  padding: 0 5px;
 
   .step-title {
     display: flex;
     flex-direction: column;
 
     p {
-      font-size: 20px;
+      font-size: 16px;
       font-weight: 400;
       color: var(--ion-text-color);
     }
 
     h2 {
-      font-size: 30px;
+      font-size: 24px;
       font-weight: 600;
       color: var(--ion-text-color);
     }
@@ -34,12 +46,13 @@
 
   .icon {
     color: var(--ion-text-color-white);
+    font-size: 24px;
   }
 
   .step-icon {
     background-color: var(--ion-color-primary);
-    width: 50px;
-    height: 50px;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -47,7 +60,7 @@
   }
 }
 
-.form , .form-block{
+.form, .form-block {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -77,13 +90,15 @@
 .step-actions {
   display: flex;
   width: 100%;
+  max-width: var(--card-max-width-small);
+  margin: 0 auto;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding-top: 15px;
 
   ion-button {
-    width: 126px;
+    width: 120px;
   }
 
   ion-button[disabled] {
@@ -95,5 +110,120 @@
     flex-direction: row;
     gap: 5px;
   }
-  
+}
+
+/* Adaptation pour tablettes */
+@media (min-width: 768px) {
+  ion-header ion-toolbar {
+    --padding-start: 20px;
+    --padding-end: 20px;
+    max-width: var(--card-max-width-medium);
+  }
+
+  .step-container {
+    max-width: var(--card-max-width-medium);
+    gap: 24px;
+    padding-top: 20px;
+  }
+
+  .step-header {
+    gap: 15px;
+    padding: 0 10px;
+
+    .step-title {
+      p {
+        font-size: 18px;
+      }
+
+      h2 {
+        font-size: 28px;
+      }
+    }
+
+    .step-icon {
+      width: 54px;
+      height: 54px;
+    }
+
+    .icon {
+      font-size: 28px;
+    }
+  }
+
+  .step-actions {
+    max-width: var(--card-max-width-medium);
+    padding-top: 20px;
+
+    ion-button {
+      width: 140px;
+    }
+
+    .step-actions-right {
+      gap: 10px;
+    }
+  }
+}
+
+/* Adaptation pour desktop */
+@media (min-width: 992px) {
+  ion-header ion-toolbar {
+    --padding-start: 24px;
+    --padding-end: 24px;
+    max-width: var(--card-max-width-large);
+  }
+
+  .step-container {
+    max-width: var(--card-max-width-large);
+    gap: 30px;
+    padding-top: 24px;
+  }
+
+  .step-header {
+    gap: 20px;
+    padding: 0 15px;
+
+    .step-title {
+      p {
+        font-size: 20px;
+      }
+
+      h2 {
+        font-size: 32px;
+      }
+    }
+
+    .step-icon {
+      width: 60px;
+      height: 60px;
+    }
+
+    .icon {
+      font-size: 32px;
+    }
+  }
+
+  .form, .form-block {
+    gap: 15px;
+
+    .form-group {
+      padding: 18px 15px;
+      border-radius: 12px;
+    }
+  }
+
+  .step-actions {
+    max-width: var(--card-max-width-large);
+    padding-top: 24px;
+
+    ion-button {
+      width: 160px;
+      height: 48px;
+      --border-radius: 12px;
+      font-size: 16px;
+    }
+
+    .step-actions-right {
+      gap: 15px;
+    }
+  }
 }

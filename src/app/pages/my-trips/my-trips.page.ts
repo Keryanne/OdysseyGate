@@ -45,7 +45,7 @@ export class MyTripsPage {
   }
 
   addTrip() {
-    this.router.navigate(['/tabs/add-trip']);
+    this.router.navigate(['/add-trip']);
   }
 
 }
