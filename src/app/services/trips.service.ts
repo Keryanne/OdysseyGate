@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Transport } from '../models/transport.model';
-import { Logement } from '../models/logement.model'; // Ajoute cet import
+import { Logement } from '../models/logement.model';
+import { Activity } from '../models/activity.model';
 
 @Injectable({
   providedIn: 'root'
@@ -60,4 +61,21 @@ export class TripsService {
   updateLogement(id: number, data: any): Observable<Logement> {
     return this.http.patch<Logement>(`${this.apiUrl}/logement/${id}`, data);
   }
+
+  getActivitiesByVoyage(voyageId: number): Observable<Activity[]> {
+    return this.http.get<Activity[]>(`${this.apiUrl}/activite/by-voyage/${voyageId}`);
+  }
+
+  addActivity(voyageId: number, data: any): Observable<Activity> {
+    return this.http.post<Activity>(`${this.apiUrl}/activite`, { voyageId, ...data });
+  }
+
+  removeActivity(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/activite/${id}`);
+  }
+
+  updateActivity(id: number, data: any): Observable<Activity> {
+    return this.http.patch<Activity>(`${this.apiUrl}/activite/${id}`, data);
+  }
+
 }

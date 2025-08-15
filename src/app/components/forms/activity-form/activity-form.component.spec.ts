@@ -35,8 +35,8 @@ describe('ActivityFormComponent', () => {
 
   it('should initialize form with existingActivities values', () => {
     const activities: Activity[] = [
-      { description: 'Visite guidée', lieu: 'Louvre', voyageId: '' },
-      { description: 'Randonnée', lieu: 'Alpes', voyageId: '' }
+      { description: 'Visite guidée', lieu: 'Louvre', voyageId: 0 },
+      { description: 'Randonnée', lieu: 'Alpes', voyageId: 0 }
     ];
     component.existingActivities = activities;
     component.ngOnInit();
