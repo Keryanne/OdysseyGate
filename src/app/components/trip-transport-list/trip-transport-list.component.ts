@@ -38,6 +38,9 @@ export class TripTransportListComponent implements OnInit {
   selectedTransport: Transport[] = [];
   animationState = 'void';
 
+  startDate: string | null = null;
+  endDate: string | null = null;
+
   constructor(private tripsService: TripsService) {}
 
   ngOnInit() {
@@ -54,11 +57,13 @@ export class TripTransportListComponent implements OnInit {
           console.error('Erreur chargement transports :', err);
         },
       });
+
     }  
   }
 
   openSingleTransportForm() {
     this.showSingleTransportForm = true;
+    this.loadTripDates();
   }
 
   handleAddTransportModal(event: any) {
@@ -132,5 +137,43 @@ export class TripTransportListComponent implements OnInit {
       });
     }
     this.showUpdateTransportForm = false;
+  }
+
+   loadTripDates() {
+    // Nouvelle méthode pour récupérer les dates du voyage
+    this.tripsService.getVoyageById(this.tripId!).subscribe(
+      (trip) => {
+        if (trip) {
+          try {
+            // Vérifier si les dates sont valides avant conversion
+            if (trip.dateDepart) {
+              const startDateObj = new Date(trip.dateDepart);
+              if (!isNaN(startDateObj.getTime())) {
+                this.startDate = startDateObj.toISOString();
+              }
+            }
+            
+            if (trip.dateArrivee) {
+              const endDateObj = new Date(trip.dateArrivee);
+              if (!isNaN(endDateObj.getTime())) {
+                this.endDate = endDateObj.toISOString();
+              }
+            }
+            
+            console.log('Dates du voyage chargées :', this.startDate, this.endDate);
+          } catch (e) {
+            console.error('Erreur de conversion des dates du voyage:', e);
+            // Utiliser des dates par défaut si nécessaire
+            const today = new Date();
+            this.startDate = today.toISOString();
+            today.setDate(today.getDate() + 7);
+            this.endDate = today.toISOString();
+          }
+        }
+      },
+      (error) => {
+        console.error('Erreur lors du chargement des dates du voyage:', error);
+      }
+    );
   }
 }

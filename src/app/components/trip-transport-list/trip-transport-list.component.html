@@ -93,7 +93,9 @@
     <ng-template>
       <ion-content class="ion-padding">
         <app-transport-form
-          [mode]="'single'">
+          [mode]="'single'"
+          [tripStartDate]="startDate"
+          [tripEndDate]="endDate">
         </app-transport-form>
       </ion-content>
     </ng-template>
@@ -105,7 +107,9 @@
         <app-transport-form
           [mode]="'single'"
           [existingTransports]="selectedTransport"
-          [isUpdate]="true">
+          [isUpdate]="true"
+          [tripStartDate]="startDate"
+          [tripEndDate]="endDate">
         </app-transport-form>
       </ion-content>
     </ng-template>

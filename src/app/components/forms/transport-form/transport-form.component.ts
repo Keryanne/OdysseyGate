@@ -16,6 +16,8 @@ export class TransportFormComponent implements OnInit {
   @Input() existingTransports?: Transport[] = [];
   @Input() tripId?: number;
   @Input() isUpdate?: boolean = false;
+  @Input() tripStartDate: string | null = null;
+  @Input() tripEndDate: string | null = null;
 
   @Output() formSubmitted = new EventEmitter<Transport[]>();
 
