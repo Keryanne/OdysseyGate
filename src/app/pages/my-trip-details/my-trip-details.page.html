@@ -1,53 +1,76 @@
 <ion-content [fullscreen]="true">
-  <div class="toolbar">
-    <h1>Mon voyage en direction de {{city}}</h1>
-    <ion-button (click)="presentDeleteAlert(city)">
-      <ion-icon name="trash-bin"></ion-icon>
-    </ion-button>
-  </div>
-
-  <ion-card class="card">
-  <ion-card-content>
-    <div class="summary-item">
-      <ion-icon name="location"></ion-icon>
-      <span>{{ trip.villeDepart }}</span>
+  @if (isLoading) {
+    <div class="loading-container">
+      <ion-spinner name="circular"></ion-spinner>
+      <p>Chargement des détails du voyage...</p>
     </div>
-    <div class="summary-item">
-      <ion-icon name="calendar"></ion-icon>
-      <span>{{ trip.dateDepart | date:'dd/MM/yyyy' }}</span>
-    </div>
-    <div class="summary-item">
-      <ion-icon name="calendar-clear"></ion-icon>
-      <span>{{ trip.dateArrivee | date:'dd/MM/yyyy' }}</span>
-    </div>
-  </ion-card-content>
-</ion-card>
-
-  <div class="content">
-    <div class="custom-tabs">
-      <div
-        class="tab-button"
-        *ngFor="let tab of tabs"
-        [class.active]="tab === selectedTab"
-        (click)="selectTab(tab)"
-      >
-        {{ tab.label }}
+  } @else {
+    @if (errorMessage) {
+      <div class="error-container">
+        <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
+        <p>{{ errorMessage }}</p>
+        <ion-button fill="clear" (click)="loadTrip()">Réessayer</ion-button>
       </div>
-    </div>
+    } @else {
+      <div [@pageAnimation]="animationState" class="trip-content">
+        <div class="toolbar animate-item">
+          <div class="action-buttons">
+            <ion-button [routerLink]="['/tabs/my-trips']">
+              <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+            <ion-button (click)="presentDeleteAlert(city)">
+              <ion-icon name="trash-bin"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+        <div class="trip-details animate-item">
+          <h1>Mon voyage en direction de {{city}}</h1>
+          <ion-card class="card">
+            <ion-card-content>
+              <div class="summary-item">
+                <ion-icon name="location"></ion-icon>
+                <span>{{ trip.villeDepart }}</span>
+              </div>
+              <div class="summary-item">
+                <ion-icon name="calendar"></ion-icon>
+                <span>{{ trip.dateDepart | date:'dd/MM/yyyy' }}</span>
+              </div>
+              <div class="summary-item">
+                <ion-icon name="calendar-clear"></ion-icon>
+                <span>{{ trip.dateArrivee | date:'dd/MM/yyyy' }}</span>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
 
-    <div class="tab-slider-container">
-      <div class="tab-slider" [style.transform]="getTransform()">
-        <div class="tab-slide">
-          <app-trip-transport-list [tripId]="tripId"></app-trip-transport-list>
-        </div>
-        <div class="tab-slide">
-          <p>Logements</p>
-        </div>
-        <div class="tab-slide">
-          <p>Activités</p>
+        <div class="content animate-item">
+          <div class="custom-tabs">
+            @for (tab of tabs; track tab) {
+              <div
+                class="tab-button"
+                [class.active]="tab === selectedTab"
+                (click)="selectTab(tab)"
+              >
+                {{ tab.label }}
+              </div>
+            }
+          </div>
+
+          <div class="tab-slider-container animate-item">
+            <div class="tab-slider" [style.transform]="getTransform()">
+              <div class="tab-slide">
+                <app-trip-transport-list [tripId]="tripId"></app-trip-transport-list>
+              </div>
+              <div class="tab-slide">
+                <p>Logements</p>
+              </div>
+              <div class="tab-slide">
+                <p>Activités</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-
+    }
+  }
 </ion-content>
