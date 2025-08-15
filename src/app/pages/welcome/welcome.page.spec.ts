@@ -42,7 +42,7 @@ describe('WelcomePage', () => {
 
   it('should navigate to add-trip when goToAddTrip is called', () => {
     component.goToAddTrip();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/tabs/add-trip']);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/add-trip']);
   });
 
   it('should navigate to my-trips when goToMyTrips is called', () => {

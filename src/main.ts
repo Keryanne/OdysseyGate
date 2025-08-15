@@ -10,3 +10,13 @@ if (environment.production) {
 
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.log(err));
+
+  document.body.addEventListener('mousedown', function() {
+  document.body.classList.add('mouse-user');
+});
+
+document.body.addEventListener('keydown', function(e) {
+  if (e.key === 'Tab') {
+    document.body.classList.remove('mouse-user');
+  }
+});

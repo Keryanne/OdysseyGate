@@ -50,3 +50,379 @@ page-cities, page-welcome {
   }
 }
 
+/* Styles pour les boutons et cartes responsives 
+   -------------------------------------------- */
+
+/* Variables de taille pour différents écrans */
+:root {
+  /* Largeurs minimales existantes */
+  --button-min-width-small: 80px;
+  --button-min-width-medium: 100px;
+  --button-min-width-large: 120px;
+  
+  /* Nouvelles largeurs maximales */
+  --button-max-width-small: 200px;
+  --button-max-width-medium: 250px;
+  --button-max-width-large: 300px;
+  
+  /* Hauteurs existantes */
+  --button-height-small: 36px;
+  --button-height-medium: 42px;
+  --button-height-large: 48px;
+  
+  --card-max-width-small: 92%;
+  --card-max-width-medium: 500px;
+  --card-max-width-large: 650px;
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  width: 100%;
+  max-width: var(--card-max-width-small); /* Même max-width que les cartes */
+  margin: 0 auto; /* Centre la toolbar horizontalement */
+  gap: 8px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  padding: 4px 15px;
+  border-radius: 10px;
+}
+
+.btn-plain {
+  background-color: var(--ion-color-primary);
+  color: var(--ion-text-color-white);
+}
+
+.btn-plain:hover {
+  background-color: var(--ion-color-primary-500);
+}
+
+.btn-plain-desable   {
+  background-color: var(--ion-color-primary-100);
+  color: var(--ion-color-primary-300);
+}
+
+.btn-outline {
+  background-color: #fff;
+  color: var(--ion-color-primary);
+  border-color: var(--ion-color-primary);
+}
+
+.btn-outline:hover {
+  background-color: #fff;
+  color: var(--ion-color-primary-500);
+  border-color: var(--ion-color-primary-500);
+}
+
+.btn-outline-desable {
+  background-color: #fff;
+  color: var(--ion-color-primary-200);
+  border-color: var(--ion-color-primary-200);
+}
+
+.button-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.card-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  max-width: var(--card-max-width-small); /* Même max-width que les cartes */
+  margin: 0 auto; /* Centre la liste horizontalement */
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 15px;
+  justify-content: center;
+  gap: 10px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  background-color: var(--ion-color-primary-100);
+  color: var(--ion-text-color);
+  width: 100%; /* Prend toute la largeur disponible */
+  max-width: 100%; /* N'excède pas la largeur du parent */
+}
+
+.searchbar-custom {
+  --color: var(--ion-text-color);
+  --icon-color: var(--ion-text-color);
+  --placeholder-color: var(--ion-color-primary-500);
+  --padding-bottom: 0;
+  --border-radius: 10px;
+}
+
+h1 {
+  color: var(--ion-text-color);
+  font-weight: 600;
+  margin-top: 0;
+  font-size: 20px;
+}
+
+/* Styles globaux pour les boutons */
+ion-button {
+  --border-radius: 8px;
+  height: var(--button-height-small);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: none;
+  min-width: var(--button-min-width-small);
+  max-width: var(--button-max-width-small); /* Taille maximale */
+  
+  &[size="small"] {
+    height: calc(var(--button-height-small) - 8px);
+    font-size: 12px;
+    min-width: calc(var(--button-min-width-small) - 10px);
+    max-width: calc(var(--button-max-width-small) - 40px);
+  }
+  
+  &[size="large"] {
+    height: calc(var(--button-height-small) + 8px);
+    font-size: 16px;
+    min-width: calc(var(--button-min-width-small) + 10px);
+    max-width: calc(var(--button-max-width-small) + 40px);
+  }
+}
+
+/* Toolbar responsive */
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  width: 100%;
+  max-width: var(--card-max-width-small); /* Même max-width que les cartes */
+  margin: 0 auto; /* Centre la toolbar horizontalement */
+  gap: 8px;
+  
+  h1 {
+    font-size: 18px;
+    margin: 0;
+  }
+  
+  ion-button {
+    max-width: 40px;
+    max-height: 40px;
+  }
+}
+
+/* Tailles pour les tablettes */
+@media (min-width: 768px) {
+  ion-button {
+    height: var(--button-height-medium);
+    min-width: var(--button-min-width-medium);
+    max-width: var(--button-max-width-medium); /* Taille maximale */
+    --padding-start: 16px;
+    --padding-end: 16px;
+    font-size: 15px;
+    
+    &[size="small"] {
+      height: calc(var(--button-height-medium) - 8px);
+      min-width: calc(var(--button-min-width-medium) - 20px);
+      max-width: calc(var(--button-max-width-medium) - 50px);
+    }
+    
+    &[size="large"] {
+      height: calc(var(--button-height-medium) + 8px);
+      min-width: calc(var(--button-min-width-medium) + 20px);
+      max-width: calc(var(--button-max-width-medium) + 50px);
+    }
+  }
+
+  .card {
+    max-width: var(--card-max-width-medium);
+  }
+  
+  .card-list {
+    max-width: var(--card-max-width-medium);
+  }
+  
+  .toolbar {
+    padding: 15px;
+    max-width: var(--card-max-width-medium);
+    gap: 12px;
+    
+    h1 {
+      font-size: 20px;
+    }
+    
+    ion-button {
+      --padding-start: 12px;
+      --padding-end: 12px;
+    }
+  }
+}
+
+/* Tailles pour les ordinateurs de bureau */
+@media (min-width: 992px) {
+  ion-button {
+    height: var(--button-height-large);
+    min-width: var(--button-min-width-large);
+    max-width: var(--button-max-width-large); /* Taille maximale */
+    --padding-start: 20px;
+    --padding-end: 20px;
+    font-size: 16px;
+    
+    &[size="small"] {
+      height: calc(var(--button-height-large) - 8px);
+      min-width: calc(var(--button-min-width-large) - 20px);
+      max-width: calc(var(--button-max-width-large) - 60px);
+    }
+    
+    &[size="large"] {
+      height: calc(var(--button-height-large) + 8px);
+      min-width: calc(var(--button-min-width-large) + 20px);
+      max-width: calc(var(--button-max-width-large) + 60px);
+    }
+  }
+
+  .card {
+    max-width: var(--card-max-width-large);
+  }
+  
+  .card-list {
+    max-width: var(--card-max-width-large);
+  }
+  
+  .toolbar {
+    padding: 20px;
+    max-width: var(--card-max-width-large);
+    gap: 16px;
+    
+    h1 {
+      font-size: 22px;
+    }
+    
+    ion-button {
+      --padding-start: 16px;
+      --padding-end: 16px;
+    }
+  }
+}
+
+/* Styles pour les boutons en grille ou en groupe */
+.button-group, .button-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  
+  ion-button {
+    flex: 1 0 auto;
+  }
+}
+
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--button-min-width-small), 1fr));
+  
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(var(--button-min-width-medium), 1fr));
+  }
+  
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(auto-fit, minmax(var(--button-min-width-large), 1fr));
+  }
+}
+
+/* Style pour les boutons d'action principaux */
+.action-button {
+  width: 100%;
+  max-width: 300px;
+  margin: 16px auto;
+  display: block;
+  
+  @media (min-width: 768px) {
+    max-width: 350px;
+  }
+  
+  @media (min-width: 992px) {
+    max-width: 400px;
+  }
+}
+
+/* Classe pour les boutons de largeur fixe */
+.fixed-width-button {
+  width: var(--button-min-width-small);
+  
+  @media (min-width: 768px) {
+    width: var(--button-min-width-medium);
+  }
+  
+  @media (min-width: 992px) {
+    width: var(--button-min-width-large);
+  }
+}
+
+/* Classe pour les boutons de largeur maximale (prendre tout l'espace disponible) */
+.full-width-button {
+  max-width: 100%;
+  width: 100%;
+}
+
+/* Boutons avec icônes seules (taille fixe) */
+.icon-only-button {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  width: 45px;
+  height: 45px;
+  min-width: 45px !important;
+  max-width: 45px !important;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  ion-icon {
+    font-size: 24px;
+  }
+  
+  /* Version plus petite pour les boutons d'icônes */
+  &.small {
+    width: 32px;
+    height: 32px;
+    min-width: 32px !important;
+    max-width: 32px !important;
+    
+    ion-icon {
+      font-size: 16px;
+    }
+  }
+  
+  /* Version plus grande pour les boutons d'icônes */
+  &.large {
+    width: 65px;
+    height: 65px;
+    min-width: 65px !important;
+    max-width: 65px !important;
+    
+    ion-icon {
+      font-size: 24px;
+    }
+  }
+}
+
+/* Mettre à jour les boutons dans la toolbar pour utiliser ce style */
+.toolbar ion-button[icon-only] {
+  @extend .icon-only-button;
+}
+

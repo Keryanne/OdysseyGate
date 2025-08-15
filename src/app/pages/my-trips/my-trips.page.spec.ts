@@ -81,6 +81,6 @@ describe('MyTripsPage', () => {
 
   it('should navigate to add-trip page', () => {
     component.addTrip();
-    expect(router.navigate).toHaveBeenCalledWith(['/tabs/add-trip']);
+    expect(router.navigate).toHaveBeenCalledWith(['/add-trip']);
   });
 });

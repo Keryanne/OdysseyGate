@@ -19,6 +19,13 @@
       margin-top: -20px;
       border-radius: 25px 25px 0 0;
       padding: 24px;
+      display: flex;
+      justify-content: center;
+
+      .content-container {
+        width: 100%;
+        max-width: var(--card-max-width-small);
+      }
   
       h2 {
         font-size: 22px;
@@ -38,6 +45,9 @@
         --background: var(--ion-color-primary);
         border-radius: 12px;
         margin-top: 16px;
+        height: var(--button-height-small);
+        width: 100%;
+        max-width: 100%;
       }
 
       ion-input {
@@ -66,3 +76,91 @@
     }
   }
   
+  /* Adaptation pour tablettes */
+  @media (min-width: 768px) {
+    .login-page {
+      .login-card {
+        padding: 30px;
+        
+        .content-container {
+          max-width: 500px;
+        }
+        
+        h2 {
+          font-size: 24px;
+          margin-bottom: 30px;
+          text-align: center;
+        }
+        
+        .form-group {
+          margin-bottom: 24px;
+
+          ion-label {
+            font-size: 15px;
+          }
+          
+          ion-input {
+            --padding-top: 10px;
+            --padding-bottom: 10px;
+            font-size: 15px;
+          }
+        }
+        
+        ion-button {
+          height: var(--button-height-medium);
+          font-size: 16px;
+          margin-top: 24px;
+        }
+        
+        .signup-text {
+          margin-top: 24px;
+          font-size: 15px;
+        }
+      }
+    }
+  }
+  
+  /* Adaptation pour desktop */
+  @media (min-width: 992px) {
+    .login-page {
+      .login-card {
+        padding: 40px;
+        
+        .content-container {
+          max-width: 600px;
+        }
+
+        h2 {
+          font-size: 28px;
+          margin-bottom: 36px;
+        }
+        
+        .form-group {
+          margin-bottom: 28px;
+          
+          ion-label {
+            font-size: 16px;
+            margin-bottom: 5px;
+          }
+          
+          ion-input {
+            --padding-top: 12px;
+            --padding-bottom: 12px;
+            font-size: 16px;
+          }
+        }
+        
+        ion-button {
+          height: var(--button-height-large);
+          font-size: 18px;
+          --border-radius: 14px;
+          margin-top: 32px;
+        }
+        
+        .signup-text {
+          margin-top: 32px;
+          font-size: 16px;
+        }
+      }
+    }
+  }
