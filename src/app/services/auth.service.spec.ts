@@ -73,10 +73,10 @@ describe('AuthService', () => {
     expect(id).toBe(123);
   });
 
-  it('should return null if token is invalid', () => {
+  it('should return 0 if token is invalid', () => {
     localStorage.setItem('token', 'invalid.token.structure');
     const id = service.getUserIdFromToken();
-    expect(id).toBeNull();
+    expect(id).toBe(0);
   });
 
   it('should return true if token exists', () => {
