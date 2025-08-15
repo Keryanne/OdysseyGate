@@ -10,9 +10,10 @@ import { TripLogementListComponent } from '../components/trip-logement-list/trip
 import { LogementFormComponent } from '../components/forms/logement-form/logement-form.component';
 import { ActivityFormComponent } from '../components/forms/activity-form/activity-form.component';
 import { TripActivityListComponent } from '../components/trip-activity-list/trip-activity-list.component';
+import { PwaInstallBannerComponent } from '../components/pwa-install-banner/pwa-install-banner.component';
 
 @NgModule({
-  declarations: [SearchButtonComponent, SearchModalComponent, TripTransportListComponent, TripLogementListComponent, TripActivityListComponent],
+  declarations: [SearchButtonComponent, SearchModalComponent, TripTransportListComponent, TripLogementListComponent, TripActivityListComponent, PwaInstallBannerComponent],
   imports: [
     CommonModule,
     IonicModule,
@@ -22,6 +23,6 @@ import { TripActivityListComponent } from '../components/trip-activity-list/trip
     LogementFormComponent,
     ActivityFormComponent
 ],
-  exports: [SearchButtonComponent, SearchModalComponent, TripTransportListComponent, TripLogementListComponent, TripActivityListComponent]
+  exports: [SearchButtonComponent, SearchModalComponent, TripTransportListComponent, TripLogementListComponent, TripActivityListComponent, PwaInstallBannerComponent]
 })
 export class SharedModule { }

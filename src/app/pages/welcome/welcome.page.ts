@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { PwaInstallService } from 'src/app/services/pwa-install.service';
 
 @Component({
   selector: 'app-welcome',
@@ -11,8 +12,15 @@ export class WelcomePage {
 
   constructor(
     private authService: AuthService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private pwaInstallService: PwaInstallService
+  ) { 
+    this.pwaInstallService.installPrompt.subscribe(prompt => {
+      this.canInstall = !!prompt;
+    });
+  }
+
+  canInstall = false;
 
   get isLoggedIn() {
     return this.authService.isLoggedIn();
@@ -32,5 +40,9 @@ export class WelcomePage {
 
   goToLogin() {
     this.router.navigate(['/tabs/login']);
+  }
+
+  installApp() {
+    this.pwaInstallService.showInstallPrompt();
   }
 }
